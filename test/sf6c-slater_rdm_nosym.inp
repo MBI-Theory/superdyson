@@ -1,0 +1,17 @@
+ &SD_V2
+   verbose         = 1
+   task            = '1-rdm'
+   comment         = 'sf6c-header.dat b2g.out:1 vs ag.out:2'
+   nmobra          = 31
+   nmoket          = 31
+   ndetbra         = 12363
+   ndetket         = 12363
+   eps_cdet        = 1e-10
+   dont_check_s2   = .f.,
+   file_cbra       = 'qc/sf6c-cas4_ci_b2g.mos',
+   file_cket       = 'qc/sf6c-cas4_ci_ag.mos',
+   file_detbra     = 'qc/sf6c-cas4_ci_b2g.out:1.dets',
+   file_detket     = 'qc/sf6c-cas4_ci_ag.out:2.dets',
+   use_symmetry    = .false.
+   detail_timers   = .true.
+ /

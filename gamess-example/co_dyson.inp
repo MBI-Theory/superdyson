@@ -1,0 +1,16 @@
+ &SD_V2
+ VERBOSE         = 1,
+ TASK            = 'braket'
+ BRAKET_OPERATOR = 'none'
+ COMMENT         = 'Test calculation for CO'
+ NMOBRA          = 10,
+ NMOKET          = 10,
+ NDETBRA         = 792,
+ NDETKET         = 1000,
+ EPS_CDET        = 1e-8,
+ DONT_CHECK_S2   = F,
+ FILE_CBRA       = 'con-cas-ci_a1.mos',
+ FILE_CKET       = 'cop-cas-ci_a1.mos',
+ FILE_DETBRA     = 'con-cas-ci_a1.dets',
+ FILE_DETKET     = 'cop-cas-ci_a1.dets',
+ /

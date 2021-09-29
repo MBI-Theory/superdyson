@@ -1,0 +1,19 @@
+ &SD_V2
+   verbose         = 1,
+   task            = 'braket',
+   braket_operator = '1/r'
+   op_centre       = 0.0, 0.0, 0.9139751232,
+   comment         = "CO ground-state equilibrium geometry; RHF/aug-cc-pV6Z. Electrostatic energy for Q=+1 at O"
+   nmobra          = 7,
+   nmoket          = 7,
+   ndetbra         = 1,
+   ndetket         = 1,
+   eps_cdet        = 1e-8,
+   dont_check_s2   = .false.,
+   file_cbra       = 'qc/co-rhf.mos',
+   file_cket       = 'qc/co-rhf.mos',
+   file_detbra     = 'qc/co-rhf.dets',
+   file_detket     = 'qc/co-rhf.dets',
+   use_symmetry    = .true.
+   detail_timers   = .true.
+  /

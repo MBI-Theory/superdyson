@@ -1,0 +1,247 @@
+Version: Optimized gfortran, built on balrog.mbi-berlin.de at Wed Sep 29 03:46:14 PM CEST 2021
+
+    $Id: accuracy.f90,v 1.5 2021/09/29 13:43:11 ps Exp $
+    $Id: block_determinant.f90,v 1.5 2021/09/29 13:43:22 ps Exp $
+    $Id: block_diag.f90,v 1.8 2021/09/29 13:43:22 ps Exp $
+    $Id: block_matrices.f90,v 1.9 2021/09/29 13:43:22 ps Exp $
+    $Id: constants.f90,v 1.2 2021/09/29 13:46:03 ps Exp ps $
+    $Id: gamess_internal.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: import_gamess.f90,v 1.14 2021/09/29 13:43:22 ps Exp $
+    $Id: lapack.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: math.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: os_integral_operators.f90,v 1.3 2021/09/29 13:46:03 ps Exp ps $
+    $Id: printing.f90,v 1.2 2021/09/29 13:43:22 ps Exp $
+    $Id: sd_core.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: sort_tools.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: superdyson.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: timer.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: tr_1rdm.f90,v 1.21 2021/09/29 13:43:22 ps Exp $
+
+==== Options ====
+&SD_V2
+ VERBOSE=1          ,
+ TASK="braket              ",
+ BRAKET_OPERATOR="dipole              ",
+ OP_CENTRE= 3*0.0000000000000000       ,
+ OP_GAUSS=  1.0000000000000000     ,
+ COMMENT="so2-1A1-header.dat <so2-1A1-c-a1:1.dets|so2-1A1-c-b1:1.dets>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ",
+ NMOBRA=20         ,
+ NMOKET=20         ,
+ NDETBRA=13236      ,
+ NDETKET=13224      ,
+ EPS_CDET=  9.9999999999999995E-008,
+ DONT_CHECK_S2=T,
+ FILE_CBRA="qc/so2-1A1-c.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ",
+ FILE_CKET="qc/so2-1A1-c.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ",
+ FILE_DETBRA="qc/so2-1A1-c-a1:1.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ",
+ FILE_DETKET="qc/so2-1A1-c-b1:1.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ",
+ EPS_INTEGRAL=  1.0000000000000000E-010,
+ USE_SYMMETRY=T,
+ DETAIL_TIMERS=T,
+ SIGN_BRA=  1.0000000000000000     ,
+ SIGN_KET=  1.0000000000000000     ,
+ /
+
+so2-1A1-header.dat <so2-1A1-c-a1:1.dets|so2-1A1-c-b1:1.dets>
+          task = braket
+      operator = dipole
+          naos =     -1
+        nmobra =     20
+        nmoket =     20
+       ndetbra =  13236
+       ndetket =  13224
+      eps_cdet = 0.100000E-06
+ dont_check_s2 =        T
+ own_integrals =        T
+       Bra MO file = qc/so2-1A1-c.mos
+       Ket MO file = qc/so2-1A1-c.mos
+  Bra determinants = qc/so2-1A1-c-a1:1.dets
+  Ket determinants = qc/so2-1A1-c-b1:1.dets
+import_gamess: Shell    2 lval =  0 with   16 primitives, norm =   0.999997848347    
+import_gamess: Shell    3 lval =  0 with   16 primitives, norm =   0.999998947680    
+import_gamess: Shell    9 lval =  1 with   11 primitives, norm =   0.999998664232    
+import_gamess: Shell    1 lval =  0 with   12 primitives, norm =   0.999998592054    
+import_gamess: Shell    7 lval =  1 with    6 primitives, norm =    1.00000123236    
+import_gamess: Shell    1 lval =  0 with   12 primitives, norm =   0.999998592054    
+import_gamess: Shell    7 lval =  1 with    6 primitives, norm =    1.00000123236    
+import_gamess: Found        3 atoms
+import_gamess: Found      319 Cartesian basis functions
+import_gamess: Longest contraction has       16 primitives
+import_gamess: Found       15 shell batches
+import_gamess: Largest batch contains        7 shells
+import_gamess: Largest batch contains       30 orbitals
+import_gamess: Found      244 vectors in the set
+import_gamess: Shell    2 lval =  0 with   16 primitives, norm =   0.999997848347    
+import_gamess: Shell    3 lval =  0 with   16 primitives, norm =   0.999998947680    
+import_gamess: Shell    9 lval =  1 with   11 primitives, norm =   0.999998664232    
+import_gamess: Shell    1 lval =  0 with   12 primitives, norm =   0.999998592054    
+import_gamess: Shell    7 lval =  1 with    6 primitives, norm =    1.00000123236    
+import_gamess: Shell    1 lval =  0 with   12 primitives, norm =   0.999998592054    
+import_gamess: Shell    7 lval =  1 with    6 primitives, norm =    1.00000123236    
+import_gamess: Found        3 atoms
+import_gamess: Found      319 Cartesian basis functions
+import_gamess: Longest contraction has       16 primitives
+import_gamess: Found       15 shell batches
+import_gamess: Largest batch contains        7 shells
+import_gamess: Largest batch contains       30 orbitals
+import_gamess: Found      244 vectors in the set
+Number of AOs in the reference:    319
+      Number of AOs in the ion:    319
+           Reference atoms =        3
+                 Ion atoms =        3
+Comparing     20 lowest MOs out of     20/    20
+  Max absolute coefficient =  1.23321    
+Max coefficient difference =  0.00000    
+        The two sets match =        T
+Number of electrons in reference and ion:     31    31
+Overlap mode
+
+WARNING: CHECK FOR S^2 AND NORMALIZATION IS OFF
+
+
+    Reference - ion MO correlations
+  Ref. MO   Ion MO       Overlap
+  -------   ------       -------
+        1        1       1.00000
+        2        2       1.00000
+        3        3       1.00000
+        4        4       1.00000
+        5        5       1.00000
+        6        6       1.00000
+        7        7       1.00000
+        8        8       1.00000
+        9        9       1.00000
+       10       10       1.00000
+       11       11       1.00000
+       12       12       1.00000
+       13       13       1.00000
+       14       14       1.00000
+       15       15       1.00000
+       16       16       1.00000
+       17       17       1.00000
+       18       18       1.00000
+       19       19       1.00000
+       20       20       1.00000
+
+Setting MO overlaps to a unit matrix
+MO overlap: max. number of rows: 20
+MO overlap: max. number of colums: 20
+MO overlap: found 20 blocks
+MO overlap: 20 non-zero rows
+MO overlap: 20 non-zero columns
+MO overlap: block    1 rows          1
+MO overlap: block    1 columns       1
+MO overlap: block    2 rows          2
+MO overlap: block    2 columns       2
+MO overlap: block    3 rows          3
+MO overlap: block    3 columns       3
+MO overlap: block    4 rows          4
+MO overlap: block    4 columns       4
+MO overlap: block    5 rows          5
+MO overlap: block    5 columns       5
+MO overlap: block    6 rows          6
+MO overlap: block    6 columns       6
+MO overlap: block    7 rows          7
+MO overlap: block    7 columns       7
+MO overlap: block    8 rows          8
+MO overlap: block    8 columns       8
+MO overlap: block    9 rows          9
+MO overlap: block    9 columns       9
+MO overlap: block   10 rows         10
+MO overlap: block   10 columns      10
+MO overlap: block   11 rows         11
+MO overlap: block   11 columns      11
+MO overlap: block   12 rows         12
+MO overlap: block   12 columns      12
+MO overlap: block   13 rows         13
+MO overlap: block   13 columns      13
+MO overlap: block   14 rows         14
+MO overlap: block   14 columns      14
+MO overlap: block   15 rows         15
+MO overlap: block   15 columns      15
+MO overlap: block   16 rows         16
+MO overlap: block   16 columns      16
+MO overlap: block   17 rows         17
+MO overlap: block   17 columns      17
+MO overlap: block   18 rows         18
+MO overlap: block   18 columns      18
+MO overlap: block   19 rows         19
+MO overlap: block   19 columns      19
+MO overlap: block   20 rows         20
+MO overlap: block   20 columns      20
+
+MO property: max. number of rows: 20
+MO property: max. number of colums: 20
+MO property: found 1 blocks
+MO property: 20 non-zero rows
+MO property: 20 non-zero columns
+MO property: block    1 rows          1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16     17     18     19     20
+MO property: block    1 columns       1      2      3      4      5      6      7      8      9     10     11     12     13     14     15     16     17     18     19     20
+
+ Doubly occupied reference orbitals:     10
+       Doubly occupied ion orbitals:     10
+               Frozen core orbitals:     10
+This calculation has determinant distance tolerance of  2
+
+Done with preliminaries, beginning the calculation
+
+          Determinant pairs processed:        24365.
+  Determinant pairs cut off by weight:    156521186.
+Determinant pairs cut off by distance:     18487313.
+Determinant pairs cut off by symmetry:            0.
+Total overlap is   0.00000000    
+Transition dipole is       0.187444207948       0.000000000000       0.000000000000
+
+              Timing data at 2021/09/29 15:47:06
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                          *           1.            0.3           3.0             0.0           0.0
+ initialize_core_data                       1.            0.2           0.2             0.1           0.1
+ GAMESS import - parse                      2.            0.1           0.1             0.1           0.1
+ GAMESS AO OVERLAP                          3.            0.0           0.0             0.0           0.0
+ GAMESS AO DIPOLE X                         1.            0.0           0.0             0.0           0.0
+ GAMESS AO DIPOLE Y                         1.            0.0           0.0             0.0           0.0
+ GAMESS AO DIPOLE Z                         1.            0.0           0.0             0.0           0.0
+ initialize_symmetry                        1.            0.0           0.2             0.0           0.2
+ Superdyson                                 1.            0.2           2.6             0.0           0.0
+ Initialization                             1.            0.1           0.4             0.0           0.0
+ check_input_consistency                    1.            0.0           0.3             0.0           0.3
+ AO->MO                                     1.            0.1           0.1             0.0           0.0
+ mat_ao_to_mo                               4.            0.1           0.1             0.1           0.1
+ Calculation                                1.            0.1           2.3             0.0           1.9
+ fill_spinorbit_integrals                1580.            0.0           0.2             0.0           0.2
+ determinant_overlap                      395.            0.0           0.2             0.0           0.2
+ determinant_transition                  1185.            0.0           0.0             0.0           0.0
+
+ (  4 timers contributing less than 1% are not shown)
+
+
+              Timing data at 2021/09/29 15:47:06
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                                      1.            0.3           3.0             0.0           0.0
+ initialize_core_data                       1.            0.2           0.2             0.1           0.1
+ GAMESS import - parse                      2.            0.1           0.1             0.1           0.1
+ GAMESS AO OVERLAP                          3.            0.0           0.0             0.0           0.0
+ GAMESS AO DIPOLE X                         1.            0.0           0.0             0.0           0.0
+ GAMESS AO DIPOLE Y                         1.            0.0           0.0             0.0           0.0
+ GAMESS AO DIPOLE Z                         1.            0.0           0.0             0.0           0.0
+ initialize_symmetry                        1.            0.0           0.2             0.0           0.2
+ Superdyson                                 1.            0.2           2.6             0.0           0.0
+ Initialization                             1.            0.1           0.4             0.0           0.0
+ check_input_consistency                    1.            0.0           0.3             0.0           0.3
+ AO->MO                                     1.            0.1           0.1             0.0           0.0
+ mat_ao_to_mo                               4.            0.1           0.1             0.1           0.1
+ Calculation                                1.            0.1           2.3             0.0           1.9
+ fill_spinorbit_integrals                1580.            0.0           0.2             0.0           0.2
+ determinant_overlap                      395.            0.0           0.2             0.0           0.2
+ determinant_transition                  1185.            0.0           0.0             0.0           0.0
+
+ (  4 timers contributing less than 1% are not shown)
+

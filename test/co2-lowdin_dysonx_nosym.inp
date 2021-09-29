@@ -1,0 +1,19 @@
+ &SD_V2
+   verbose         = 1,
+   task            = 'braket',
+ ! braket_operator = 'none', 
+   braket_operator = 'dipole',
+   comment         = "CO2 1b1 (^2\Pi_{g,x}) ionization channel"
+   nmobra          = 13,
+   nmoket          = 13,
+   ndetbra         = 513,
+   ndetket         = 1356,
+   eps_cdet        = 1e-8,
+   dont_check_s2   = .false.,
+   file_cbra       = 'qc/co2.mos',
+   file_cket       = 'qc/co2p.mos',
+   file_detbra     = 'qc/co2-a1:1.dets',
+   file_detket     = 'qc/co2p-b1:1.dets',
+   use_symmetry    = .false.
+   detail_timers   = .true.
+  /

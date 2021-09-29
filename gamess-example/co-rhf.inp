@@ -1,0 +1,14 @@
+ $CONTRL SCFTYP=RHF   MPLEVL=0  CITYP=NONE  RUNTYP=ENERGY MULT=1 ICHARG=+0
+         ISPHER=+1 NOSYM=0 ITOL=40 ICUT=20
+   $END
+ $SYSTEM TIMLIM=200000 MWORDS=250                                         $END
+ $BASIS  GBASIS=APVDZ EXTFIL=.TRUE.                                       $END
+ $SCF    CONV=1E-8  FDIFF=.FALSE. DIRSCF=.TRUE. MVOQ=+4                   $END
+ $GUESS  GUESS=HUCKEL                                                     $END
+ $DATA
+CO, X Re (1.128323), aug-cc-pVDZ, COM geometry
+Cnv 2
+
+ C    6.0   0.0  0.0  -0.64466815843494108201
+ O    8.0   0.0  0.0   0.48365484156505891799
+ $END

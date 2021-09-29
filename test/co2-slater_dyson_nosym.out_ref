@@ -1,0 +1,358 @@
+Version: Optimized gfortran, built on balrog.mbi-berlin.de at Wed Sep 29 03:46:14 PM CEST 2021
+
+    $Id: accuracy.f90,v 1.5 2021/09/29 13:43:11 ps Exp $
+    $Id: block_determinant.f90,v 1.5 2021/09/29 13:43:22 ps Exp $
+    $Id: block_diag.f90,v 1.8 2021/09/29 13:43:22 ps Exp $
+    $Id: block_matrices.f90,v 1.9 2021/09/29 13:43:22 ps Exp $
+    $Id: constants.f90,v 1.2 2021/09/29 13:46:03 ps Exp ps $
+    $Id: gamess_internal.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: import_gamess.f90,v 1.14 2021/09/29 13:43:22 ps Exp $
+    $Id: lapack.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: math.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: os_integral_operators.f90,v 1.3 2021/09/29 13:46:03 ps Exp ps $
+    $Id: printing.f90,v 1.2 2021/09/29 13:43:22 ps Exp $
+    $Id: sd_core.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: sort_tools.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: superdyson.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: timer.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: tr_1rdm.f90,v 1.21 2021/09/29 13:43:22 ps Exp $
+
+==== Options ====
+&SD_V2
+ VERBOSE=1          ,
+ TASK="braket              ",
+ BRAKET_OPERATOR="none                ",
+ OP_CENTRE= 3*0.0000000000000000       ,
+ OP_GAUSS=  1.0000000000000000     ,
+ COMMENT="CO2 1a1 (^2\Sigma_u) ionization channel - cation orbitals                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ",
+ NMOBRA=14         ,
+ NMOKET=14         ,
+ NDETBRA=6825       ,
+ NDETKET=13680      ,
+ EPS_CDET=  1.0000000000000000E-010,
+ DONT_CHECK_S2=F,
+ FILE_CBRA="qc/co2p-orb14.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ",
+ FILE_CKET="qc/co2p-orb14.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ",
+ FILE_DETBRA="qc/co2-orb14.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ",
+ FILE_DETKET="qc/co2p-1a1-orb14.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ",
+ EPS_INTEGRAL=  1.0000000000000000E-010,
+ USE_SYMMETRY=F,
+ DETAIL_TIMERS=T,
+ SIGN_BRA=  1.0000000000000000     ,
+ SIGN_KET=  1.0000000000000000     ,
+ /
+
+CO2 1a1 (^2\Sigma_u) ionization channel - cation orbitals
+          task = braket
+      operator = none
+          naos =     -1
+        nmobra =     14
+        nmoket =     14
+       ndetbra =   6825
+       ndetket =  13680
+      eps_cdet = 0.100000E-09
+ dont_check_s2 =        F
+ own_integrals =        T
+       Bra MO file = qc/co2p-orb14.mos
+       Ket MO file = qc/co2p-orb14.mos
+  Bra determinants = qc/co2-orb14.dets
+  Ket determinants = qc/co2p-1a1-orb14.dets
+import_gamess: Shell    1 lval =  0 with   10 primitives, norm =    1.00000130634    
+import_gamess: Shell    2 lval =  0 with   10 primitives, norm =   0.999998950309    
+import_gamess: Shell    5 lval =  1 with    5 primitives, norm =    1.00000116238    
+import_gamess: Shell    2 lval =  0 with   10 primitives, norm =    1.00000103670    
+import_gamess: Shell    1 lval =  0 with   10 primitives, norm =    1.00000130634    
+import_gamess: Shell    2 lval =  0 with   10 primitives, norm =   0.999998950309    
+import_gamess: Shell    5 lval =  1 with    5 primitives, norm =    1.00000116238    
+import_gamess: Found        3 atoms
+import_gamess: Found      105 Cartesian basis functions
+import_gamess: Longest contraction has       10 primitives
+import_gamess: Found       12 shell batches
+import_gamess: Largest batch contains        4 shells
+import_gamess: Largest batch contains       12 orbitals
+import_gamess: Found      105 vectors in the set
+import_gamess: Shell    1 lval =  0 with   10 primitives, norm =    1.00000130634    
+import_gamess: Shell    2 lval =  0 with   10 primitives, norm =   0.999998950309    
+import_gamess: Shell    5 lval =  1 with    5 primitives, norm =    1.00000116238    
+import_gamess: Shell    2 lval =  0 with   10 primitives, norm =    1.00000103670    
+import_gamess: Shell    1 lval =  0 with   10 primitives, norm =    1.00000130634    
+import_gamess: Shell    2 lval =  0 with   10 primitives, norm =   0.999998950309    
+import_gamess: Shell    5 lval =  1 with    5 primitives, norm =    1.00000116238    
+import_gamess: Found        3 atoms
+import_gamess: Found      105 Cartesian basis functions
+import_gamess: Longest contraction has       10 primitives
+import_gamess: Found       12 shell batches
+import_gamess: Largest batch contains        4 shells
+import_gamess: Largest batch contains       12 orbitals
+import_gamess: Found      105 vectors in the set
+Number of AOs in the reference:    105
+      Number of AOs in the ion:    105
+           Reference atoms =        3
+                 Ion atoms =        3
+Comparing     14 lowest MOs out of     14/    14
+  Max absolute coefficient =  1.18607    
+Max coefficient difference =  0.00000    
+        The two sets match =        T
+Number of electrons in reference and ion:     22    21
+Dyson mode
+
+          parent norm is:   1.00000003
+ parent S^2 expectation is:   0.00000000(  0.00000000)
+
+
+          ion norm is:   0.99999990
+ ion S^2 expectation is:   0.74999992(  0.75000000)
+
+
+    Reference - ion MO correlations
+  Ref. MO   Ion MO       Overlap
+  -------   ------       -------
+        1        1       1.00000
+        2        2       1.00000
+        3        3       1.00000
+        4        4       1.00000
+        5        5       1.00000
+        6        6       1.00000
+        7        7       1.00000
+        8        8       1.00000
+        9        9       1.00000
+       10       10       1.00000
+       11       11       1.00000
+       12       12       1.00000
+       13       13       1.00000
+       14       14       1.00000
+
+Setting MO overlaps to a unit matrix
+ Doubly occupied reference orbitals:      3
+       Doubly occupied ion orbitals:      3
+               Frozen core orbitals:      3
+This calculation has determinant distance tolerance of  2
+
+Done with preliminaries, beginning the calculation
+
+          Determinant pairs processed:         4582.
+  Determinant pairs cut off by weight:     71092625.
+Determinant pairs cut off by distance:     22268793.
+Determinant pairs cut off by symmetry:            0.
+
+         -----------------------------------------------------
+         Dyson orbital, expanded in MOs of the parent molecule
+         -----------------------------------------------------
+
+       MO    C(alpha)    C(beta)   X(alpha)    X(beta)   Y(alpha)    Y(beta)   Z(alpha)    Z(beta)
+       --    --------    -------   --------    -------   --------    -------   --------    -------
+        1     0.00000    0.00000
+        2     0.00000    0.00000
+        3     0.00000    0.00000
+        4     0.00000    0.00000
+        5     0.00000   -0.00555
+        6     0.00000    0.00000
+        7     0.00000    0.94794
+        8     0.00000    0.00000
+        9     0.00000    0.00000
+       10     0.00000    0.00000
+       11     0.00000    0.00000
+       12     0.00000    0.00000
+       13     0.00000    0.00000
+       14     0.00000    0.00000
+
+<psid|psid> =     0.89861782
+
+
+         ------------------------------
+         Dyson orbital, expanded in AOs
+         ------------------------------
+
+       AO                   C(alpha)     C(beta)    X(alpha)     X(beta)    Y(alpha)     Y(beta)    Z(alpha)     Z(beta)
+       --                   --------     -------    --------     -------    --------     -------    --------     -------
+        1 O   1  S           0.00000    -0.00728
+        2 O   1  S           0.00000    -0.29481
+        3 O   1  S           0.00000    -0.01174
+        4 O   1  S           0.00000    -0.05108
+        5 O   1  X           0.00000     0.00000
+        6 O   1  Y           0.00000     0.00000
+        7 O   1  Z           0.00000     0.57894
+        8 O   1  X           0.00000     0.00000
+        9 O   1  Y           0.00000     0.00000
+       10 O   1  Z           0.00000    -0.03889
+       11 O   1  X           0.00000     0.00000
+       12 O   1  Y           0.00000     0.00000
+       13 O   1  Z           0.00000    -0.08758
+       14 O   1 XX           0.00000    -0.00607
+       15 O   1 YY           0.00000    -0.00607
+       16 O   1 ZZ           0.00000     0.00868
+       17 O   1 XY           0.00000     0.00000
+       18 O   1 XZ           0.00000     0.00000
+       19 O   1 YZ           0.00000     0.00000
+       20 O   1 XX           0.00000    -0.02012
+       21 O   1 YY           0.00000    -0.02012
+       22 O   1 ZZ           0.00000     0.00811
+       23 O   1 XY           0.00000     0.00000
+       24 O   1 XZ           0.00000     0.00000
+       25 O   1 YZ           0.00000     0.00000
+       26 O   1 XXX          0.00000     0.00000
+       27 O   1 YYY          0.00000     0.00000
+       28 O   1 ZZZ          0.00000     0.01315
+       29 O   1 XXY          0.00000     0.00000
+       30 O   1 XXZ          0.00000     0.00058
+       31 O   1 YYX          0.00000     0.00000
+       32 O   1 YYZ          0.00000     0.00058
+       33 O   1 ZZX          0.00000     0.00000
+       34 O   1 ZZY          0.00000     0.00000
+       35 O   1 XYZ          0.00000     0.00000
+       36 C   2  S           0.00000     0.00000
+       37 C   2  S           0.00000     0.00000
+       38 C   2  S           0.00000     0.00000
+       39 C   2  S           0.00000    -0.00000
+       40 C   2  X           0.00000     0.00000
+       41 C   2  Y           0.00000     0.00000
+       42 C   2  Z           0.00000    -0.52433
+       43 C   2  X           0.00000     0.00000
+       44 C   2  Y           0.00000     0.00000
+       45 C   2  Z           0.00000     0.05848
+       46 C   2  X           0.00000     0.00000
+       47 C   2  Y           0.00000     0.00000
+       48 C   2  Z           0.00000     0.18802
+       49 C   2 XX           0.00000     0.00000
+       50 C   2 YY           0.00000     0.00000
+       51 C   2 ZZ           0.00000     0.00000
+       52 C   2 XY           0.00000     0.00000
+       53 C   2 XZ           0.00000     0.00000
+       54 C   2 YZ           0.00000     0.00000
+       55 C   2 XX           0.00000     0.00000
+       56 C   2 YY           0.00000     0.00000
+       57 C   2 ZZ           0.00000     0.00000
+       58 C   2 XY           0.00000     0.00000
+       59 C   2 XZ           0.00000     0.00000
+       60 C   2 YZ           0.00000     0.00000
+       61 C   2 XXX          0.00000     0.00000
+       62 C   2 YYY          0.00000     0.00000
+       63 C   2 ZZZ          0.00000    -0.01349
+       64 C   2 XXY          0.00000     0.00000
+       65 C   2 XXZ          0.00000     0.00611
+       66 C   2 YYX          0.00000     0.00000
+       67 C   2 YYZ          0.00000     0.00611
+       68 C   2 ZZX          0.00000     0.00000
+       69 C   2 ZZY          0.00000     0.00000
+       70 C   2 XYZ          0.00000     0.00000
+       71 O   3  S           0.00000     0.00728
+       72 O   3  S           0.00000     0.29481
+       73 O   3  S           0.00000     0.01174
+       74 O   3  S           0.00000     0.05108
+       75 O   3  X           0.00000     0.00000
+       76 O   3  Y           0.00000     0.00000
+       77 O   3  Z           0.00000     0.57894
+       78 O   3  X           0.00000     0.00000
+       79 O   3  Y           0.00000     0.00000
+       80 O   3  Z           0.00000    -0.03889
+       81 O   3  X           0.00000     0.00000
+       82 O   3  Y           0.00000     0.00000
+       83 O   3  Z           0.00000    -0.08758
+       84 O   3 XX           0.00000     0.00607
+       85 O   3 YY           0.00000     0.00607
+       86 O   3 ZZ           0.00000    -0.00868
+       87 O   3 XY           0.00000     0.00000
+       88 O   3 XZ           0.00000     0.00000
+       89 O   3 YZ           0.00000     0.00000
+       90 O   3 XX           0.00000     0.02012
+       91 O   3 YY           0.00000     0.02012
+       92 O   3 ZZ           0.00000    -0.00811
+       93 O   3 XY           0.00000     0.00000
+       94 O   3 XZ           0.00000     0.00000
+       95 O   3 YZ           0.00000     0.00000
+       96 O   3 XXX          0.00000     0.00000
+       97 O   3 YYY          0.00000     0.00000
+       98 O   3 ZZZ          0.00000     0.01315
+       99 O   3 XXY          0.00000     0.00000
+      100 O   3 XXZ          0.00000     0.00058
+      101 O   3 YYX          0.00000     0.00000
+      102 O   3 YYZ          0.00000     0.00058
+      103 O   3 ZZX          0.00000     0.00000
+      104 O   3 ZZY          0.00000     0.00000
+      105 O   3 XYZ          0.00000     0.00000
+
+--- DYSON ORBITALS ---
+ CO2 1a1 (^2\Sigma_u) ionization channel - cation orbitals
+<psid|psid> =     0.89861782
+ $VECDYS
+ 1  1 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  2 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  3 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  4 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  5 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  6 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  7 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  8 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  9 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 10 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 11 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 12 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 13 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 14 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 18 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 19 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 20 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 21 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2  1-0.72779545E-02-0.29481347E+00-0.11736814E-01-0.51083545E-01 0.00000000E+00
+ 2  2 0.00000000E+00 0.57894077E+00 0.00000000E+00 0.00000000E+00-0.38885352E-01
+ 2  3 0.00000000E+00 0.00000000E+00-0.87578663E-01-0.60650169E-02-0.60650169E-02
+ 2  4 0.86821155E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00-0.20117384E-01
+ 2  5-0.20117384E-01 0.81064074E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2  6 0.00000000E+00 0.00000000E+00 0.13152689E-01 0.00000000E+00 0.58490311E-03
+ 2  7 0.00000000E+00 0.58490311E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2  8 0.21200504E-09 0.27385838E-08 0.35490369E-08-0.12588571E-07 0.00000000E+00
+ 2  9 0.00000000E+00-0.52433181E+00 0.00000000E+00 0.00000000E+00 0.58479878E-01
+ 2 10 0.00000000E+00 0.00000000E+00 0.18802380E+00 0.21033901E-08 0.21033901E-08
+ 2 11 0.25440911E-08 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.66908126E-08
+ 2 12 0.66908124E-08 0.41603723E-08 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 13 0.00000000E+00 0.00000000E+00-0.13493462E-01 0.00000000E+00 0.61108402E-02
+ 2 14 0.00000000E+00 0.61108402E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 15 0.72779544E-02 0.29481346E+00 0.11736814E-01 0.51083543E-01 0.00000000E+00
+ 2 16 0.00000000E+00 0.57894076E+00 0.00000000E+00 0.00000000E+00-0.38885352E-01
+ 2 17 0.00000000E+00 0.00000000E+00-0.87578657E-01 0.60650169E-02 0.60650169E-02
+ 2 18-0.86821153E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.20117385E-01
+ 2 19 0.20117385E-01-0.81064084E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 20 0.00000000E+00 0.00000000E+00 0.13152690E-01 0.00000000E+00 0.58490309E-03
+ 2 21 0.00000000E+00 0.58490309E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ $END   
+
+              Timing data at 2021/09/29 15:47:01
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                          *           1.            0.6          20.7             0.0           0.0
+ initialize_core_data                       1.            0.1           0.1             0.0           0.0
+ GAMESS import - parse                      2.            0.0           0.0             0.0           0.0
+ Superdyson                                 1.            0.5          20.7             0.0           0.0
+ Initialization                             1.            0.4          18.6             0.0           0.0
+ check_input_consistency                    1.            0.4          18.6             0.0           0.0
+ S^2 evaluation                             2.            0.4          18.6             0.4          18.6
+ Calculation                                1.            0.0           2.1             0.0           1.6
+ determinant_dyson_orbital                 92.            0.0           0.5             0.0           0.5
+
+ (  8 timers contributing less than 1% are not shown)
+
+
+              Timing data at 2021/09/29 15:47:01
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                                      1.            0.6          20.7             0.0           0.0
+ initialize_core_data                       1.            0.1           0.1             0.0           0.0
+ GAMESS import - parse                      2.            0.0           0.0             0.0           0.0
+ Superdyson                                 1.            0.5          20.7             0.0           0.0
+ Initialization                             1.            0.4          18.6             0.0           0.0
+ check_input_consistency                    1.            0.4          18.6             0.0           0.0
+ S^2 evaluation                             2.            0.4          18.6             0.4          18.6
+ Calculation                                1.            0.0           2.1             0.0           1.6
+ determinant_dyson_orbital                 92.            0.0           0.5             0.0           0.5
+
+ (  8 timers contributing less than 1% are not shown)
+

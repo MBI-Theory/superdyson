@@ -1,0 +1,17 @@
+ &SD_V2
+   verbose         = 1,
+   task            = '1-rdm',
+   comment         = "n2(1+) X^2\Sigma^+_g - B^2\Sigma^+_u, CAS/aug-cc-pV5Z + diff"
+   nmobra          = 14,
+   nmoket          = 14,
+   ndetbra         = 49256,
+   ndetket         = 49240,
+   eps_cdet        = 1e-8,
+   dont_check_s2   = .false.,
+   file_cbra       = 'qc/n2p-X.mos',
+   file_cket       = 'qc/n2p-B.mos',
+   file_detbra     = 'qc/n2p-X.dets',
+   file_detket     = 'qc/n2p-B.dets',
+   use_symmetry    = .true.
+   detail_timers   = .true.
+  /

@@ -1,0 +1,19 @@
+ &SD_V2
+   verbose         = 1,
+   task            = 'braket',
+ ! braket_operator = 'none', 
+   braket_operator = 'dipole',
+   comment         = "CO2 1a1 (^2\Sigma_u) ionization channel - cation orbitals"
+   nmobra          = 14,
+   nmoket          = 14,
+   ndetbra         = 6825,
+   ndetket         = 13680,
+   eps_cdet        = 1e-10,
+   dont_check_s2   = .false.,
+   file_cbra       = 'qc/co2p-orb14.mos',
+   file_cket       = 'qc/co2p-orb14.mos',
+   file_detbra     = 'qc/co2-orb14.dets',
+   file_detket     = 'qc/co2p-1a1-orb14.dets',
+   use_symmetry    = .true.
+   detail_timers   = .true.
+  /

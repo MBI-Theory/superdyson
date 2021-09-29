@@ -1,0 +1,17 @@
+ &sd_v2
+   verbose         = 0
+   task            = "1-rdm"
+   comment         = "c6h5fc-b2 and c6h5fc-a2"
+   nmobra          = 25
+   nmoket          = 25
+   ndetbra         = 1
+   ndetket         = 1
+   eps_cdet        = 1e-10
+   dont_check_s2   = .false.
+   file_cbra       = "qc/c6h5fc-rohf_b2.mos"
+   file_cket       = "qc/c6h5fc-rohf_a2.mos"
+   file_detbra     = "qc/c6h5fc-rohf_b2.dets"
+   file_detket     = "qc/c6h5fc-rohf_a2.dets"
+   use_symmetry    = .false.
+   detail_timers   = .true.
+ /

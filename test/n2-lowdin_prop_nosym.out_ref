@@ -1,0 +1,172 @@
+Version: Optimized gfortran, built on balrog.mbi-berlin.de at Wed Sep 29 03:46:14 PM CEST 2021
+
+    $Id: accuracy.f90,v 1.5 2021/09/29 13:43:11 ps Exp $
+    $Id: block_determinant.f90,v 1.5 2021/09/29 13:43:22 ps Exp $
+    $Id: block_diag.f90,v 1.8 2021/09/29 13:43:22 ps Exp $
+    $Id: block_matrices.f90,v 1.9 2021/09/29 13:43:22 ps Exp $
+    $Id: constants.f90,v 1.2 2021/09/29 13:46:03 ps Exp ps $
+    $Id: gamess_internal.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: import_gamess.f90,v 1.14 2021/09/29 13:43:22 ps Exp $
+    $Id: lapack.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: math.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: os_integral_operators.f90,v 1.3 2021/09/29 13:46:03 ps Exp ps $
+    $Id: printing.f90,v 1.2 2021/09/29 13:43:22 ps Exp $
+    $Id: sd_core.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: sort_tools.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: superdyson.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: timer.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: tr_1rdm.f90,v 1.21 2021/09/29 13:43:22 ps Exp $
+
+==== Options ====
+&SD_V2
+ VERBOSE=1          ,
+ TASK="braket              ",
+ BRAKET_OPERATOR="1/r                 ",
+ OP_CENTRE= 2*0.0000000000000000       ,  3.0000000000000000     ,
+ OP_GAUSS=  1.0000000000000000     ,
+ COMMENT="n2(1+) X^2\Sigma^+_g - B^2\Sigma^+_u, CAS/aug-cc-pV5Z + diff                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ",
+ NMOBRA=14         ,
+ NMOKET=14         ,
+ NDETBRA=49256      ,
+ NDETKET=49240      ,
+ EPS_CDET=  1.0000000000000000E-008,
+ DONT_CHECK_S2=F,
+ FILE_CBRA="qc/n2p-X.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ",
+ FILE_CKET="qc/n2p-B.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ",
+ FILE_DETBRA="qc/n2p-X.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ",
+ FILE_DETKET="qc/n2p-B.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ",
+ EPS_INTEGRAL=  1.0000000000000000E-010,
+ USE_SYMMETRY=F,
+ DETAIL_TIMERS=T,
+ SIGN_BRA=  1.0000000000000000     ,
+ SIGN_KET=  1.0000000000000000     ,
+ /
+
+n2(1+) X^2\Sigma^+_g - B^2\Sigma^+_u, CAS/aug-cc-pV5Z + diff
+          task = braket
+      operator = 1/r
+          naos =     -1
+        nmobra =     14
+        nmoket =     14
+       ndetbra =  49256
+       ndetket =  49240
+      eps_cdet = 0.100000E-07
+ dont_check_s2 =        F
+ own_integrals =        T
+       Bra MO file = qc/n2p-X.mos
+       Ket MO file = qc/n2p-B.mos
+  Bra determinants = qc/n2p-X.dets
+  Ket determinants = qc/n2p-B.dets
+import_gamess: Shell    1 lval =  0 with   14 primitives, norm =   0.999998898969    
+import_gamess: Shell   10 lval =  1 with    8 primitives, norm =   0.999998217392    
+import_gamess: Shell    1 lval =  0 with   14 primitives, norm =   0.999998898969    
+import_gamess: Shell   10 lval =  1 with    8 primitives, norm =   0.999998217392    
+import_gamess: Found        2 atoms
+import_gamess: Found      320 Cartesian basis functions
+import_gamess: Longest contraction has       14 primitives
+import_gamess: Found       10 shell batches
+import_gamess: Largest batch contains        9 shells
+import_gamess: Largest batch contains       45 orbitals
+import_gamess: Found      246 vectors in the set
+import_gamess: Shell    1 lval =  0 with   14 primitives, norm =   0.999998898969    
+import_gamess: Shell   10 lval =  1 with    8 primitives, norm =   0.999998217392    
+import_gamess: Shell    1 lval =  0 with   14 primitives, norm =   0.999998898969    
+import_gamess: Shell   10 lval =  1 with    8 primitives, norm =   0.999998217392    
+import_gamess: Found        2 atoms
+import_gamess: Found      320 Cartesian basis functions
+import_gamess: Longest contraction has       14 primitives
+import_gamess: Found       10 shell batches
+import_gamess: Largest batch contains        9 shells
+import_gamess: Largest batch contains       45 orbitals
+import_gamess: Found      246 vectors in the set
+Number of AOs in the reference:    320
+      Number of AOs in the ion:    320
+           Reference atoms =        2
+                 Ion atoms =        2
+Comparing     14 lowest MOs out of     14/    14
+  Max absolute coefficient =  1.13683    
+Max coefficient difference = 0.932899    
+        The two sets match =        F
+Number of electrons in reference and ion:     13    13
+Overlap mode
+
+          parent norm is:   1.00000005
+ parent S^2 expectation is:   0.75000004(  0.75000000)
+
+
+          ion norm is:   0.99999999
+ ion S^2 expectation is:   0.74999999(  0.75000000)
+
+
+    Reference - ion MO correlations
+  Ref. MO   Ion MO       Overlap
+  -------   ------       -------
+        1        1       0.99992
+        2        2       0.99995
+        3        3       0.99899
+        4        6       0.99952
+        5        5       0.99998
+        6        4       0.99998
+        7        7       0.99846
+        8        9       0.99928
+        9        8       0.99928
+       10       10       0.99812
+       11       11      -0.99832
+       12       12       0.99802
+       13       13       0.99377
+       14       14       0.99377
+
+ Doubly occupied reference orbitals:      2
+       Doubly occupied ion orbitals:      2
+               Frozen core orbitals:      0
+
+Done with preliminaries, beginning the calculation
+
+Processing reference determinant   1758 of  49256
+Processing reference determinant   5933 of  49256
+Processing reference determinant  26287 of  49256
+          Determinant pairs processed:    117873806.
+  Determinant pairs cut off by weight:   2307491634.
+Determinant pairs cut off by distance:            0.
+Determinant pairs cut off by symmetry:            0.
+Total overlap is  0.351366829E-15
+Matrix element of 1/r operator is:
+       0.120071235383
+
+              Timing data at 2021/09/29 15:49:20
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                          *           1.           42.3        1926.6             0.0           0.0
+ Superdyson                                 1.           42.0        1926.3             0.0           0.0
+ Initialization                             1.           10.8         431.5             0.0           0.0
+ check_input_consistency                    1.           10.8         431.2             0.0           0.0
+ S^2 evaluation                             2.           10.8         431.2            10.8         431.2
+ Calculation                                1.           31.2        1494.7             7.1         338.0
+ fill_spinorbit_integrals             2653708.            4.5         212.9             4.5         212.9
+ determinant_overlap                  1326854.            3.0         141.5             3.0         141.5
+ determinant_transition               1326854.           16.6         802.3            16.6         802.3
+
+ (  9 timers contributing less than 1% are not shown)
+
+
+              Timing data at 2021/09/29 15:49:20
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                                      1.           42.3        1926.6             0.0           0.0
+ Superdyson                                 1.           42.0        1926.3             0.0           0.0
+ Initialization                             1.           10.8         431.5             0.0           0.0
+ check_input_consistency                    1.           10.8         431.2             0.0           0.0
+ S^2 evaluation                             2.           10.8         431.2            10.8         431.2
+ Calculation                                1.           31.2        1494.7             7.1         338.0
+ fill_spinorbit_integrals             2653708.            4.5         212.9             4.5         212.9
+ determinant_overlap                  1326854.            3.0         141.5             3.0         141.5
+ determinant_transition               1326854.           16.6         802.3            16.6         802.3
+
+ (  9 timers contributing less than 1% are not shown)
+

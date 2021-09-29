@@ -1,0 +1,18 @@
+ &SD_V2
+   verbose         = 1,
+   task            = 'braket',
+   braket_operator = 'none',
+   comment         = "so2-1A1-header.dat <so2-1A1-c-a1:1.dets|so2-1A1-c-b1:1.dets>"
+   nmobra          = 20,
+   nmoket          = 20,
+   ndetbra         = 13236,
+   ndetket         = 13236,
+   eps_cdet        = 1e-7,
+   dont_check_s2   = .false.
+   file_cbra       = 'qc/so2-1A1-c.mos',
+   file_cket       = 'qc/so2-1A1-c.mos',
+   file_detbra     = 'qc/so2-1A1-c-a1:1.dets',
+   file_detket     = 'qc/so2-1A1-c-a1:1.dets',
+   use_symmetry    = .false.
+   detail_timers   = .true.
+  /
