@@ -31,3 +31,6 @@
 *.out
 *.app
 *.x
+
+# Pre-processed Fortran sources
+preprocess/*.f90

@@ -7,13 +7,14 @@ ACT = sed -e 's/^!\*nq/    /' # Disable quad-math statements
 IDS := built on $(shell hostname) at $(shell date)
 
 # ifort 18.0.3.222
-# F90 = ifort -I. -qopenmp -O3 -fp-model precise -assume protect_parens -heap-arrays 32 -warn -warn -assume buffered_io -gen-interfaces nosource -mkl -debug full -debug extended -traceback -cpp -D__BUILD_ID__='"Optimized ifort, $(IDS)"'
+# F90 = ifort -I. -xAVX2 -qopenmp -O3 -fp-model precise -assume protect_parens -heap-arrays 32 -warn -warn -assume buffered_io -gen-interfaces nosource -mkl -debug full -debug extended -traceback -cpp -D__BUILD_ID__='"Optimized ifort, $(IDS)"'
 # LIBS =
 
 # gfortran
+# gfortran 7.5.0 works
 # OPT
-  F90 = gfortran -I. -O3 -fprotect-parens -fno-fast-math -march=native -mtune=native  -fstack-arrays -fopenmp -fcx-fortran-rules -fno-realloc-lhs -fbacktrace -g -cpp -D__BUILD_ID__='"Optimized gfortran, $(IDS)"'
-# F90 = gfortran -I. -Og -fprotect-parens -fno-fast-math -march=native -mtune=native  -fstack-arrays -fopenmp -std=gnu -pedantic -Wall -Wno-unused-function -Wno-unused-dummy-argument -fcheck=all -fno-realloc-lhs -ffree-line-length-none -cpp -D__BUILD_ID__='"Debug gfortran, $(IDS)"'
+  F90 = gfortran   -I. -O3 -flto -fprotect-parens -fno-fast-math -march=native -mtune=native  -fstack-arrays -fopenmp -fcx-fortran-rules -fno-realloc-lhs -fbacktrace -g -cpp -D__BUILD_ID__='"Optimized gfortran, $(IDS)"'
+# F90 = gfortran   -I. -Og -fprotect-parens -fno-fast-math -march=native -mtune=native  -fstack-arrays -fopenmp -std=gnu -pedantic -Wall -Wno-unused-function -Wno-unused-dummy-argument -fcheck=all -fno-realloc-lhs -ffree-line-length-none -cpp -D__BUILD_ID__='"Debug gfortran, $(IDS)"'
   LIBS = -llapack -lblas -lpthread
 
 MAKEFLAGS = -r

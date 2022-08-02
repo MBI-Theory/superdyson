@@ -28,7 +28,9 @@
       real(kind(v))               :: zet(4)          ! Primitive exponents
       real(kind(v))               :: w_cut           ! Absolute cutoff 
       logical                     :: zero_primitives ! True if all primitive integrals are negligible
-      real(kind(v))               :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      ! The line below is miscompiled by gfortran, at least versions 10.3.1 and 12.1.1
+      ! real(kind(v))               :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      real(kind(v))               :: ang_c_kind(0:gam_nxyz-1)
       !
       !  Prepare angular factors of the right kind
       !

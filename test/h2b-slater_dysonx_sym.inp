@@ -1,0 +1,18 @@
+ &SD_V2
+   verbose         = 10,
+   task            = 'braket',
+   braket_operator = 'dipole',
+   comment         = 'H2 at 2.0 Bohr, ionization of 2^1B_{1u} (2p_\sigma) to X^2\Sigma_g^+ (Sz=-1/2)'
+   nmobra          = 159,
+   nmoket          = 1,
+   ndetbra         = 2
+   ndetket         = 1
+   eps_cdet        = 1e-10,
+   dont_check_s2   = .false.,
+   file_cbra       = 'qc/h2+.mos',
+   file_cket       = 'qc/h2+.mos',
+   file_detbra     = 'qc/h2-2b1u.dets'
+   file_detket     = 'qc/h2+gs_b.dets'
+   use_symmetry    = .false.
+   detail_timers   = .true.
+  /

@@ -75,7 +75,7 @@
     public gamess_2e_integrals
     public rcsid_import_gamess
     !
-    character(len=clen), save :: rcsid_import_gamess = "$Id: import_gamess.f90,v 1.14 2021/09/29 13:43:22 ps Exp $"
+    character(len=clen), save :: rcsid_import_gamess = "$Id: import_gamess.f90,v 1.15 2022/08/02 08:51:57 ps Exp $"
     !
     !  Conditional compilation is needed for the interfaces:
     !  the _quad versions differ only in their argument kinds; if we
@@ -2008,11 +2008,12 @@
       real(rk)                :: xyz(3,0:7), r2
       real(rk)                :: ang(0:gam_nxyz-1)
       real(rk)                :: radial, exparg
-!     real(rk)                :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
-!     !
-!     !  Prepare angular factors of the right kind
-!     !
-!     ang_c_kind = real(ang_c,kind=kind(ang_c_kind))
+      ! Note that gfortran 10 and later miscompiles the line below!
+      ! real(rk)                :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      !
+      !  Prepare angular factors of the right kind
+      !
+      ! ang_c_kind = real(ang_c,kind=kind(ang_c_kind))
       !
       !  Rotate grid position into molecular frame
       !
@@ -2100,11 +2101,12 @@
       real(rk)                :: xyz(3,-1:8), r2
       real(rk)                :: ang(0:gam_nxyz-1), angd(3,0:gam_nxyz-1), angu(3,0:gam_nxyz-1)
       real(rk)                :: radial, radial2, exparg
-!     real(rk)                :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
-!     !
-!     !  Prepare angular factors of the right kind
-!     !
-!     ang_c_kind = real(ang_c,kind=kind(ang_c_kind))
+      ! gfortran 10 and later miscompiles the line below
+      ! real(rk)                :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      !
+      !  Prepare angular factors of the right kind
+      !
+      ! ang_c_kind = real(ang_c,kind=kind(ang_c_kind))
       !
       !  Rotate grid position into molecular frame
       !
@@ -2274,11 +2276,12 @@
       real(rk)                 :: wgt
       integer(ik)              :: n_rec        ! Number of additional recursion intermediated
       integer(ik)              :: alloc
-      real(rk)                :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      ! The line below is miscompiled by gfortran 10.3.1 through 12.1.1
+      ! real(rk)                :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
       !
       !  Prepare angular factors of the right kind
       !
-      ang_c_kind = real(ang_c,kind=kind(ang_c_kind))
+      ! ang_c_kind = real(ang_c,kind=kind(ang_c_kind))
       !
       p1_l = ang_loc(l_l)
       p2_l = ang_loc(l_l+1)-1
@@ -2333,7 +2336,7 @@
             int_r = p_r - p1_r + 1
             l_accumulate: do p_l=p1_l,p2_l
               int_l = p_l - p1_l + 1
-              vb(int_l,int_r) = vb(int_l,int_r) + wgt*ang_c_kind(p_l)*ang_c_kind(p_r)*vb_r(p_l,p_r,0)
+              vb(int_l,int_r) = vb(int_l,int_r) + wgt*ang_c_rk(p_l)*ang_c_rk(p_r)*vb_r(p_l,p_r,0)
             end do l_accumulate
           end do r_accumulate
           !

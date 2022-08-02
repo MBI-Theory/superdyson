@@ -16,7 +16,9 @@
       real(kind(vb))              :: wgt
       integer(ik)                 :: n_rec        ! Number of additional recursion intermediated
       integer(ik)                 :: alloc
-      real(kind(vb))              :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      ! The construct below is miscompiled by gfortran 10.3.1 through (?) 12.1.1
+      ! real(kind(vb))              :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      real(kind(vb))              :: ang_c_kind(0:gam_nxyz-1)
       !
       p1_l = ang_loc(l_l)
       p2_l = ang_loc(l_l+1)-1

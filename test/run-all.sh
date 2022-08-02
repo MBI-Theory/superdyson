@@ -43,7 +43,8 @@ function test () {
   [ -n "$notoklist" ] && status=1
   }
 #
-cheap="c6h5f-lowdin_rdm_nosym.inp c6h5f-lowdin_rdm_sym.inp co2-slater_dyson_nosym.inp co2-slater_dyson_sym.inp \
+cheap="h2a-slater_dysonx_sym.inp h2b-slater_dysonx_sym.inp \
+       c6h5f-lowdin_rdm_nosym.inp c6h5f-lowdin_rdm_sym.inp co2-slater_dyson_nosym.inp co2-slater_dyson_sym.inp \
        co-rhf_dipole_sym.inp co-rhf_en_C_sym.inp co-rhf_en_O_sym.inp co2-slater_dysonx_sym.inp \
        sf6c-slater_rdm_sym.inp so2-slater_dipole_nosym.inp so2-slater_dipole_sym.inp \
        so2-slater_overlap_nosym.inp so2-slater_overlap_sym.inp"

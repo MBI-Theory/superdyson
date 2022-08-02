@@ -475,7 +475,7 @@ contains
   !
   subroutine accumulate_dyson(wgt,occbra,wdysondet,wdyson)
     real(rk), intent(in)    :: wgt            ! Weight of this contribution
-    integer(ik), intent(in) :: occbra(:)      ! Parent determinant composition
+    integer(ik), intent(in) :: occbra(:)      ! Parent determinant composition, bra
     real(rk), intent(in)    :: wdysondet(:,:) ! One determinant's contribution to the Dyson/exchange orbital
     real(rk), intent(inout) :: wdyson(:,:,:)  ! Thread-private copy of wdyson
     !

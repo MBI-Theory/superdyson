@@ -1,0 +1,1691 @@
+Version: Debug gfortran, built on balrog at Tue Aug  2 04:06:12 PM CEST 2022
+
+    $Id: accuracy.f90,v 1.5 2021/09/29 13:43:11 ps Exp $
+    $Id: block_determinant.f90,v 1.5 2021/09/29 13:43:22 ps Exp $
+    $Id: block_diag.f90,v 1.8 2021/09/29 13:43:22 ps Exp $
+    $Id: block_matrices.f90,v 1.9 2021/09/29 13:43:22 ps Exp $
+    $Id: constants.f90,v 1.2 2021/09/29 13:46:03 ps Exp $
+    $Id: gamess_internal.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: import_gamess.f90,v 1.15 2022/08/02 08:51:57 ps Exp ps $
+    $Id: lapack.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: math.f90,v 1.5 2022/08/02 08:51:57 ps Exp ps $
+    $Id: os_integral_operators.f90,v 1.3 2021/09/29 13:46:03 ps Exp $
+    $Id: printing.f90,v 1.2 2021/09/29 13:43:22 ps Exp $
+    $Id: sd_core.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: sort_tools.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: superdyson.f90,v 1.30 2021/09/29 13:43:22 ps Exp $
+    $Id: timer.f90,v 1.4 2021/09/29 13:43:22 ps Exp $
+    $Id: tr_1rdm.f90,v 1.21 2021/09/29 13:43:22 ps Exp $
+
+==== Options ====
+&SD_V2
+ VERBOSE=         10,
+ TASK="braket              ",
+ BRAKET_OPERATOR="dipole              ",
+ OP_CENTRE= 3*0.0000000000000000       ,
+ OP_GAUSS=  1.0000000000000000     ,
+ COMMENT="H2 at 2.0 Bohr, ionization of 2^1B_{1u} (2p_\sigma) to X^2\Sigma_g^+ (Sz=+1/2)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ",
+ NMOBRA=        159,
+ NMOKET=          1,
+ NDETBRA=          2,
+ NDETKET=          1,
+ EPS_CDET=  1.0000000000000000E-010,
+ DONT_CHECK_S2=F,
+ FILE_CBRA="qc/h2+.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ",
+ FILE_CKET="qc/h2+.mos                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ",
+ FILE_DETBRA="qc/h2-2b1u.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ",
+ FILE_DETKET="qc/h2+gs_a.dets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 ",
+ EPS_INTEGRAL=  1.0000000000000000E-010,
+ USE_SYMMETRY=F,
+ DETAIL_TIMERS=T,
+ SIGN_BRA=  1.0000000000000000     ,
+ SIGN_KET=  1.0000000000000000     ,
+ /
+
+H2 at 2.0 Bohr, ionization of 2^1B_{1u} (2p_\sigma) to X^2\Sigma_g^+ (Sz=+1/2)
+          task = braket
+      operator = dipole
+          naos =     -1
+        nmobra =    159
+        nmoket =      1
+       ndetbra =      2
+       ndetket =      1
+      eps_cdet = 0.100000E-09
+ dont_check_s2 =        F
+ own_integrals =        T
+       Bra MO file = qc/h2+.mos
+       Ket MO file = qc/h2+.mos
+  Bra determinants = qc/h2-2b1u.dets
+  Ket determinants = qc/h2+gs_a.dets
+import_gamess: Found        3 atoms
+import_gamess: Found      180 Cartesian basis functions
+import_gamess: Longest contraction has        6 primitives
+import_gamess: Found       12 shell batches
+import_gamess: Largest batch contains       11 shells
+import_gamess: Largest batch contains       60 orbitals
+import_gamess: Found      180 vectors in the set
+import_gamess: Found        3 atoms
+import_gamess: Found      180 Cartesian basis functions
+import_gamess: Longest contraction has        6 primitives
+import_gamess: Found       12 shell batches
+import_gamess: Largest batch contains       11 shells
+import_gamess: Largest batch contains       60 orbitals
+import_gamess: Found      180 vectors in the set
+Number of AOs in the reference:    180
+      Number of AOs in the ion:    180
+           Reference atoms =        3
+                 Ion atoms =        3
+Comparing      1 lowest MOs out of    159/     1
+  Max absolute coefficient =  307.768    
+Max coefficient difference =  0.00000    
+        The two sets match =        T
+Number of electrons in reference and ion:      2     1
+Dyson mode
+
+          parent norm is:   1.00000000
+ parent S^2 expectation is:   0.00000000(  0.00000000)
+
+
+          ion norm is:   1.00000000
+ ion S^2 expectation is:   0.75000000(  0.75000000)
+
+
+Cross-state <parent|ion> elements
+     <parent|ion> <    1|    1> =            0.999999959422
+     <parent|ion> <    2|    1> =            0.000000000000
+     <parent|ion> <    3|    1> =            0.000000017126
+     <parent|ion> <    4|    1> =            0.000000000000
+     <parent|ion> <    5|    1> =            0.000000000000
+     <parent|ion> <    6|    1> =            0.000000000000
+     <parent|ion> <    7|    1> =           -0.000000010485
+     <parent|ion> <    8|    1> =            0.000000000000
+     <parent|ion> <    9|    1> =            0.000000000000
+     <parent|ion> <   10|    1> =           -0.000000005971
+     <parent|ion> <   11|    1> =            0.000000000000
+     <parent|ion> <   12|    1> =            0.000000000000
+     <parent|ion> <   13|    1> =            0.000000000000
+     <parent|ion> <   14|    1> =           -0.000000000010
+     <parent|ion> <   15|    1> =           -0.000000000000
+     <parent|ion> <   16|    1> =           -0.000000005812
+     <parent|ion> <   17|    1> =            0.000000000000
+     <parent|ion> <   18|    1> =            0.000000000000
+     <parent|ion> <   19|    1> =           -0.000000002946
+     <parent|ion> <   20|    1> =            0.000000000000
+     <parent|ion> <   21|    1> =            0.000000000000
+     <parent|ion> <   22|    1> =            0.000000000000
+     <parent|ion> <   23|    1> =           -0.000000000016
+     <parent|ion> <   24|    1> =            0.000000000000
+     <parent|ion> <   25|    1> =           -0.000000003398
+     <parent|ion> <   26|    1> =            0.000000000000
+     <parent|ion> <   27|    1> =            0.000000000000
+     <parent|ion> <   28|    1> =           -0.000000003301
+     <parent|ion> <   29|    1> =            0.000000000000
+     <parent|ion> <   30|    1> =            0.000000000000
+     <parent|ion> <   31|    1> =            0.000000000000
+     <parent|ion> <   32|    1> =            0.000000000028
+     <parent|ion> <   33|    1> =            0.000000000000
+     <parent|ion> <   34|    1> =           -0.000000005580
+     <parent|ion> <   35|    1> =            0.000000000000
+     <parent|ion> <   36|    1> =            0.000000000000
+     <parent|ion> <   37|    1> =            0.000000014522
+     <parent|ion> <   38|    1> =            0.000000000000
+     <parent|ion> <   39|    1> =            0.000000000000
+     <parent|ion> <   40|    1> =            0.000000000000
+     <parent|ion> <   41|    1> =           -0.000000000013
+     <parent|ion> <   42|    1> =           -0.000000000000
+     <parent|ion> <   43|    1> =           -0.000000063664
+     <parent|ion> <   44|    1> =            0.000000000000
+     <parent|ion> <   45|    1> =            0.000000000000
+     <parent|ion> <   46|    1> =            0.000000007249
+     <parent|ion> <   47|    1> =            0.000000000000
+     <parent|ion> <   48|    1> =            0.000000000000
+     <parent|ion> <   49|    1> =            0.000000000000
+     <parent|ion> <   50|    1> =           -0.000000000002
+     <parent|ion> <   51|    1> =            0.000000324445
+     <parent|ion> <   52|    1> =            0.000000000000
+     <parent|ion> <   53|    1> =            0.000000000000
+     <parent|ion> <   54|    1> =            0.000000000000
+     <parent|ion> <   55|    1> =           -0.000000226926
+     <parent|ion> <   56|    1> =           -0.000000037338
+     <parent|ion> <   57|    1> =            0.000000000000
+     <parent|ion> <   58|    1> =            0.000000000000
+     <parent|ion> <   59|    1> =            0.000000000260
+     <parent|ion> <   60|    1> =            0.000000000000
+     <parent|ion> <   61|    1> =           -0.000000000000
+     <parent|ion> <   62|    1> =            0.000000000000
+     <parent|ion> <   63|    1> =            0.000000000000
+     <parent|ion> <   64|    1> =           -0.000000005897
+     <parent|ion> <   65|    1> =            0.000000000000
+     <parent|ion> <   66|    1> =            0.000000000000
+     <parent|ion> <   67|    1> =            0.000000000024
+     <parent|ion> <   68|    1> =            0.000000000000
+     <parent|ion> <   69|    1> =           -0.000000205302
+     <parent|ion> <   70|    1> =            0.000000000033
+     <parent|ion> <   71|    1> =            0.000000000000
+     <parent|ion> <   72|    1> =            0.000000000000
+     <parent|ion> <   73|    1> =            0.000000018905
+     <parent|ion> <   74|    1> =            0.000000000000
+     <parent|ion> <   75|    1> =            0.000000000000
+     <parent|ion> <   76|    1> =           -0.000000001351
+     <parent|ion> <   77|    1> =            0.000000000000
+     <parent|ion> <   78|    1> =           -0.000000000000
+     <parent|ion> <   79|    1> =            0.000000038185
+     <parent|ion> <   80|    1> =            0.000000029507
+     <parent|ion> <   81|    1> =            0.000000000000
+     <parent|ion> <   82|    1> =            0.000000000000
+     <parent|ion> <   83|    1> =           -0.000000000131
+     <parent|ion> <   84|    1> =            0.000000000000
+     <parent|ion> <   85|    1> =            0.000000000000
+     <parent|ion> <   86|    1> =            0.000000000000
+     <parent|ion> <   87|    1> =            0.000000000016
+     <parent|ion> <   88|    1> =            0.000000190006
+     <parent|ion> <   89|    1> =            0.000000533164
+     <parent|ion> <   90|    1> =            0.000000000000
+     <parent|ion> <   91|    1> =            0.000000000000
+     <parent|ion> <   92|    1> =           -0.000000000050
+     <parent|ion> <   93|    1> =            0.000000000014
+     <parent|ion> <   94|    1> =            0.000000000000
+     <parent|ion> <   95|    1> =            0.000000000000
+     <parent|ion> <   96|    1> =            0.000000000000
+     <parent|ion> <   97|    1> =            0.000000000246
+     <parent|ion> <   98|    1> =           -0.000000176226
+     <parent|ion> <   99|    1> =            0.000000000000
+     <parent|ion> <  100|    1> =            0.000000000000
+     <parent|ion> <  101|    1> =            0.000000000000
+     <parent|ion> <  102|    1> =            0.000000000000
+     <parent|ion> <  103|    1> =            0.000000907394
+     <parent|ion> <  104|    1> =           -0.000000000234
+     <parent|ion> <  105|    1> =            0.000000571617
+     <parent|ion> <  106|    1> =           -0.000000000018
+     <parent|ion> <  107|    1> =            0.000000000000
+     <parent|ion> <  108|    1> =            0.000000000000
+     <parent|ion> <  109|    1> =           -0.000000000000
+     <parent|ion> <  110|    1> =            0.000000711456
+     <parent|ion> <  111|    1> =            0.000000000000
+     <parent|ion> <  112|    1> =            0.000000000000
+     <parent|ion> <  113|    1> =           -0.000000000104
+     <parent|ion> <  114|    1> =            0.000000000000
+     <parent|ion> <  115|    1> =            0.000000000000
+     <parent|ion> <  116|    1> =            0.000000000000
+     <parent|ion> <  117|    1> =           -0.000000000096
+     <parent|ion> <  118|    1> =            0.000000000000
+     <parent|ion> <  119|    1> =            0.000000000000
+     <parent|ion> <  120|    1> =            0.000000000000
+     <parent|ion> <  121|    1> =            0.000000000000
+     <parent|ion> <  122|    1> =           -0.000000000159
+     <parent|ion> <  123|    1> =            0.000000783809
+     <parent|ion> <  124|    1> =           -0.000000170136
+     <parent|ion> <  125|    1> =            0.000000000046
+     <parent|ion> <  126|    1> =            0.000000000000
+     <parent|ion> <  127|    1> =            0.000000000000
+     <parent|ion> <  128|    1> =            0.000000000000
+     <parent|ion> <  129|    1> =            0.000000000000
+     <parent|ion> <  130|    1> =            0.000000000000
+     <parent|ion> <  131|    1> =            0.000000000000
+     <parent|ion> <  132|    1> =            0.000000000000
+     <parent|ion> <  133|    1> =            0.000000000000
+     <parent|ion> <  134|    1> =           -0.000000000006
+     <parent|ion> <  135|    1> =            0.000000000000
+     <parent|ion> <  136|    1> =           -0.000000000000
+     <parent|ion> <  137|    1> =            0.000000000000
+     <parent|ion> <  138|    1> =            0.000000035532
+     <parent|ion> <  139|    1> =            0.000000000027
+     <parent|ion> <  140|    1> =            0.000000000000
+     <parent|ion> <  141|    1> =            0.000000000000
+     <parent|ion> <  142|    1> =            0.000000000000
+     <parent|ion> <  143|    1> =            0.000000000000
+     <parent|ion> <  144|    1> =            0.000000000000
+     <parent|ion> <  145|    1> =            0.000000000000
+     <parent|ion> <  146|    1> =           -0.000000199889
+     <parent|ion> <  147|    1> =            0.000000000031
+     <parent|ion> <  148|    1> =            0.000000000000
+     <parent|ion> <  149|    1> =           -0.000000000058
+     <parent|ion> <  150|    1> =            0.000000610358
+     <parent|ion> <  151|    1> =            0.000000000000
+     <parent|ion> <  152|    1> =            0.000000000000
+     <parent|ion> <  153|    1> =            0.000000000000
+     <parent|ion> <  154|    1> =            0.000000000000
+     <parent|ion> <  155|    1> =           -0.000000000026
+     <parent|ion> <  156|    1> =            0.000000224105
+     <parent|ion> <  157|    1> =            0.000000000000
+     <parent|ion> <  158|    1> =            0.000000000000
+     <parent|ion> <  159|    1> =            0.000000000047
+
+
+    Reference - ion MO correlations
+  Ref. MO   Ion MO       Overlap
+  -------   ------       -------
+        1        1       1.00000
+        2        1       0.00000
+        3        1       0.00000
+        4        1       0.00000
+        5        1       0.00000
+        6        1       0.00000
+        7        1      -0.00000
+        8        1       0.00000
+        9        1       0.00000
+       10        1      -0.00000
+       11        1       0.00000
+       12        1       0.00000
+       13        1       0.00000
+       14        1      -0.00000
+       15        1      -0.00000
+       16        1      -0.00000
+       17        1       0.00000
+       18        1       0.00000
+       19        1      -0.00000
+       20        1       0.00000
+       21        1       0.00000
+       22        1       0.00000
+       23        1      -0.00000
+       24        1       0.00000
+       25        1      -0.00000
+       26        1       0.00000
+       27        1       0.00000
+       28        1      -0.00000
+       29        1       0.00000
+       30        1       0.00000
+       31        1       0.00000
+       32        1       0.00000
+       33        1       0.00000
+       34        1      -0.00000
+       35        1       0.00000
+       36        1       0.00000
+       37        1       0.00000
+       38        1       0.00000
+       39        1       0.00000
+       40        1       0.00000
+       41        1      -0.00000
+       42        1      -0.00000
+       43        1      -0.00000
+       44        1       0.00000
+       45        1       0.00000
+       46        1       0.00000
+       47        1       0.00000
+       48        1       0.00000
+       49        1       0.00000
+       50        1      -0.00000
+       51        1       0.00000
+       52        1       0.00000
+       53        1       0.00000
+       54        1       0.00000
+       55        1      -0.00000
+       56        1      -0.00000
+       57        1       0.00000
+       58        1       0.00000
+       59        1       0.00000
+       60        1       0.00000
+       61        1      -0.00000
+       62        1       0.00000
+       63        1       0.00000
+       64        1      -0.00000
+       65        1       0.00000
+       66        1       0.00000
+       67        1       0.00000
+       68        1       0.00000
+       69        1      -0.00000
+       70        1       0.00000
+       71        1       0.00000
+       72        1       0.00000
+       73        1       0.00000
+       74        1       0.00000
+       75        1       0.00000
+       76        1      -0.00000
+       77        1       0.00000
+       78        1      -0.00000
+       79        1       0.00000
+       80        1       0.00000
+       81        1       0.00000
+       82        1       0.00000
+       83        1      -0.00000
+       84        1       0.00000
+       85        1       0.00000
+       86        1       0.00000
+       87        1       0.00000
+       88        1       0.00000
+       89        1       0.00000
+       90        1       0.00000
+       91        1       0.00000
+       92        1      -0.00000
+       93        1       0.00000
+       94        1       0.00000
+       95        1       0.00000
+       96        1       0.00000
+       97        1       0.00000
+       98        1      -0.00000
+       99        1       0.00000
+      100        1       0.00000
+      101        1       0.00000
+      102        1       0.00000
+      103        1       0.00000
+      104        1      -0.00000
+      105        1       0.00000
+      106        1      -0.00000
+      107        1       0.00000
+      108        1       0.00000
+      109        1      -0.00000
+      110        1       0.00000
+      111        1       0.00000
+      112        1       0.00000
+      113        1      -0.00000
+      114        1       0.00000
+      115        1       0.00000
+      116        1       0.00000
+      117        1      -0.00000
+      118        1       0.00000
+      119        1       0.00000
+      120        1       0.00000
+      121        1       0.00000
+      122        1      -0.00000
+      123        1       0.00000
+      124        1      -0.00000
+      125        1       0.00000
+      126        1       0.00000
+      127        1       0.00000
+      128        1       0.00000
+      129        1       0.00000
+      130        1       0.00000
+      131        1       0.00000
+      132        1       0.00000
+      133        1       0.00000
+      134        1      -0.00000
+      135        1       0.00000
+      136        1      -0.00000
+      137        1       0.00000
+      138        1       0.00000
+      139        1       0.00000
+      140        1       0.00000
+      141        1       0.00000
+      142        1       0.00000
+      143        1       0.00000
+      144        1       0.00000
+      145        1       0.00000
+      146        1      -0.00000
+      147        1       0.00000
+      148        1       0.00000
+      149        1      -0.00000
+      150        1       0.00000
+      151        1       0.00000
+      152        1       0.00000
+      153        1       0.00000
+      154        1       0.00000
+      155        1      -0.00000
+      156        1       0.00000
+      157        1       0.00000
+      158        1       0.00000
+      159        1       0.00000
+
+Setting MO overlaps to a unit matrix
+
+Cross-state <bra|dipole-1|ket> elements
+     <bra|dipole-1|ket> <    1|    1> =            0.000000000000
+     <bra|dipole-1|ket> <    2|    1> =            0.000000000000
+     <bra|dipole-1|ket> <    3|    1> =            0.000000000000
+     <bra|dipole-1|ket> <    4|    1> =            0.000000000000
+     <bra|dipole-1|ket> <    5|    1> =            0.502814911656
+     <bra|dipole-1|ket> <    6|    1> =            0.000000000000
+     <bra|dipole-1|ket> <    7|    1> =            0.000000000000
+     <bra|dipole-1|ket> <    8|    1> =            0.000000000000
+     <bra|dipole-1|ket> <    9|    1> =           -0.228415031576
+     <bra|dipole-1|ket> <   10|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   11|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   12|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   13|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   14|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   15|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   16|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   17|    1> =            0.139417636125
+     <bra|dipole-1|ket> <   18|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   19|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   20|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   21|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <   22|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   23|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   24|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   25|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   26|    1> =            0.096929939131
+     <bra|dipole-1|ket> <   27|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   28|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   29|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   30|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   31|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   32|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   33|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   34|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   35|    1> =           -0.072724126035
+     <bra|dipole-1|ket> <   36|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   37|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   38|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   39|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   40|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   41|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   42|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   43|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   44|    1> =           -0.070826144496
+     <bra|dipole-1|ket> <   45|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   46|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   47|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   48|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <   49|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   50|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   51|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   52|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   53|    1> =            0.100107899135
+     <bra|dipole-1|ket> <   54|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   55|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   56|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   57|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   58|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <   59|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   60|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   61|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   62|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   63|    1> =            0.149727834089
+     <bra|dipole-1|ket> <   64|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   65|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   66|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   67|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   68|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   69|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   70|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   71|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   72|    1> =           -0.237169059578
+     <bra|dipole-1|ket> <   73|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   74|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   75|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   76|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   77|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   78|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   79|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   80|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   81|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   82|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   83|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   84|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   85|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   86|    1> =            0.341441707613
+     <bra|dipole-1|ket> <   87|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   88|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   89|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   90|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   91|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   92|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   93|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   94|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   95|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   96|    1> =           -0.260924443473
+     <bra|dipole-1|ket> <   97|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   98|    1> =            0.000000000000
+     <bra|dipole-1|ket> <   99|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  100|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <  101|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  102|    1> =            0.134334501795
+     <bra|dipole-1|ket> <  103|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  104|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  105|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  106|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  107|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  108|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  109|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  110|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  111|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  112|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  113|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  114|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  115|    1> =            0.062961721908
+     <bra|dipole-1|ket> <  116|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  117|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  118|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  119|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  120|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  121|    1> =           -0.045458886148
+     <bra|dipole-1|ket> <  122|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  123|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  124|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  125|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  126|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  127|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <  128|    1> =           -0.000000000368
+     <bra|dipole-1|ket> <  129|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  130|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  131|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <  132|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  133|    1> =           -0.001394194352
+     <bra|dipole-1|ket> <  134|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  135|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  136|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  137|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  138|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  139|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  140|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  141|    1> =           -0.016324860128
+     <bra|dipole-1|ket> <  142|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <  143|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  144|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  145|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  146|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  147|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  148|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  149|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  150|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  151|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <  152|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  153|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  154|    1> =            0.007702358697
+     <bra|dipole-1|ket> <  155|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  156|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  157|    1> =            0.000000000000
+     <bra|dipole-1|ket> <  158|    1> =           -0.000000000000
+     <bra|dipole-1|ket> <  159|    1> =            0.000000000000
+
+
+Cross-state <bra|dipole-2|ket> elements
+     <bra|dipole-2|ket> <    1|    1> =            0.000000000000
+     <bra|dipole-2|ket> <    2|    1> =            0.000000000000
+     <bra|dipole-2|ket> <    3|    1> =            0.000000000000
+     <bra|dipole-2|ket> <    4|    1> =            0.502814911651
+     <bra|dipole-2|ket> <    5|    1> =            0.000000000000
+     <bra|dipole-2|ket> <    6|    1> =            0.000000000000
+     <bra|dipole-2|ket> <    7|    1> =            0.000000000000
+     <bra|dipole-2|ket> <    8|    1> =           -0.228415031666
+     <bra|dipole-2|ket> <    9|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   10|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   11|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   12|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   13|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   14|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   15|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   16|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   17|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   18|    1> =            0.139417636176
+     <bra|dipole-2|ket> <   19|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   20|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <   21|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   22|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   23|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   24|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   25|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   26|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   27|    1> =            0.096929939022
+     <bra|dipole-2|ket> <   28|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   29|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   30|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   31|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   32|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   33|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   34|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   35|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   36|    1> =           -0.072724125605
+     <bra|dipole-2|ket> <   37|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   38|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   39|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   40|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   41|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   42|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   43|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   44|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   45|    1> =           -0.070826145334
+     <bra|dipole-2|ket> <   46|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   47|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <   48|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   49|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   50|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   51|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   52|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   53|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   54|    1> =            0.100107898654
+     <bra|dipole-2|ket> <   55|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   56|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   57|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <   58|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   59|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   60|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   61|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   62|    1> =            0.149727833247
+     <bra|dipole-2|ket> <   63|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   64|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   65|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   66|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   67|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   68|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   69|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   70|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   71|    1> =           -0.237169055405
+     <bra|dipole-2|ket> <   72|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   73|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   74|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   75|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   76|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   77|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   78|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   79|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   80|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   81|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   82|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   83|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   84|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   85|    1> =            0.341441706068
+     <bra|dipole-2|ket> <   86|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   87|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   88|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   89|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   90|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <   91|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   92|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   93|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   94|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   95|    1> =           -0.260924443418
+     <bra|dipole-2|ket> <   96|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   97|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   98|    1> =            0.000000000000
+     <bra|dipole-2|ket> <   99|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <  100|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  101|    1> =            0.134334501733
+     <bra|dipole-2|ket> <  102|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  103|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  104|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  105|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  106|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  107|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  108|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  109|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  110|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  111|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  112|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  113|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  114|    1> =            0.062961722198
+     <bra|dipole-2|ket> <  115|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  116|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  117|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  118|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  119|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <  120|    1> =           -0.045458886034
+     <bra|dipole-2|ket> <  121|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  122|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  123|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  124|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  125|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  126|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <  127|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  128|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  129|    1> =           -0.000000000360
+     <bra|dipole-2|ket> <  130|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  131|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  132|    1> =           -0.001394194279
+     <bra|dipole-2|ket> <  133|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  134|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  135|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  136|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  137|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  138|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  139|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  140|    1> =           -0.016324859830
+     <bra|dipole-2|ket> <  141|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  142|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  143|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  144|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  145|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  146|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  147|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  148|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  149|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  150|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  151|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  152|    1> =           -0.000000000000
+     <bra|dipole-2|ket> <  153|    1> =            0.007702358874
+     <bra|dipole-2|ket> <  154|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  155|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  156|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  157|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  158|    1> =            0.000000000000
+     <bra|dipole-2|ket> <  159|    1> =            0.000000000000
+
+
+Cross-state <bra|dipole-3|ket> elements
+     <bra|dipole-3|ket> <    1|    1> =            0.000000000000
+     <bra|dipole-3|ket> <    2|    1> =            1.022704651689
+     <bra|dipole-3|ket> <    3|    1> =            0.000000000000
+     <bra|dipole-3|ket> <    4|    1> =            0.000000000000
+     <bra|dipole-3|ket> <    5|    1> =            0.000000000000
+     <bra|dipole-3|ket> <    6|    1> =           -0.145752314327
+     <bra|dipole-3|ket> <    7|    1> =            0.000000000000
+     <bra|dipole-3|ket> <    8|    1> =            0.000000000000
+     <bra|dipole-3|ket> <    9|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   10|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   11|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   12|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   13|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   14|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   15|    1> =            0.074897387021
+     <bra|dipole-3|ket> <   16|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   17|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   18|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   19|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   20|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   21|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   22|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   23|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   24|    1> =            0.048447700187
+     <bra|dipole-3|ket> <   25|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   26|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   27|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   28|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   29|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   30|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   31|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   32|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   33|    1> =           -0.034961594202
+     <bra|dipole-3|ket> <   34|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   35|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   36|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   37|    1> =            0.000000000021
+     <bra|dipole-3|ket> <   38|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   39|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   40|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   41|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   42|    1> =            0.027743947584
+     <bra|dipole-3|ket> <   43|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   44|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   45|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   46|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   47|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   48|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   49|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   50|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   51|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   52|    1> =            0.037884019056
+     <bra|dipole-3|ket> <   53|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   54|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   55|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   56|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   57|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   58|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   59|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   60|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   61|    1> =            0.050414910667
+     <bra|dipole-3|ket> <   62|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   63|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   64|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   65|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   66|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   67|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   68|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   69|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   70|    1> =           -0.082087510293
+     <bra|dipole-3|ket> <   71|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   72|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   73|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   74|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   75|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   76|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   77|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   78|    1> =            0.102537443497
+     <bra|dipole-3|ket> <   79|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   80|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   81|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   82|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   83|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   84|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   85|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   86|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   87|    1> =           -0.064383181616
+     <bra|dipole-3|ket> <   88|    1> =           -0.000000000015
+     <bra|dipole-3|ket> <   89|    1> =           -0.000000000009
+     <bra|dipole-3|ket> <   90|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   91|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   92|    1> =            0.069016753834
+     <bra|dipole-3|ket> <   93|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   94|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   95|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   96|    1> =            0.000000000000
+     <bra|dipole-3|ket> <   97|    1> =           -0.023781942692
+     <bra|dipole-3|ket> <   98|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <   99|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  100|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  101|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  102|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  103|    1> =            0.000000000049
+     <bra|dipole-3|ket> <  104|    1> =            0.005724133791
+     <bra|dipole-3|ket> <  105|    1> =            0.000000000026
+     <bra|dipole-3|ket> <  106|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  107|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  108|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  109|    1> =            0.000000000006
+     <bra|dipole-3|ket> <  110|    1> =            0.000000000504
+     <bra|dipole-3|ket> <  111|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  112|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  113|    1> =           -0.043382535698
+     <bra|dipole-3|ket> <  114|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  115|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  116|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  117|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  118|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  119|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  120|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  121|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  122|    1> =           -0.002210187516
+     <bra|dipole-3|ket> <  123|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <  124|    1> =            0.000000000012
+     <bra|dipole-3|ket> <  125|    1> =           -0.031657026642
+     <bra|dipole-3|ket> <  126|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  127|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  128|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  129|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  130|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  131|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  132|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  133|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  134|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <  135|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  136|    1> =            0.000000000001
+     <bra|dipole-3|ket> <  137|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  138|    1> =            0.000000000011
+     <bra|dipole-3|ket> <  139|    1> =           -0.004683452175
+     <bra|dipole-3|ket> <  140|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  141|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  142|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  143|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  144|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  145|    1> =           -0.000000000001
+     <bra|dipole-3|ket> <  146|    1> =           -0.000000000000
+     <bra|dipole-3|ket> <  147|    1> =            0.013622494189
+     <bra|dipole-3|ket> <  148|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  149|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  150|    1> =            0.000000000026
+     <bra|dipole-3|ket> <  151|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  152|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  153|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  154|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  155|    1> =            0.005144402140
+     <bra|dipole-3|ket> <  156|    1> =            0.000000000012
+     <bra|dipole-3|ket> <  157|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  158|    1> =            0.000000000000
+     <bra|dipole-3|ket> <  159|    1> =           -0.001042702003
+
+ Doubly occupied reference orbitals:      0
+       Doubly occupied ion orbitals:      0
+               Frozen core orbitals:      0
+This calculation has determinant distance tolerance of  4
+
+Done with preliminaries, beginning the calculation
+
+1-e overlap matrix for dets     1    1
+
+                1
+     1   1.000000
+     2   0.000000
+
+ dipole-1matrix for dets     1    1
+
+                1
+     1   0.000000
+     2   0.000000
+
+ dipole-2matrix for dets     1    1
+
+                1
+     1   0.000000
+     2   0.000000
+
+ dipole-3matrix for dets     1    1
+
+                1
+     1   0.000000
+     2   0.000000
+
+
+Requested determinant for matrix: 
+
+                1
+     1   0.000000
+
+
+Requested determinant for matrix: 
+
+                1
+     1   1.000000
+
+ ref det. =     1 ion det. =     1 weight =  0.707106781    
+ ref =  1-1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ ref =  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ ion =  1
+dyson:  -0.000000   1.000000
+exc 1:        -0.000000   0.000000
+exc 2:        -0.000000   0.000000
+exc 3:        -0.000000   0.000000
+  beta MO     2 gets     0.7071067812     0.0000000000     0.0000000000     0.0000000000  from spin-orbital     2
+1-e overlap matrix for dets     2    1
+
+                1
+     1   0.000000
+     2   0.000000
+
+ dipole-1matrix for dets     2    1
+
+                1
+     1   0.000000
+     2   0.000000
+
+ dipole-2matrix for dets     2    1
+
+                1
+     1   0.000000
+     2   0.000000
+
+ dipole-3matrix for dets     2    1
+
+                1
+     1   1.022705
+     2   0.000000
+
+
+Requested determinant for matrix: 
+
+                1
+     1   0.000000
+
+
+Requested determinant for matrix: 
+
+                1
+     1   0.000000
+
+ ref det. =     2 ion det. =     1 weight =  0.707106781    
+ ref = -1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ ref =  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ ion =  1
+dyson:  -0.000000   0.000000
+exc 1:        -0.000000   0.000000
+exc 2:        -0.000000   0.000000
+exc 3:        -0.000000   1.022705
+  beta MO     1 gets     0.0000000000     0.0000000000     0.0000000000     0.7231613944  from spin-orbital     2
+          Determinant pairs processed:            2.
+  Determinant pairs cut off by weight:            0.
+Determinant pairs cut off by distance:            0.
+Determinant pairs cut off by symmetry:            0.
+
+         -----------------------------------------------------
+         Dyson orbital, expanded in MOs of the parent molecule
+         -----------------------------------------------------
+
+       MO    C(alpha)    C(beta)   X(alpha)    X(beta)   Y(alpha)    Y(beta)   Z(alpha)    Z(beta)
+       --    --------    -------   --------    -------   --------    -------   --------    -------
+        1     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.72316
+        2     0.00000    0.70711    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+        3     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+        4     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+        5     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+        6     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+        7     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+        8     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+        9     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       10     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       11     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       12     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       13     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       14     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       15     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       16     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       17     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       18     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       19     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       20     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       21     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       22     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       23     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       24     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       25     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       26     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       27     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       28     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       29     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       30     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       31     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       32     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       33     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       34     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       35     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       36     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       37     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       38     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       39     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       40     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       41     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       42     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       43     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       44     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       45     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       46     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       47     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       48     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       49     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       50     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       51     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       52     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       53     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       54     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       55     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       56     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       57     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       58     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       59     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       60     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       61     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       62     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       63     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       64     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       65     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       66     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       67     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       68     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       69     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       70     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       71     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       72     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       73     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       74     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       75     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       76     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       77     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       78     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       79     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       80     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       81     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       82     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       83     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       84     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       85     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       86     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       87     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       88     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       89     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       90     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       91     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       92     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       93     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       94     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       95     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       96     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       97     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       98     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+       99     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      100     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      101     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      102     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      103     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      104     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      105     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      106     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      107     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      108     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      109     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      110     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      111     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      112     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      113     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      114     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      115     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      116     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      117     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      118     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      119     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      120     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      121     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      122     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      123     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      124     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      125     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      126     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      127     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      128     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      129     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      130     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      131     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      132     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      133     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      134     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      135     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      136     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      137     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      138     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      139     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      140     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      141     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      142     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      143     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      144     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      145     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      146     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      147     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      148     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      149     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      150     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      151     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      152     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      153     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      154     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      155     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      156     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      157     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      158     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+      159     0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000    0.00000
+
+<psid|psid> =     0.50000000
+
+
+         ------------------------------
+         Dyson orbital, expanded in AOs
+         ------------------------------
+
+       AO                   C(alpha)     C(beta)    X(alpha)     X(beta)    Y(alpha)     Y(beta)    Z(alpha)     Z(beta)
+       --                   --------     -------    --------     -------    --------     -------    --------     -------
+        1 H   1  S           0.00000    -0.00613     0.00000     0.00000     0.00000     0.00000     0.00000     0.02198
+        2 H   1  S           0.00000    -0.06918     0.00000     0.00000     0.00000     0.00000     0.00000     0.02886
+        3 H   1  S           0.00000    -0.48218     0.00000     0.00000     0.00000     0.00000     0.00000     0.57788
+        4 H   1  S           0.00000    -0.27317     0.00000     0.00000     0.00000     0.00000     0.00000    -0.14335
+        5 H   1  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+        6 H   1  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+        7 H   1  Z           0.00000     0.00267     0.00000     0.00000     0.00000     0.00000     0.00000     0.00360
+        8 H   1  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+        9 H   1  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       10 H   1  Z           0.00000     0.00619     0.00000     0.00000     0.00000     0.00000     0.00000     0.01755
+       11 H   1  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       12 H   1  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       13 H   1  Z           0.00000     0.01911     0.00000     0.00000     0.00000     0.00000     0.00000     0.04141
+       14 H   1 XX           0.00000    -0.00007     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00057
+       15 H   1 YY           0.00000    -0.00007     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00057
+       16 H   1 ZZ           0.00000     0.00014     0.00000     0.00000     0.00000     0.00000     0.00000     0.00115
+       17 H   1 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       18 H   1 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       19 H   1 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       20 H   1 XX           0.00000     0.00002     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00138
+       21 H   1 YY           0.00000     0.00002     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00138
+       22 H   1 ZZ           0.00000    -0.00004     0.00000     0.00000     0.00000     0.00000     0.00000     0.00276
+       23 H   1 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       24 H   1 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       25 H   1 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       26 H   1 XXX          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       27 H   1 YYY          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       28 H   1 ZZZ          0.00000    -0.00026     0.00000     0.00000     0.00000     0.00000     0.00000     0.00062
+       29 H   1 XXY          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       30 H   1 XXZ          0.00000     0.00017     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00041
+       31 H   1 YYX          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       32 H   1 YYZ          0.00000     0.00017     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00041
+       33 H   1 ZZX          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       34 H   1 ZZY          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       35 H   1 XYZ          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       36 H   2  S           0.00000     0.00613     0.00000     0.00000     0.00000     0.00000     0.00000     0.02198
+       37 H   2  S           0.00000     0.06918     0.00000     0.00000     0.00000     0.00000     0.00000     0.02886
+       38 H   2  S           0.00000     0.48218     0.00000     0.00000     0.00000     0.00000     0.00000     0.57788
+       39 H   2  S           0.00000     0.27317     0.00000     0.00000     0.00000     0.00000     0.00000    -0.14335
+       40 H   2  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       41 H   2  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       42 H   2  Z           0.00000     0.00267     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00360
+       43 H   2  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       44 H   2  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       45 H   2  Z           0.00000     0.00619     0.00000     0.00000     0.00000     0.00000     0.00000    -0.01755
+       46 H   2  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       47 H   2  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       48 H   2  Z           0.00000     0.01911     0.00000     0.00000     0.00000     0.00000     0.00000    -0.04141
+       49 H   2 XX           0.00000     0.00007     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00057
+       50 H   2 YY           0.00000     0.00007     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00057
+       51 H   2 ZZ           0.00000    -0.00014     0.00000     0.00000     0.00000     0.00000     0.00000     0.00115
+       52 H   2 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       53 H   2 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       54 H   2 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       55 H   2 XX           0.00000    -0.00002     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00138
+       56 H   2 YY           0.00000    -0.00002     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00138
+       57 H   2 ZZ           0.00000     0.00004     0.00000     0.00000     0.00000     0.00000     0.00000     0.00276
+       58 H   2 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       59 H   2 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       60 H   2 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       61 H   2 XXX          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       62 H   2 YYY          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       63 H   2 ZZZ          0.00000    -0.00026     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00062
+       64 H   2 XXY          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       65 H   2 XXZ          0.00000     0.00017     0.00000     0.00000     0.00000     0.00000     0.00000     0.00041
+       66 H   2 YYX          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       67 H   2 YYZ          0.00000     0.00017     0.00000     0.00000     0.00000     0.00000     0.00000     0.00041
+       68 H   2 ZZX          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       69 H   2 ZZY          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       70 H   2 XYZ          0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       71 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.19803
+       72 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00069
+       73 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00749
+       74 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.01022
+       75 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.01563
+       76 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.02329
+       77 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.03060
+       78 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.03246
+       79 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.02516
+       80 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.01233
+       81 BQ  3  S           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00281
+       82 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       83 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       84 BQ  3  Z           0.00000     0.00496     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       85 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       86 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       87 BQ  3  Z           0.00000     0.02218     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       88 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       89 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       90 BQ  3  Z           0.00000     0.03540     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       91 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       92 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       93 BQ  3  Z           0.00000     0.03801     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       94 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       95 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       96 BQ  3  Z           0.00000    -0.04761     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00000
+       97 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       98 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+       99 BQ  3  Z           0.00000     0.06890     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      100 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      101 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      102 BQ  3  Z           0.00000    -0.09089     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00000
+      103 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      104 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      105 BQ  3  Z           0.00000     0.09886     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      106 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      107 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      108 BQ  3  Z           0.00000    -0.07990     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00000
+      109 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      110 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      111 BQ  3  Z           0.00000     0.04138     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      112 BQ  3  X           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      113 BQ  3  Y           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      114 BQ  3  Z           0.00000    -0.01007     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00000
+      115 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00725
+      116 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00725
+      117 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.01450
+      118 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      119 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      120 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      121 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00670
+      122 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00670
+      123 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.01341
+      124 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      125 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      126 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      127 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00114
+      128 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00114
+      129 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00227
+      130 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      131 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      132 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      133 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00153
+      134 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00153
+      135 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00306
+      136 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      137 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      138 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      139 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00209
+      140 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00209
+      141 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00418
+      142 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      143 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      144 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      145 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00292
+      146 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00292
+      147 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00585
+      148 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      149 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      150 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      151 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00378
+      152 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00378
+      153 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00756
+      154 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      155 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      156 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      157 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00411
+      158 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00411
+      159 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00822
+      160 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      161 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      162 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      163 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00339
+      164 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00339
+      165 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00678
+      166 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      167 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      168 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      169 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00182
+      170 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00182
+      171 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00364
+      172 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      173 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      174 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      175 BQ  3 XX           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00047
+      176 BQ  3 YY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000    -0.00047
+      177 BQ  3 ZZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00093
+      178 BQ  3 XY           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      179 BQ  3 XZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+      180 BQ  3 YZ           0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000     0.00000
+
+--- DYSON ORBITALS ---
+ H2 at 2.0 Bohr, ionization of 2^1B_{1u} (2p_\sigma) to X^2\Sigma_g^+ (Sz=+1/2)
+<psid|psid> =     0.50000000
+ $VECDYS
+ 1  1 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  2 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  3 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  4 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  5 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  6 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  7 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  8 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1  9 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 10 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 11 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 12 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 13 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 14 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 18 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 19 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 20 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 21 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 22 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 23 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 24 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 25 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 26 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 27 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 28 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 29 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 30 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 31 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 32 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 33 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 35 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 1 36 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2  1-0.61286110E-02-0.69180697E-01-0.48218326E+00-0.27317405E+00 0.00000000E+00
+ 2  2 0.00000000E+00 0.26675861E-02 0.00000000E+00 0.00000000E+00 0.61933365E-02
+ 2  3 0.00000000E+00 0.00000000E+00 0.19114082E-01-0.72383808E-04-0.72383808E-04
+ 2  4 0.14476762E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.17530644E-04
+ 2  5 0.17530644E-04-0.35061289E-04 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2  6 0.00000000E+00 0.00000000E+00-0.26011389E-03 0.00000000E+00 0.17448970E-03
+ 2  7 0.00000000E+00 0.17448970E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2  8 0.61286110E-02 0.69180697E-01 0.48218326E+00 0.27317405E+00 0.00000000E+00
+ 2  9 0.00000000E+00 0.26675861E-02 0.00000000E+00 0.00000000E+00 0.61933365E-02
+ 2 10 0.00000000E+00 0.00000000E+00 0.19114082E-01 0.72383808E-04 0.72383808E-04
+ 2 11-0.14476762E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00-0.17530644E-04
+ 2 12-0.17530644E-04 0.35061289E-04 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 13 0.00000000E+00 0.00000000E+00-0.26011389E-03 0.00000000E+00 0.17448970E-03
+ 2 14 0.00000000E+00 0.17448970E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.49590106E-02 0.00000000E+00
+ 2 18 0.00000000E+00 0.22182914E-01 0.00000000E+00 0.00000000E+00 0.35399982E-01
+ 2 19 0.00000000E+00 0.00000000E+00 0.38013346E-01 0.00000000E+00 0.00000000E+00
+ 2 20-0.47608531E-01 0.00000000E+00 0.00000000E+00 0.68904324E-01 0.00000000E+00
+ 2 21 0.00000000E+00-0.90886157E-01 0.00000000E+00 0.00000000E+00 0.98863217E-01
+ 2 22 0.00000000E+00 0.00000000E+00-0.79899546E-01 0.00000000E+00 0.00000000E+00
+ 2 23 0.41382159E-01 0.00000000E+00 0.00000000E+00-0.10069110E-01 0.00000000E+00
+ 2 24 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 25 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 26 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 27 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 28 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 29 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 30 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 31 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 32 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 33 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 35 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 2 36 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  1 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  2 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  3 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  4 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  5 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  6 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  7 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  8 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3  9 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 10 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 11 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 12 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 13 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 14 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 18 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 19 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 20 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 21 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 22 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 23 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 24 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 25 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 26 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 27 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 28 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 29 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 30 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 31 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 32 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 33 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 35 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 3 36 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  1 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  2 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  3 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  4 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  5 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  6 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  7 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  8 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4  9 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 10 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 11 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 12 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 13 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 14 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 18 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 19 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 20 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 21 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 22 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 23 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 24 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 25 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 26 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 27 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 28 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 29 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 30 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 31 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 32 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 33 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 35 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 4 36 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  1 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  2 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  3 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  4 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  5 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  6 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  7 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  8 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5  9 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 10 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 11 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 12 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 13 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 14 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 18 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 19 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 20 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 21 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 22 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 23 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 24 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 25 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 26 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 27 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 28 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 29 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 30 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 31 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 32 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 33 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 35 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 5 36 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  1 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  2 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  3 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  4 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  5 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  6 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  7 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  8 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6  9 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 10 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 11 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 12 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 13 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 14 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 18 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 19 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 20 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 21 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 22 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 23 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 24 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 25 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 26 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 27 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 28 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 29 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 30 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 31 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 32 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 33 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 35 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 6 36 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  1 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  2 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  3 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  4 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  5 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  6 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  7 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  8 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7  9 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 10 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 11 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 12 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 13 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 14 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 15 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 16 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 17 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 18 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 19 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 20 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 21 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 22 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 23 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 24 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 25 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 26 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 27 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 28 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 29 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 30 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 31 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 32 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 33 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 35 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 7 36 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 8  1 0.21981126E-01 0.28857042E-01 0.57787688E+00-0.14335469E+00 0.00000000E+00
+ 8  2 0.00000000E+00 0.35976373E-02 0.00000000E+00 0.00000000E+00 0.17548554E-01
+ 8  3 0.00000000E+00 0.00000000E+00 0.41408390E-01-0.57408514E-03-0.57408514E-03
+ 8  4 0.11481703E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00-0.13823048E-02
+ 8  5-0.13823048E-02 0.27646096E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 8  6 0.00000000E+00 0.00000000E+00 0.61757860E-03 0.00000000E+00-0.41428432E-03
+ 8  7 0.00000000E+00-0.41428432E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 8  8 0.21981126E-01 0.28857042E-01 0.57787688E+00-0.14335469E+00 0.00000000E+00
+ 8  9 0.00000000E+00-0.35976373E-02 0.00000000E+00 0.00000000E+00-0.17548554E-01
+ 8 10 0.00000000E+00 0.00000000E+00-0.41408390E-01-0.57408514E-03-0.57408514E-03
+ 8 11 0.11481703E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00-0.13823048E-02
+ 8 12-0.13823048E-02 0.27646096E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 8 13 0.00000000E+00 0.00000000E+00-0.61757860E-03 0.00000000E+00 0.41428432E-03
+ 8 14 0.00000000E+00 0.41428432E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 8 15-0.19803395E+00-0.69141933E-03-0.74898511E-02 0.10216014E-01-0.15630763E-01
+ 8 16 0.23288553E-01-0.30600023E-01 0.32462028E-01-0.25160523E-01 0.12327437E-01
+ 8 17-0.28067251E-02 0.00000000E+00 0.00000000E+00 0.64305751E-19 0.00000000E+00
+ 8 18 0.00000000E+00 0.28765596E-18 0.00000000E+00 0.00000000E+00 0.45904770E-18
+ 8 19 0.00000000E+00 0.00000000E+00 0.49293639E-18 0.00000000E+00 0.00000000E+00
+ 8 20-0.61736151E-18 0.00000000E+00 0.00000000E+00 0.89351378E-18 0.00000000E+00
+ 8 21 0.00000000E+00-0.11785622E-17 0.00000000E+00 0.00000000E+00 0.12820044E-17
+ 8 22 0.00000000E+00 0.00000000E+00-0.10360938E-17 0.00000000E+00 0.00000000E+00
+ 8 23 0.53662131E-18 0.00000000E+00 0.00000000E+00-0.13057074E-18 0.72516277E-02
+ 8 24 0.72516277E-02-0.14503255E-01 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 8 25 0.67038517E-02 0.67038517E-02-0.13407703E-01 0.00000000E+00 0.00000000E+00
+ 8 26 0.00000000E+00-0.11351590E-02-0.11351590E-02 0.22703180E-02 0.00000000E+00
+ 8 27 0.00000000E+00 0.00000000E+00 0.15285474E-02 0.15285473E-02-0.30570947E-02
+ 8 28 0.00000000E+00 0.00000000E+00 0.00000000E+00-0.20894304E-02-0.20894303E-02
+ 8 29 0.41788607E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.29235273E-02
+ 8 30 0.29235272E-02-0.58470545E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ 8 31-0.37787289E-02-0.37787292E-02 0.75574581E-02 0.00000000E+00 0.00000000E+00
+ 8 32 0.00000000E+00 0.41106770E-02 0.41106777E-02-0.82213548E-02 0.00000000E+00
+ 8 33 0.00000000E+00 0.00000000E+00-0.33884363E-02-0.33884375E-02 0.67768738E-02
+ 8 34 0.00000000E+00 0.00000000E+00 0.00000000E+00 0.18209584E-02 0.18209594E-02
+ 8 35-0.36419179E-02 0.00000000E+00 0.00000000E+00 0.00000000E+00-0.46628390E-03
+ 8 36-0.46628423E-03 0.93256813E-03 0.00000000E+00 0.00000000E+00 0.00000000E+00
+ $END   
+
+              Timing data at 2022/08/02 16:06:29
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                          *           1.            1.0           1.0             0.0           0.0
+ initialize_core_data                       1.            0.0           0.0             0.0           0.0
+ GAMESS import - parse                      2.            0.0           0.0             0.0           0.0
+ Superdyson                                 1.            0.9           0.9             0.0           0.0
+ Initialization                             1.            0.9           0.9             0.0           0.0
+ check_input_consistency                    1.            0.9           0.9             0.9           0.9
+ AO->MO                                     1.            0.0           0.0             0.0           0.0
+ mat_ao_to_mo                               4.            0.0           0.0             0.0           0.0
+
+ ( 14 timers contributing less than 1% are not shown)
+
+
+              Timing data at 2022/08/02 16:06:29
+
+                                                       Total time (seconds)           Self time (seconds)
+ Timer                                   Calls         --------------------           -------------------
+ -----                                   -----           Real           CPU            Real           CPU
+
+ start                                      1.            1.0           1.0             0.0           0.0
+ initialize_core_data                       1.            0.0           0.0             0.0           0.0
+ GAMESS import - parse                      2.            0.0           0.0             0.0           0.0
+ Superdyson                                 1.            0.9           0.9             0.0           0.0
+ Initialization                             1.            0.9           0.9             0.0           0.0
+ check_input_consistency                    1.            0.9           0.9             0.9           0.9
+ AO->MO                                     1.            0.0           0.0             0.0           0.0
+ mat_ao_to_mo                               4.            0.0           0.0             0.0           0.0
+
+ ( 14 timers contributing less than 1% are not shown)
+

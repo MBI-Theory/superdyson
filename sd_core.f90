@@ -1073,7 +1073,11 @@ contains
         adet(spinref,spinion) = amo(moref,moion)
       end do ref_alpha
     end do ion_alpha
-    nalpharef = spinref
+    ! Embarassing and long-standing bug: if (ion) determinant contains
+    ! only beta-spin electrons, nalpharef will be zero, which leads
+    ! to wrong results elewhere. Oops.
+    ! nalpharef = spinref
+    nalpharef = count(occbra(:nmobra)==1) + count(occbra(:nmobra)==2)
     !
     !  Beta-beta overlaps - bottom right corner of sdet
     !
