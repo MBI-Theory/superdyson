@@ -31,11 +31,12 @@ out_dyson="$(awk '/^ \$VECDYS/,/^ \$END/' "$out")"
 #
 function chop_dyson () {
   echo "$1" | awk \
-'/^[ 0-9.+-ED]*$/{ 
+'/^[ 0-9.+-EDed]*$/{ 
   printf "%d %d",substr($0,1,2),substr($0,3,3); 
   for (i=0;i<5;i++) printf " %.7f", substr($0,6+15*i,15) ;
   printf "\n" ;
-  }'
+  }' - | awk '{gsub(" [+-]0?.0000000 "," 0.0000000 ");
+               gsub(" [+-]0?.0000000$"," 0.0000000");print}'
   }
 
 if [ -n "$ref_dyson" ] ; then
