@@ -183,10 +183,10 @@ contains
     !
     !  Cut-off statistics
     !
-    write (out,"('          Determinant pairs processed: ',f13.0)") det_included
-    write (out,"('  Determinant pairs cut off by weight: ',f13.0)") det_cutoff
-    write (out,"('Determinant pairs cut off by distance: ',f13.0)") det_distant
-    write (out,"('Determinant pairs cut off by symmetry: ',f13.0)") det_earlyzero
+    write (out,"('          Determinant pairs processed: ',f23.0)") det_included
+    write (out,"('  Determinant pairs cut off by weight: ',f23.0)") det_cutoff
+    write (out,"('Determinant pairs cut off by distance: ',f23.0)") det_distant
+    write (out,"('Determinant pairs cut off by symmetry: ',f23.0)") det_earlyzero
     !
     write (out,"(/t5,'1-RDM in the MO basis'/)")
     call print_matrix(rdm_mo)
