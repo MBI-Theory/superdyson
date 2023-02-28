@@ -34,3 +34,6 @@
 
 # Pre-processed Fortran sources
 preprocess/*.f90
+
+# Dependencies file
+makefile.dep

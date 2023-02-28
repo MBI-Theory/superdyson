@@ -42,19 +42,19 @@ fi
 function header () {
   local file="$1" ;
   # Extract C1 geometry section from the .dat file
-  bzcat --force ${file}.dat* | awk -f ${sd_loc}/extract_dat.awk -
-  bzcat --force ${file}.inp* | awk '/^ \$ECP/,/^ \$END/'
+  bzcat --force --quiet ${file}.dat* | awk -f ${sd_loc}/extract_dat.awk -
+  bzcat --force --quiet ${file}.inp* | awk '/^ \$ECP/,/^ \$END/'
   }
 #
 function orbitals () {
   local file="$1" ;
 
   header "${file}" ;
-  if bzcat --force ${file}.dat* | grep -sq 'ALPHA MOS: Orbitals at the entry to CI calculation' > /dev/null ; then
-    bzcat --force ${file}.dat* | awk '/ALPHA MOS: Orbitals at the entry to CI calculation/,/^ \$END/'
+  if bzcat --force --quiet ${file}.dat* | grep -sq 'ALPHA MOS: Orbitals at the entry to CI calculation' > /dev/null ; then
+    bzcat --force --quiet ${file}.dat* | awk '/ALPHA MOS: Orbitals at the entry to CI calculation/,/^ \$END/'
   else
     echo "WARNING: CI MOs not found, extracting \$VEC section" > /dev/stderr
-    bzcat --force ${file}.dat* | awk '/^ \$VEC/,/^ \$END/'
+    bzcat --force --quiet ${file}.dat* | awk '/^ \$VEC/,/^ \$END/'
   fi
   }
 #
@@ -63,12 +63,12 @@ function determinants () {
   local state="$2" ;
   # If state is longer than 3 characters, treat it as a determinant list
   if [ "$(echo "$state" | wc -c)" -gt 4 ] ; then
-    bzcat --force ${state}*
+    bzcat --force --quiet ${state}*
   else
-    bzcat --force ${file}* | ${sd_loc}/det_conv.awk state="${state}"
+    bzcat --force --quiet ${file}* | ${sd_loc}/det_conv.awk state="${state}"
   fi
 # Delete the 1s core orbitals from the comparison - we do not care about those
-# bzcat --force ${file}* | ~/superdyson/det_conv.awk state="${state}" | sed -e 's/  2 2 /  0 0 /'
+# bzcat --force --quiet ${file}* | ~/superdyson/det_conv.awk state="${state}" | sed -e 's/  2 2 /  0 0 /'
   }
 #
 orbitals "${ls}" > "${tmpdir}/ls_orbs.dat"
