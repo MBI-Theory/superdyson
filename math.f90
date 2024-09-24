@@ -22,7 +22,7 @@ module math
   public MathInterpolate
   public rcsid_math
 !
-  character(len=clen), save :: rcsid_math = "$Id: math.f90,v 1.4 2021/09/29 13:43:22 ps Exp $"
+  character(len=clen), save :: rcsid_math = "$Id: math.f90,v 1.5 2022/08/02 08:51:57 ps Exp $"
 !
 !  Fortran does not allow choosing a specific function based on the type
 !  of the result alone. Therefore, we are forced to use some trickery.

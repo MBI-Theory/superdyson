@@ -43,7 +43,7 @@ module sd_core
                        ! must be public.
   private sd_v2
   !
-  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.30 2021/09/29 13:43:22 ps Exp $"
+  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.31 2022/08/02 14:12:59 ps Exp $"
   !
   integer, parameter      :: lk = kind(.true.)
   integer, parameter      :: lchar = 1024

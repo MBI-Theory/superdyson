@@ -7,7 +7,7 @@
     public
     !
     character(len=clen), save :: rcsid_os_integral_operators = &
-       "$Id: os_integral_operators.f90,v 1.3 2021/09/29 13:46:03 ps Exp ps $"
+       "$Id: os_integral_operators.f90,v 1.3 2021/09/29 13:46:03 ps Exp $"
     !
     !  1/(1+r**2) - needed to implement soft-coulomb integrals and complex
     !  continuation of the Coulomb interaction

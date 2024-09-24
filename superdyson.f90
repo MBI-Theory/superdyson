@@ -41,7 +41,7 @@ module superdyson
   public call_superdyson
   public rcsid_superdyson
   !
-  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.30 2021/09/29 13:43:22 ps Exp $"
+  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.32 2024/09/24 16:08:06 ps Exp ps $"
   !
   !  Local data for dyson
   !
@@ -479,8 +479,8 @@ contains
     real(rk), intent(in)    :: wdysondet(:,:) ! One determinant's contribution to the Dyson/exchange orbital
     real(rk), intent(inout) :: wdyson(:,:,:)  ! Thread-private copy of wdyson
     !
-    integer(ik) :: moref   ! Spatial MO indices
-    integer(ik) :: spinref ! Spin+space MO indices
+    integer(ik) :: moref     ! Spatial MO indices
+    integer(ik) :: spinref   ! Spin+space MO indices
     !
     call TimerStart('accumulate_dyson')
     !

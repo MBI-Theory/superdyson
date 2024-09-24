@@ -28,7 +28,9 @@ program sd_v2
     case ('braket','BRAKET')
       call call_superdyson
     case ('1-rdm','1-RDM')
-      call call_tr_1rdm
+      call call_tr_1rdm(spin_resolved=.false.)
+    case ('1-srdm','1-SRDM')
+      call call_tr_1rdm(spin_resolved=.true.)
   end select
   call TimerStop('start')
   call TimerReport

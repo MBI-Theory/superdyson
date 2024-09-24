@@ -1,0 +1,17 @@
+ &SD_V2
+   verbose         = 1,
+   task            = '1-srdm',
+   comment         = 'Ar2+ X^2\Sigma_u^+ (Sz=-1/2) to X^2\Sigma_u+ (Sz=+1/2)'
+   nmobra          = 18,
+   nmoket          = 18,
+   ndetbra         = 1
+   ndetket         = 1
+   eps_cdet        = 1e-10,
+   dont_check_s2   = .false.,
+   file_cbra       = 'qc/ar2p.mos',
+   file_cket       = 'qc/ar2p.mos',
+   file_detbra     = 'qc/ar2p-a.dets'
+   file_detket     = 'qc/ar2p-b.dets'
+   use_symmetry    = .false.
+   detail_timers   = .true.
+  /

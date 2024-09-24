@@ -1,6 +1,6 @@
 exit 1
 
-Last updated: Sept. 29, 2021
+Last updated: Sept. 24, 2024
 ============
 
 IMPORTANT:
@@ -189,6 +189,12 @@ default value is given after the equals sign.
              singular value decomposition. When bra and ket coincide, the 
              decomposition is identical to the natural orbitals and their
              occupation numbers.
+
+  '1-srdm' - Similar to '1-rdm', but calculates spin-resolved density matrix,
+             which is represented by four spin blocks (AA, AB, BA, and BB).
+             The '1-rdm' result is equivalent to the sum of the "AA" and "BB"
+             blocks of '1-srdm', but keep in mind that the singular vectors
+             may well be different!
 
  BRAKET_OPERATOR = 'dipole' 
 

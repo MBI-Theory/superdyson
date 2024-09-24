@@ -1,0 +1,17 @@
+ &SD_V2
+   verbose         = 1,
+   task            = '1-srdm',
+   comment         = 'H2+ X^2\Sigma_g^+ (Sz=+1/2) to X^2\Sigma_g+ (Sz=-1/2)'
+   nmobra          = 1,
+   nmoket          = 1,
+   ndetbra         = 1
+   ndetket         = 1
+   eps_cdet        = 1e-10,
+   dont_check_s2   = .false.,
+   file_cbra       = 'qc/h2+.mos',
+   file_cket       = 'qc/h2+.mos',
+   file_detbra     = 'qc/h2+gs_b.dets'
+   file_detket     = 'qc/h2+gs_a.dets'
+   use_symmetry    = .true.
+   detail_timers   = .true.
+  /

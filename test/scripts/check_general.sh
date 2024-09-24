@@ -20,8 +20,8 @@ out_dip="$(awk '/^Transition dipole is /{print substr($0,22)}' "$out")"
 ref_oper="$(awk '/^Matrix element of .* operator is:$/{ do { print getline ; } while (NF>=1&&NF<=3) }' "$ref")"
 out_oper="$(awk '/^Matrix element of .* operator is:$/{ do { print getline ; } while (NF>=1&&NF<=3) }' "$out")"
 #
-ref_rdm="$(awk '/^ \$RDMPCE/,/^ \$END/' "$ref")"
-out_rdm="$(awk '/^ \$RDMPCE/,/^ \$END/' "$out")"
+ref_rdm="$(awk '/^ \$RDMPCE/,/^ \$END/' "$ref" | sed -e 's/ *$//')"
+out_rdm="$(awk '/^ \$RDMPCE/,/^ \$END/' "$out" | sed -e 's/ *$//')"
 #
 ref_dysnrm="$(awk '/^<psid|psid>/{print $3;exit;}' "$ref")"
 out_dysnrm="$(awk '/^<psid|psid>/{print $3;exit;}' "$out")"
@@ -86,7 +86,7 @@ else
       echo "operator out: $out_oper" 
     fi
     if [ "$ref_rdm" != "$out_rdm"  ] ; then
-      echo "1-RDM singulal values ref: $ref_rdm" 
+      echo "1-RDM singular values ref: $ref_rdm" 
       echo "1-RDM singular values out: $out_rdm" 
     fi
     if [ "$ref_dysnrm" != "$out_dysnrm"  ] ; then
