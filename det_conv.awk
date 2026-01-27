@@ -2,6 +2,7 @@
 #
 #  Version 18 June 2011, with checks for common input mistakes in GAMESS runs
 #          04 Feb  2015, supressing zero-amplitude determinants altogether
+#          27 Jan  2026, add determinantal-CIS support
 #
 #  Extract determinant list from GAMESS CI run.
 #
@@ -9,6 +10,7 @@
 #    ALDET - Determinantal full CI
 #    GEN   - Determinantal general CI
 #    ORMAS - Determinantal occupation-restricted CI
+#    CIS   - Requires HAMTYP=DETS
 #
 #  There is only one input parameter:
 #
@@ -25,23 +27,26 @@ BEGIN {
   }
 #
 #  Check for the most common mistakes in GAMESS CI preparation
+#  These warnings should no longer be necessary. now that we dump the orbitals
+#  right before the CI calculation starts.
 #
-/^ SCFTYP=/ && !/^ SCFTYP=NONE / {
-  printf "WARNING: ORBITALS WILL BE RECOMPUTED (%s). THE TOTAL WAVEFUNCTION IS LIKELY WRONG!\n", $1 > "/dev/stderr" ;
-  }
-/^  *TOLZ  *= .* TOLE  *= / && ( ($3>0.0) || ($6>0.0) ) {
-  printf "WARNING: ORBITALS WILL BE MODIFIED BY $GUESS (TOLZ OR TOLE ARE NOT ZERO). THE TOTAL WAVEFUNCTION IS LIKELY WRONG!\n" > "/dev/stderr" ;
-  }
-/^  *SYMDEN= .* PURIFY= / && ( ($2!="F") || ($4!="F") ) {
-  printf "WARNING: ORBITALS WILL BE SYMMETRIZED BY $GUESS (SYMDEN OR PURIFY ARE TRUE). THE TOTAL WAVEFUNCTION IS LIKELY WRONG!\n" > "/dev/stderr" ;
-  }
-/^ INPUT CARD>[^!]* IPURFY=[12]/ {
-  printf "WARNING: IPURFY MAY BE ACTIVE IN $TRANS. THE TOTAL WAVEFUNCTION MAY BE WRONG!\n" > "/dev/stderr" ;
-  }
+#/^ SCFTYP=/ && !/^ SCFTYP=NONE / {
+#  printf "WARNING: ORBITALS WILL BE RECOMPUTED (%s). THE TOTAL WAVEFUNCTION IS LIKELY WRONG!\n", $1 > "/dev/stderr" ;
+#  }
+#/^  *TOLZ  *= .* TOLE  *= / && ( ($3>0.0) || ($6>0.0) ) {
+#  printf "WARNING: ORBITALS WILL BE MODIFIED BY $GUESS (TOLZ OR TOLE ARE NOT ZERO). THE TOTAL WAVEFUNCTION IS LIKELY WRONG!\n" > "/dev/stderr" ;
+#  }
+#/^  *SYMDEN= .* PURIFY= / && ( ($2!="F") || ($4!="F") ) {
+#  printf "WARNING: ORBITALS WILL BE SYMMETRIZED BY $GUESS (SYMDEN OR PURIFY ARE TRUE). THE TOTAL WAVEFUNCTION IS LIKELY WRONG!\n" > "/dev/stderr" ;
+#  }
+#/^ INPUT CARD>[^!]* IPURFY=[12]/ {
+#  printf "WARNING: IPURFY MAY BE ACTIVE IN $TRANS. THE TOTAL WAVEFUNCTION MAY BE WRONG!\n" > "/dev/stderr" ;
+#  }
 #
 function vp() {
   if (verbose>0) printf "%08d: %s\n", NR, $0 > "/dev/stderr" ;
   }
+function abs(x) { return (x<0)?(-x):(x) ; }
 #
 #  Choose which set of determinats to use.
 #  For CI, we want the first (and only) set.
@@ -87,9 +92,10 @@ function count_orbs(ind,start,end,  i,count) {
 (NR>=sl) && /^ *$/ { vp() ; exit ; }
 (NR>=sl) && /DONE WITH DETERMINANT CI COMPUTATION/ { vp() ; exit ; }
 #
-#  Locating the right state - CIS
+#  Locating the right state - CIS. Note that CIS numbers excited states,
+#  so that the ground state has to be treated separately.
 #
-(cango>0)&&/^ *EXCITED STATE .* ENERGY= .* S = .* SPACE SYM/&&($3==state) {
+(cango>0)&&/^ *EXCITED STATE .* ENERGY= .* S = .* SPACE SYM/&&($3==(state-1)) {
   printf "%08d: %s\n", NR, $0 > "/dev/stderr" ;
   scis = NR + 6 ;
   }
@@ -150,7 +156,7 @@ function count_orbs(ind,start,end,  i,count) {
       }
     }
   #
-  if (fields[ib2+1]==0.0) next ;
+  if (abs(fields[ib2+1])<1e-12) next ;
   printf " %16.12f ", fields[ib2+1] ;
   for (orb=1;orb<=ncore;orb++) { printf " 2" ; }
   #
@@ -169,7 +175,7 @@ function count_orbs(ind,start,end,  i,count) {
 #
 (type=="aldet")&&(NR>=sl) {
   sa=$1 ; sb=$3 ; wgt=$5 ;
-  if (wgt==0.0) next ;
+  if (abs(wgt)<1e-12) next ;
   printf " %16.12f ", wgt ;
   for (i=1;i<=ncore;i++) printf " 2" ;
   for (i=1;i<=nact;i++) {
@@ -189,22 +195,27 @@ function count_orbs(ind,start,end,  i,count) {
 #  CIS dump
 #
 #  Special case: The reference state, CIS
-(type=="detcis")&&(state==0) {
+(type=="detcis")&&(state==1) {
   printf " 1.0 " ;
-  for (i=1;i<=nocc+ncore;i++) {
+  for (i=1;i<=ncore;i++) {
     printf " 2" ;
+    }
+  for (;i<=nocc+ncore;i++) {
+    printf "  2" ;
     }
   printf "\n" ;
   exit ;
   }
 (type=="detcis")&&(NR>=scis) {
-  printf "DETERMINANTAL CIS IMPORT IS CURRENTLY BROKEN" > "/dev/stderr" ;
-  exit ;
   vp() ;
   src = $2 ; dst = $3 ; wgt = $4 ;
-  if (wgt==0.0) next ;
-  printf " %16.12f ", wgt ;
-  for (i=1;i<=nocc+ncore;i++) {
+  if (abs(wgt)<1e-12) next ;
+  sign = (-1)^(nocc+ncore-src) ; # Phase correction - from CIS orbital substitution to alpha//beta
+  printf " %16.12f ", sign * wgt ;
+  for (i=1;i<=ncore;i++) {
+    printf " 2" ;
+    }
+  for (;i<=nocc+ncore;i++) {
     if (i!=src) { printf "  2" ; }
     else {
       if ($1=="ALPHA") { printf " -1" ; }
@@ -222,9 +233,14 @@ function count_orbs(ind,start,end,  i,count) {
   }
 #{ print $0 > "/dev/stderr" }
 /PUNCHED ALPHA MOS: Orbitals at the entry to CI calculation/ { nopunchwarning = 1 ; }
+/PUNCHED ALPHA CIS MOS: Orbitals at the entry to CI calculation/ { nocispunchwarning = 1 ; }
 END {
-  if ( ! nopunchwarning ) {
+  if ( ! nopunchwarning && type!="detcis" ) {
     printf "WARNING: ALL GAMESS VERSIONS AFTER 2009 MAY MESS UP ORBITAL PHASE, REGARDLESS OF THE INPUT OPTIONS\n" > "/dev/stderr" ;
-    printf "WARNING: PLEASE USE A HACKED VERSION, WHICH DUMPS ACTUAL ORBITALS IN CI TO THE PUNCH FILE\n" > "/dev/stderr" ;
+    printf "WARNING: PLEASE USE A HACKED VERSION, WHICH DUMPS THE ACTUAL ORBITALS IN CI TO THE PUNCH FILE\n" > "/dev/stderr" ;
+    }
+  if ( ! nocispunchwarning && type=="detcis" ) {
+    printf "WARNING: STOCK GAMESS EXECUTABLE MESSES UP CIS ORBITAL PHASES. THE RESULTS WILL BE CHAOTIC.\n" > "/dev/stderr" ;
+    printf "WARNING: PLEASE USE A HACKED VERSION, WHICH DUMPS THE ACTUAL ORBITALS IN CIS TO THE PUNCH FILE\n" > "/dev/stderr" ;
     }
   }

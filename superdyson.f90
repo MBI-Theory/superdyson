@@ -41,7 +41,7 @@ module superdyson
   public call_superdyson
   public rcsid_superdyson
   !
-  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.32 2024/09/24 16:08:06 ps Exp ps $"
+  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.32 2024/09/24 16:08:06 ps Exp $"
   !
   !  Local data for dyson
   !

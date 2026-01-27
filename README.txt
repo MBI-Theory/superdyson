@@ -1,6 +1,6 @@
 exit 1
 
-Last updated: Sept. 24, 2024
+Last updated: Jan. 27, 2026
 ============
 
 IMPORTANT:
@@ -11,10 +11,10 @@ IMPORTANT:
 Property evaluation for general CI expansions. All the quantum chemistry data
 (orbitals and CI coefficients - we can do our own 1-electron integrals now) are
 taken from GAMESS-US. Unfortunately, the GAMESS interface is not fully
-automated - it is a sequence of scripts. Please note that (a simple) GAMESS
+automated - it is a sequence of scripts. Please note that (a simple-ish) GAMESS
 source code modification is required to obtain reliable results (see below).
 
-At the moment, we support: 
+At the moment, we support:
 
 - overlap integrals, including displaced geometries
 - transition dipoles
@@ -51,64 +51,73 @@ What to do:
 
 1a. Copy "ps_savemos.src" from the superdyson home directory to the GAMESS-US
     source directory (e.g. ~/gamess/source).
-1b. Edit "gamess.src" to insert a call to ps_savemos right before the CI 
-    packages are called. The exact location will depend on the version of
-    GAMESS; in 05DEC2014R1 it is:
+1b. Edit "gamess.src" to insert a call to ps_savemos right before the non-CIS
+    CI packages are called (CIS is handled elesewhere). The exact location will
+    depend on the version of GAMESS; in 15JUL2024R2P1 it is:
 
-2967 C
-2968   500 CONTINUE
-2969 C
-2970       CALL PS_SAVEMOS('Orbitals at the entry to CI calculation')   <- THIS IS THE LINE TO ADD
-2971 C
-2972 C              ===== EXECUTE THE DESIRED CI PACKAGE =====
-2973 C     THE CI COMPUTATION IS EXPECTED TO PRODUCE A DENSITY MATRIX FOR
-2974 C     SOME SPECIFIC STATE, AND FALL INTO PROPERTY EVALUATION BELOW.
+  3294       IF(CITYP.EQ.CIS .OR. CITYP.EQ.SFCIS) THEN
+  3295          CALL WFNCIS
+  3296          RETURN
+  3297       END IF
+  3298 C
+  3299       CALL PS_SAVEMOS('Orbitals at the entry to CI calculation')
+  3300 C
+  3301 C        CARRY OUT A DETERMINANT BASED NEO FULL CI COMPUTATION
+  3302 C
 
-1c. (optional) Increase the number of significant digits in the CI 
+1c. Edit "cisgrd.src" to insert a call to ps_savemos_cis right after the phases
+    of the molecular orbitals have been adjusted, like this:
+
+   506       CALL DAREAD(IDAF,IODA,X(LVEC),NBF3,15,0)
+   507       CALL STFASE(X(LVEC),NBF,NBF,NQMT)
+   508       CALL DAREAD(IDAF,IODA,X(IENG),NBF,17,0)
+   509 C
+   510       CALL PS_SAVEMOS_CIS(X(LVEC),
+   511      &                    'Orbitals at the entry to CI calculation')
+   512 C
+   513    90 CONTINUE
+
+1d. (optional) Increase the number of significant digits in the CI
     coefficient printout. Usually, GAMESS-US only prints 7 digits after
     the decimal for the CI coefficients; this will limit the accuracy
-    of the results you can get from superdyson. The print statements you 
+    of the results you can get from superdyson. The print statements you
     are looking for are in aldeci.src, algnci.src, and ormas1.src. They
     look something like this:
 
       IF(MASWRK) WRITE(IW,'(4A,F10.7)') CONA(1:NACT+2),'|',
      *                                  CONB(1:NACT+2),'|  ',CI(IPOS)
 
-    Replace "F10.7" with "F17.14".
+    Replace "F10.7" with "F17.14". The similar change in cisgrd.src needs
+    to be made to two of the FORMAT statements, replacing the F12.8 format
+    by F22.18.
+
+   7070 FORMAT(7X,'ALPHA',3X,I5,12X,I5,10X,F12.8)
+   7072 FORMAT(7X,'BETA ',3X,I5,12X,I5,10X,F12.8)
 
     Please note that this modification will change the main GAMESS
     output. If you have any tools or visualization programs parsing
     this output, they may fail to work with the modified version. If
-    you are not the only user of GAMESS-US on your system, you may 
+    you are not the only user of GAMESS-US on your system, you may
     want to keep the modified version separate.
 
-1d. Change GAMESS-US build scripts to include the additional file.
+1e. Change GAMESS-US build scripts to include the additional file.
     In compall, you will need to add something like this:
 
-616 endif
-617 #
-618 ./comp ps_savemos # <- This is the new line
-619 #
-620 unset echo
-621 echo ------------------- done with all compilations --------------------
+  538 ./comp zmatrx
+  539 ./comp ps_savemos   # <- This is the new line
+  540 #
+  541 # gamess-base-end-section
+  542 #
+
 
     In lked, something like this should work:
 
-1370 #
-1371 $LDR  $EXTRA_LINK_FLAGS:q -o $GMS_BUILD_DIR/$EXE.$VERNO.x $LDOPTS \
-1372       gamess.o unport.o ps_savemos.o $BLAS $LAPACK $VECTOR $QUICHE \
-                             ^^^^^^^^^^^^ This is the extra bit
-1373       $STANDARD_GAMESS_OBJ1 \
-1374       $STANDARD_GAMESS_OBJ2 \
-1375       $STANDARD_GAMESS_OBJ3 \
-1376       $QMMMOBJ $VBOBJ $NEOOBJ $NBOOBJ \
-1377       $GMS_EXTRA_OBJS \
-1378       $CCHEM_LIBS \
-1379       $MPQCOBJ $MPQCLIBS $LIBINT \
-1380       $MSG_LIBRARIES $LIBRARIES $EXTRA_MPI_LIB_FLAGS:q
-1381 #
+  1359                           modules_dft.o mod_vvos.o modf77_aambs.o utils_strings.o modules_common.o messages.o \
+  1360                           fcidump.o ps_savemos.o)    # <- We've added ps_savemos.o here
+  1361 if ($GMS_MSUAUTO == true) then
+  1362    set STANDARD_GAMESS_OBJ4=(ccsd3aacgreorder.o ccsd3aacgsum.o ccsd3aacgt1A00.o \
 
-1e. Compile and link GAMESS-US as described in GAMESS documentation.
+1f. Compile and link GAMESS-US as described in GAMESS documentation.
 
 2. Installation of superdyson
 
@@ -119,7 +128,7 @@ will be called from a parallel region).
 
 2a. Edit the Makefile to choose your compiler and libraries. There are sample
     command lines for gfortran (recommended) and Intel Fortran (likely to produce
-    slower OpenMP code); however, these will likely need some adjustments. 
+    slower OpenMP code); however, these will likely need some adjustments.
 
 2b. Run "make". If everything goes right, at the end you should have an
     executable binary, "sd_v2.x" in the current directory. If things go
@@ -134,14 +143,14 @@ Successful compilation does not guarantee the <i>correct</i> compilation
 libraries have also been known to pop up in some Linux distributions).
 
 The next step is to run the test set. It is found in the "test" subdirectory.
-In order to run all tests, switch to the test subdirectory, and execute the 
+In order to run all tests, switch to the test subdirectory, and execute the
 command:
 
 ./run-all.sh
 
 Depending on the speed of your computer, the test set may take several hours
 to complete. The test script will also verify some key output from the code.
-If it reports "OK:", the test is likely completed successfully. 
+If it reports "OK:", the test is likely completed successfully.
 
 Some false negatives are possible for very small results. For example, the
 test case "n2-lowdin_prop_nosym.inp" will be frequently reported as "NOTOK:".
@@ -160,7 +169,7 @@ existing outputs to the reference without re-running the calculations.
 4. Input description
 
 This section describes the "V2" input for superdyson. There is also the
-legacy "V1" input, implemented as separate codes (superdyson.f90 and 
+legacy "V1" input, implemented as separate codes (superdyson.f90 and
 tr_1rdm.f90). Unless you know what and why you are doing, stay away from
 these two.
 
@@ -173,20 +182,20 @@ default value is given after the equals sign.
 
   Task to perform. Can be one of:
 
-  'braket' - Evaluate integrals of the form <bra|ket> and <bra|op|ket>. 
+  'braket' - Evaluate integrals of the form <bra|ket> and <bra|op|ket>.
 
-             If the bra and ket wavefunctions have the same number of 
-             electrons, these become overlap and 1-electron property integrals. 
+             If the bra and ket wavefunctions have the same number of
+             electrons, these become overlap and 1-electron property integrals.
 
-             If the ket wavefunction has one electron less than the bra 
-             wavefunction, <bra|ket> is the Dyson orbital. In the <bra|op|ket> 
-             integral, the property operator is taken as a sum over all 
+             If the ket wavefunction has one electron less than the bra
+             wavefunction, <bra|ket> is the Dyson orbital. In the <bra|op|ket>
+             integral, the property operator is taken as a sum over all
              coordinates of the ket wavefunction. If op = 'dipole', <bra|op|ket>
              is the "craddle" orbital of [PRA 80, 063411 (2009)].
-   
+
   '1-rdm'  - Calculates McWeeny's 1-particle reduced density matrix between the
-             bra and the ket wavefunctions. The 1-rdm is represented by its 
-             singular value decomposition. When bra and ket coincide, the 
+             bra and the ket wavefunctions. The 1-rdm is represented by its
+             singular value decomposition. When bra and ket coincide, the
              decomposition is identical to the natural orbitals and their
              occupation numbers.
 
@@ -196,7 +205,7 @@ default value is given after the equals sign.
              blocks of '1-srdm', but keep in mind that the singular vectors
              may well be different!
 
- BRAKET_OPERATOR = 'dipole' 
+ BRAKET_OPERATOR = 'dipole'
 
    Definition of the operator for TASK='braket'. Can be one of:
 
@@ -207,10 +216,10 @@ default value is given after the equals sign.
    'kinetic'  - Kinetic energy operator [0.5 * (d^2/dx^2 + d^2/dy^2 + d^2/dz^2)]
 
    'dipole'   - Coordinate expectation [(x,y,z)]. This is a 3-component vector.
-                If the true dipole is needed, please do not forget to multiply 
+                If the true dipole is needed, please do not forget to multiply
                 by the electron charge!
 
-   'velocity' - Velocity operator [(d/dx,d/dy,d/dz)]. This is a 3-component 
+   'velocity' - Velocity operator [(d/dx,d/dy,d/dz)]. This is a 3-component
                 vector.
 
    'r-d/dr'   - Mixed coordinate expectation - coordinate derivative operator.
@@ -223,7 +232,7 @@ default value is given after the equals sign.
 
    'r'        - Linear attraction [|r-R|]. The probe position R must be
                 specified as OP_CENTRE.
-            
+
    'r**2'     - Harmonic attraction [|r-R|^2]. The probe position R must be
                 specified as OP_CENTRE.
 
@@ -234,46 +243,46 @@ default value is given after the equals sign.
                 The probe postion and exponent are in OP_CENTRE and OP_GAUSS.
 
    Many other operators are available in the integral package, but are not
-   currently accessible through the BRACKET_OPERATOR input. 
+   currently accessible through the BRACKET_OPERATOR input.
    See import_gamess.f90 for the complete list of operators implemented.
 
- OP_CENTRE = 0.0, 0.0, 0.0 
+ OP_CENTRE = 0.0, 0.0, 0.0
 
    Operator position. See BRACKET_OPERATOR above.
 
- OP_GAUSS = 1.0 
+ OP_GAUSS = 1.0
 
    Operator exponent. See BRACKET_OPERATOR above.
 
- COMMENT = ' ' 
+ COMMENT = ' '
 
    Arbitrary string. It will be included in the output, but is not otherwise
    used in any way.
 
- NMOBRA = 0 
+ NMOBRA = 0
 
    Number of single-particle orbitals (not electrons!) which appear in the
    bra wavefunction. In the GAMESS CI terms, this is the sum of the number
-   of frozen, core, and active MOs. 
+   of frozen, core, and active MOs.
 
- NMOKET = 0 
+ NMOKET = 0
 
    Number of single-particle orbitals in the ket wavefunction.
 
- NDETBRA = 0 
+ NDETBRA = 0
 
    Number of determinants in the bra wavefunction.
 
- NDETKET = 0 
+ NDETKET = 0
 
    Number of determinants in the ket wavefunction.
 
- EPS_CDET = 1e-5_rk  
- 
+ EPS_CDET = 1e-5_rk
+
    Cut-off for the product of determinant amplitudes. The default cut-off
    is propably too loose for most quantitative calculations.
 
- DONT_CHECK_S2 = .false. 
+ DONT_CHECK_S2 = .false.
 
    Disable calculation of the norm and S^2 expectation values for the
    input wavefunctions. The algorithm we use for calculating <S^2> is
@@ -281,7 +290,7 @@ default value is given after the equals sign.
    dominate the overall calculation. If you are sure that all inputs
    are correct, this is a simple way of speeding up things a bit.
 
- FILE_CBRA = ' ' 
+ FILE_CBRA = ' '
 
    Name of the file containing molecular geometry, basis set, and MO
    coefficient specification. Superdyson accepts a subset of GAMESS-US
@@ -296,14 +305,14 @@ default value is given after the equals sign.
 
    Section 5 below gives an example of how this file may be prepared.
 
- FILE_CKET = ' ' 
+ FILE_CKET = ' '
 
    Name of the MO file for the ket wavefunction (see FILE_CBRA).
 
-   Some or all of the geometry, basis set, and the MO coefficients can 
+   Some or all of the geometry, basis set, and the MO coefficients can
    differ from those used for the bra wavefunction. However, if the
    single-particle orbitals of the ket coincide with the orbitals used
-   by the bra, the more numerically efficient Slater rules will be 
+   by the bra, the more numerically efficient Slater rules will be
    used.
 
  FILE_DETBRA = ' '
@@ -313,7 +322,7 @@ default value is given after the equals sign.
    described by the amplitude (a real number), followed by NMOBRA
    integers. The integers give the occupation of the single-particle
    orbitals in this determinant (+1: alpha-spin electron; -1: beta-spin
-   electron; 2: both alpha- and beta-spin electrons). 
+   electron; 2: both alpha- and beta-spin electrons).
 
    All determinants must have the same number of electrons.
 
@@ -324,7 +333,7 @@ default value is given after the equals sign.
 
    Section 5 below gives an example of how this file may be prepared.
 
- FILE_DETKET = ' ' 
+ FILE_DETKET = ' '
 
    Similar to FILE_DETBRA, but for the ket wavefunction.
 
@@ -351,7 +360,7 @@ default value is given after the equals sign.
 
  SIGN_BRA = 1.0
 
-   The bra wavefunction is multiplied by the factor SIGN_BRA 
+   The bra wavefunction is multiplied by the factor SIGN_BRA
    (which does not have to be a unity). This is useful for producing
    globally-consistent property surfaces without modifying the
    actual wavefunctions.
@@ -364,7 +373,7 @@ default value is given after the equals sign.
 
  Several example input files, covering all major classes of calculations
  in superdyson, are available in the test subdirectory. Preparing these
- inputs with the modified version of GAMESS-US (see section 1 above) is 
+ inputs with the modified version of GAMESS-US (see section 1 above) is
  simple, but requires several steps.
 
  Here, we will go through those steps using an example of a Dyson orbital
@@ -382,7 +391,7 @@ default value is given after the equals sign.
                         file (specified by the EXTBAS environment variable; see
                         gms-files.csh in the GAMESS-US installation directory).
                         Even if you want to use one of the basis sets GAMESS
-                        knows about, you MUST nonetheless read it from an 
+                        knows about, you MUST nonetheless read it from an
                         external file to make sure that superdyson can parse
                         GAMESS output files. You can use http://bse.pnl.gov/
                         to generate the basis set files.
@@ -395,7 +404,7 @@ default value is given after the equals sign.
      In addition to the GAMESS-US output, we will also need the PUNCH (.dat)
      file. It is usually found in ~/scr/ directory.
 
- 5b. Next, we perform a CASSCF calculation for the CO(1+) cation. The input 
+ 5b. Next, we perform a CASSCF calculation for the CO(1+) cation. The input
      file is "cop-cas.inp". Again, some key parts of the input:
 
      GUESS=MOREAD    <- Fetch guess MOS from the $VEC section. We have
@@ -421,9 +430,9 @@ default value is given after the equals sign.
      cation. The input file is cop-cas-ci_a1.inp. Some key parts of the input:
 
      CITYP=ORMAS     <- We will use ORMAS CI program. You must choose either
-                        ALDET, GENCI, or ORMAS here. It is likely that other 
-                        CI programs in GAMESS may also work, our conversion 
-                        script does not now how to handle the output. 
+                        ALDET, GENCI, or ORMAS here. It is likely that other
+                        CI programs in GAMESS may also work, our conversion
+                        script does not now how to handle the output.
      PURIFY=.FALSE.  <- We need to disable parts of GAMESS which modify input
                         MOs and may trigger a phase adjustment
      TOLE=0.0        <- ... and another possible orbital modification
@@ -451,13 +460,13 @@ default value is given after the equals sign.
     may be rather large.
 
  5d. We can now prepare the .mos and .dets files for the superdyson ket wavefunction.
-     For the .mos file: 
+     For the .mos file:
 
      5d1. Edit the $DATA section to switch to the C1 symmetry (see GAMESS manual
           for the $DATA section if you are not sure how).
      5d2. Make sure that the $VEC section immediately following the $DATA section
           has a commend line "ALPHA MOS: Orbitals at the entry to CI calculation"
-     5d3. Delete everything after the $END matching the $VEC. 
+     5d3. Delete everything after the $END matching the $VEC.
      5d4. You should now have something looking like ref_out/cop-cas-ci_a1.mos
 
      5d5. To construct the determinant list, you can use the command:
@@ -480,7 +489,7 @@ default value is given after the equals sign.
 
  In many cases, the full superdyson interface described above may be unneccessary
  (not to mention cumbersome and error-prone). A simplified interface is provided
- by the "overlap.sh" script. The calling sequence is: 
+ by the "overlap.sh" script. The calling sequence is:
 
    overlap.sh left_out left_state right_out right_state [task] [operator]
 
@@ -505,4 +514,5 @@ default value is given after the equals sign.
  assumes that you know what you are doing. If you don't, the results may be
  disastrously wrong!
 
- CIS wavefunctions are not currently supported.
+ Only the determinantal CIS wavefunctions are currently supported. Spin-flip CIS
+ and CSF CIS are not.

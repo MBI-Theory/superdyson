@@ -22,7 +22,7 @@ module tr_1rdm
   public call_tr_1rdm
   public rcsid_tr_1rdm
   !
-  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.22 2024/09/24 16:08:06 ps Exp ps $"
+  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.22 2024/09/24 16:08:06 ps Exp $"
   !
   character(len=2), parameter :: spin_labels(4) = (/ 'AA', 'AB', 'BA', 'BB' /)
   !
