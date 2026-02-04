@@ -39,7 +39,11 @@
     ncol  = size(a,dim=2)
     nsing = min(nrow,ncol)
     if (nrow/=size(u,dim=1) .or. nsing/=size(u,dim=2) .or. &
-        nsing/=size(s) .or. ncol/=size(vth,dim=1) .or. nsing/=size(vth,dim=2) ) then
+        nsing/=size(s) .or. ncol/=size(vth,dim=2) .or. nsing/=size(vth,dim=1) ) then
+      write (out,"('nrow, ncol, nsing = ',3(1x,i0))") nrow, ncol, nsing
+      write (out,"('  u: ',2(1x,i0))") size(  u,dim=1), size(  u,dim=2)
+      write (out,"('vth: ',2(1x,i0))") size(vth,dim=1), size(vth,dim=2)
+      write (out,"('  s: ',1x,i0)") size(s)
       stop 'block_diag%block_gesvd - dimensions mismatch'
     end if
     !

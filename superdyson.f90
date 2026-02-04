@@ -41,7 +41,7 @@ module superdyson
   public call_superdyson
   public rcsid_superdyson
   !
-  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.32 2024/09/24 16:08:06 ps Exp $"
+  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.33 2026/02/04 15:43:58 ps Exp $"
   !
   !  Local data for dyson
   !
@@ -177,10 +177,10 @@ contains
     wdyson_thread = 0._rk
     dipall_thread = 0._rk
     sdet_ms%n_blocks = -1  ! This should not be necessary, but gfortran OpenMP is weird ...
-    !$omp do schedule(dynamic)
+    !$omp do schedule(dynamic) collapse(2)
     dyson_ref: do detref=1,ndetbra
-      call report_progress(detref)
       dyson_ion: do detion=1,ndetket
+        call report_progress(detref)
         if ( abs(cdetion(detion)*cdetref(detref)) <= eps_cdet ) then
           det_cutoff = det_cutoff + 1
           cycle dyson_ion
@@ -372,11 +372,11 @@ contains
     !
     if (verbose>=3) then
       write (out,"('1-e overlap matrix for dets ',2i5)") detref, detion
-      call print_matrix(sdet)
+      call print_matrix(sdet,10_ik,"f10.6")
       if (have_operator) then
         print_components: do ic=1,op_components
           write (out,"(1x,a,'-',i0,'matrix for dets ',2i5)") trim(braket_operator), ic, detref, detion
-          call print_matrix(dipdet(:,:,ic))
+          call print_matrix(dipdet(:,:,ic),10_ik,"f10.6")
         end do print_components
       end if
     end if

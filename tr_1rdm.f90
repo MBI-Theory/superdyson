@@ -22,7 +22,7 @@ module tr_1rdm
   public call_tr_1rdm
   public rcsid_tr_1rdm
   !
-  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.22 2024/09/24 16:08:06 ps Exp $"
+  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.23 2026/02/04 15:43:58 ps Exp $"
   !
   character(len=2), parameter :: spin_labels(4) = (/ 'AA', 'AB', 'BA', 'BB' /)
   !
@@ -136,11 +136,11 @@ contains
     allocate (detrdm(nelbra,nelket),rdm_mo_thread(nmobra,nmoket,rdm_ns))
     rdm_mo_thread    =  0  ! This is our explicit per-thread accumulator
     sdet_ms%n_blocks = -1  ! This should not be necessary, but gfortran OpenMP is weird ...
-    !$omp do schedule(dynamic)
+    !$omp do schedule(dynamic) collapse(2)
     det_ref: do detref=1,ndetbra
-      call report_progress(detref)
-      !
       det_ion: do detion=1,ndetket
+        call report_progress(detref)
+        !
         if ( abs(cdetion(detion)*cdetref(detref)) <= eps_cdet ) then
           det_cutoff = det_cutoff + 1
           cycle det_ion
@@ -184,7 +184,7 @@ contains
           write (out,"(' ref det. = ',i5,' ion det. = ',i5,' weight = ',g16.9)") &
                  detref, detion, cdetion(detion)*cdetref(detref)
           write (out,"(' Partial spin 1-RDM:')")
-          call print_matrix(detrdm)
+          call print_matrix(detrdm,10_ik,"f10.6")
         end if
         !
         if (spin_resolved) then
@@ -216,7 +216,7 @@ contains
     !
     print_mo_srdm: do iss=1,rdm_ns
       write (out,"(/t5,a,' 1-RDM in the MO basis'/)") rdm_labels(iss)
-      call print_matrix(rdm_mo(:,:,iss))
+      call print_matrix(rdm_mo(:,:,iss),10_ik,"f10.6")
       call analyze_rdm_component(iss)
     end do print_mo_srdm
     !

@@ -36,6 +36,7 @@ module sd_core
   use block_matrices
   use block_determinant
   use sort_tools
+  use printing
   implicit none
   public               ! The sd_core module is not supposed to lead an
                        ! independent existence - it is always a part of
@@ -43,7 +44,7 @@ module sd_core
                        ! must be public.
   private sd_v2
   !
-  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.31 2022/08/02 14:12:59 ps Exp $"
+  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.32 2026/02/04 15:43:58 ps Exp $"
   !
   integer, parameter      :: lk = kind(.true.)
   integer, parameter      :: lchar = 1024
@@ -829,9 +830,10 @@ contains
     real(rk), intent(in)         :: mos(:,:) ! MO coefficients
     real(rk), intent(in)         :: sao(:,:) ! Overlap matrix (possibly ion or ref-specific)
     !
-    integer(ik) :: lmo, rmo ! MO indices
-    real(rk)    :: ov       ! Calculated MO overlap
-    real(rk)    :: refval   ! Expected MO overlap
+    real(rk), allocatable :: ov_tab(:,:) ! Precomputed overlap matrix
+    integer(ik)           :: lmo, rmo    ! MO indices
+    real(rk)              :: ov          ! Calculated MO overlap
+    real(rk)              :: refval      ! Expected MO overlap
     !
     if (.not.have_overlaps) then
       write (out,"('Atomic overlap integrals not present; unable to check '" // &
@@ -839,9 +841,12 @@ contains
       return
     end if
     !
+    allocate (ov_tab(nmos,nmos))
+    ov_tab(:,:) = matmul(transpose(mos),matmul(sao,mos))
     left_scan: do lmo=1,nmos
       right_scan: do rmo=1,nmos
-        ov = dot_product(mos(:,lmo),matmul(sao,mos(:,rmo)))
+        ! ov = dot_product(mos(:,lmo),matmul(sao,mos(:,rmo)))
+        ov = ov_tab(lmo,rmo)
         !
         refval = 0._rk
         if (lmo==rmo) refval = 1._rk
@@ -852,6 +857,7 @@ contains
         end if
       end do right_scan
     end do left_scan
+    deallocate (ov_tab)
     !
   end subroutine check_orthonormality
   !
@@ -910,25 +916,14 @@ contains
     real(rk), intent(out)        :: xmo(:,:) ! Matrix elements in the MO basis
     real(rk), intent(in)         :: xao(:,:) ! Matrix elements in the AO basis
     !
-    integer(ik) :: refmo, ionmo ! Orbitals of the reference and ion
-    real(rk)    :: val
-    !
     call TimerStart('mat_ao_to_mo')
     !
-    !  This is a very inefficient way of making the transformation.
-    !  Much better perfomance can be obtained with MATMUL and a buffer or DGEMM
-    !
-    if (verbose>=2) write (out,"(/'Cross-state ',a,' elements')") trim(title)
-    mo_ref: do refmo=1,nmobra
-      mo_ion: do ionmo=1,nmoket
-        val = dot_product(cbra(:,refmo),matmul(xao,cket(:,ionmo)))
-        if (verbose>=2) then
-          write (out,"(5x,a,' <',i5,'|',i5,'> = ',f25.12)") trim(title), refmo, ionmo, val
-        end if
-        xmo(refmo,ionmo) = val
-      end do mo_ion
-    end do mo_ref
-    if (verbose>=2) write (out,"()")
+    xmo(:,:) = matmul(transpose(cbra),matmul(xao,cket))
+    if (verbose>=2) then
+      write (out,"(/'Cross-state ',a,' elements')") trim(title)
+      call print_matrix(xmo,25_ik,"f25.12")
+      write (out,"()")
+    end if
     !
     call TimerStop('mat_ao_to_mo')
   end subroutine mat_ao_to_mo
@@ -941,25 +936,14 @@ contains
     real(rk), intent(in)         :: xmo(:,:) ! Matrix elements in the MO basis
     real(rk), intent(out)        :: xao(:,:) ! Matrix elements in the AO basis
     !
-    integer(ik) :: refao, ionao ! Atomic orbitals of the reference and the ion
-    real(rk)    :: val
-    !
     call TimerStart('mat_mo_to_ao')
     !
-    !  This is a very inefficient way of making the transformation.
-    !  Much better perfomance can be obtained with MATMUL and a buffer or DGEMM
-    !
-    if (verbose>=2) write (out,"(/'Cross-state ',a,' elements')") trim(title)
-    ao_ref: do refao=1,naos_bra
-      ao_ion: do ionao=1,naos_ket
-        val = dot_product(cbra(refao,:),matmul(xmo,cket(ionao,:)))
-        if (verbose>=2) then
-          write (out,"(5x,a,' <',i5,'|',i5,'> = ',f25.12)") trim(title), refao, ionao, val
-        end if
-        xao(refao,ionao) = val
-      end do ao_ion
-    end do ao_ref
-    if (verbose>=2) write (out,"()")
+    xao(:,:) = matmul(cbra,matmul(xmo,transpose(cket)))
+    if (verbose>=2) then
+      write (out,"(/'Cross-state ',a,' elements')") trim(title)
+      call print_matrix(xao,25_ik,"f25.12")
+      write (out,"()")
+    end if
     !
     call TimerStop('mat_mo_to_ao')
   end subroutine mat_mo_to_ao
@@ -1413,7 +1397,7 @@ contains
     ! LINPACK routines
     if (verbose>=4) then
       write (out,"(/'Requested determinant for matrix: ')")
-      call print_matrix(mat)
+      call print_matrix(mat,10_ik,"f10.6")
     end if
     !
     determinant = linpack_determinant_trash_input(mat)
@@ -1425,6 +1409,11 @@ contains
   !    S^2 = 0.5 * S_+ S_- + 0.5 * S_ S_+ + S_z^2 
   !
   !  This code is not terribly efficient, but this should not really matter (?)
+  !
+  !  If necessary, this routine can be made much more efficient by sorting
+  !  both the initial determinant list and the result of the S^2 application,
+  !  and then performing the equivalent of the merge sort on the two lists.
+  !  Similar results can be achieved by hashing the determinants.
   !
   subroutine calculate_s2(c,d,ov,s2)
     real(rk), intent(in)    :: c(  :)  ! Amplitudes of each determinant in the w.f.
@@ -1572,29 +1561,6 @@ contains
       line = line + 1
     end do punch_line
   end subroutine punch_vector
-  !
-  subroutine print_matrix(m)
-    real(rk), intent(in) :: m(:,:) ! Matrix to be printed
-    !
-    integer(ik), parameter :: cb = 16 ! Batch size
-    integer(ik)            :: nr, nc  ! Number of rows and columns
-    integer(ik)            :: r,  c   ! Row and column
-    integer(ik)            :: c1, c2  ! Current batch of columns
-    !
-    nr = size(m,dim=1)
-    nc = size(m,dim=2)
-    col_batch: do c1=1,nc,cb
-      c2 = min(nc,c1+cb-1)
-      write (out,"()")
-      write (out,"(1x,5x,16(1x,i10))") (c,c=c1,c2)
-      !
-      rows: do r=1,nr
-        write (out,"(1x,i5,16(1x,f10.6))") r, (m(r,c),c=c1,c2)
-      end do rows
-      !
-      write (out,"()")
-    end do col_batch
-  end subroutine print_matrix
   !
   subroutine report_progress(detref)
     !$ use OMP_LIB

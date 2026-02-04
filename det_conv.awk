@@ -203,6 +203,9 @@ function count_orbs(ind,start,end,  i,count) {
   for (;i<=nocc+ncore;i++) {
     printf "  2" ;
     }
+  for (;i<=nmo;i++) {
+    printf "  0" ;
+    }
   printf "\n" ;
   exit ;
   }
