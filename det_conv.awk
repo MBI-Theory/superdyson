@@ -59,12 +59,14 @@ function abs(x) { return (x<0)?(-x):(x) ; }
 /^ *AMES LABORATORY DETERMINANTAL FULL CI *$/    { vp() ; cango++ ; type = "aldet" ; }
 /^ *RESULTS FROM DETERMINANT BASED ATOMIC ORBITAL CI-SINGLES *$/ {
                                                    vp() ; cango++ ; type = "detcis" ; }
+/^ *RESULTS FROM SPIN-ADAPTED ANTISYMMETRIZED PRODUCT .SAPS. *$/ {
+                                                   vp() ; cango++ ; type = "sapscis" ; }
 #
 #  Sizes of active spaces.
 #
 /^ *NUMBER OF CORE ORBITALS  * = /   { vp() ; ncore = $6 ; nmax = ncore + nact ; }
 /^ *NUMBER OF ACTIVE ORBITALS  * = / { vp() ; nact  = $6 ; nmax = ncore + nact ; }
-#  CIS: Special case
+#  CIS: Special case, both detcis and sapscis
 /^ # CORE ORBITALS      = / { vp() ; ncore = $5 ; }
 /^ # OCCUPIED ORBITALS  = / { vp() ; nocc  = $5 ; }
 /^ # MOLECULAR ORBITALS = / { vp() ; nmo   = $5 ; }
@@ -95,9 +97,13 @@ function count_orbs(ind,start,end,  i,count) {
 #  Locating the right state - CIS. Note that CIS numbers excited states,
 #  so that the ground state has to be treated separately.
 #
+#  This works for both SAPS and DET
 (cango>0)&&/^ *EXCITED STATE .* ENERGY= .* S = .* SPACE SYM/&&($3==(state-1)) {
+  vp() ;
   printf "%08d: %s\n", NR, $0 > "/dev/stderr" ;
   scis = NR + 6 ;
+  if ($8==0.0) { sapsbetasign =  1.0 ; }
+  else         { sapsbetasign = -1.0 ; }
   }
 (NR>=scis) && /^ *---+ *$/ { vp() ; exit ; }
 #
@@ -195,7 +201,7 @@ function count_orbs(ind,start,end,  i,count) {
 #  CIS dump
 #
 #  Special case: The reference state, CIS
-(type=="detcis")&&(state==1) {
+((type=="detcis")||(type=="sapscis"))&&(state==1) {
   printf " 1.0 " ;
   for (i=1;i<=ncore;i++) {
     printf " 2" ;
@@ -234,15 +240,49 @@ function count_orbs(ind,start,end,  i,count) {
     }
   printf "\n" ;
   }
+(type=="sapscis")&&(NR>=scis) {
+  vp() ;
+  src = $1 ; dst = $2 ; wgt = $3/sqrt(2.0) ;
+  if (abs(wgt)<1e-12) next ;
+  sign = (-1)^(nocc+ncore-src) ; # Phase correction - from CIS orbital substitution to alpha//beta
+  # spin-ALPHA substitution
+  printf " %16.12f ", sign * wgt ;
+  for (i=1;i<=ncore;i++) {
+    printf " 2" ;
+    }
+  for (;i<=nocc+ncore;i++) {
+    if (i!=src) { printf "  2" ; }
+    else        { printf " -1" ; }
+    }
+  for (i=nocc+ncore+1;i<=nmo;i++) {
+    if (i!=dst) { printf "  0" ; }
+    else        { printf " +1" ; }
+    }
+  printf "\n" ;
+  # spin-BETA substitution
+  printf " %16.12f ", sign * wgt * sapsbetasign ;
+  for (i=1;i<=ncore;i++) {
+    printf " 2" ;
+    }
+  for (;i<=nocc+ncore;i++) {
+    if (i!=src) { printf "  2" ; }
+    else        { printf " +1" ; }
+    }
+  for (i=nocc+ncore+1;i<=nmo;i++) {
+    if (i!=dst) { printf "  0" ; }
+    else        { printf " -1" ; }
+    }
+  printf "\n" ;
+  }
 #{ print $0 > "/dev/stderr" }
 /PUNCHED ALPHA MOS: Orbitals at the entry to CI calculation/ { nopunchwarning = 1 ; }
 /PUNCHED ALPHA CIS MOS: Orbitals at the entry to CI calculation/ { nocispunchwarning = 1 ; }
 END {
-  if ( ! nopunchwarning && type!="detcis" ) {
+  if ( ! nopunchwarning && ! (type=="detcis" || type=="sapscis") ) {
     printf "WARNING: ALL GAMESS VERSIONS AFTER 2009 MAY MESS UP ORBITAL PHASE, REGARDLESS OF THE INPUT OPTIONS\n" > "/dev/stderr" ;
     printf "WARNING: PLEASE USE A HACKED VERSION, WHICH DUMPS THE ACTUAL ORBITALS IN CI TO THE PUNCH FILE\n" > "/dev/stderr" ;
     }
-  if ( ! nocispunchwarning && type=="detcis" ) {
+  if ( ! nocispunchwarning && (type=="detcis" || type=="sapscis") ) {
     printf "WARNING: STOCK GAMESS EXECUTABLE MESSES UP CIS ORBITAL PHASES. THE RESULTS WILL BE CHAOTIC.\n" > "/dev/stderr" ;
     printf "WARNING: PLEASE USE A HACKED VERSION, WHICH DUMPS THE ACTUAL ORBITALS IN CIS TO THE PUNCH FILE\n" > "/dev/stderr" ;
     }

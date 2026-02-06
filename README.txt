@@ -1,6 +1,6 @@
 exit 1
 
-Last updated: Jan. 27, 2026
+Last updated: Feb. 06, 2026
 ============
 
 IMPORTANT:
@@ -81,8 +81,8 @@ What to do:
     coefficient printout. Usually, GAMESS-US only prints 7 digits after
     the decimal for the CI coefficients; this will limit the accuracy
     of the results you can get from superdyson. The print statements you
-    are looking for are in aldeci.src, algnci.src, and ormas1.src. They
-    look something like this:
+    are looking for are in aldeci.src, algnci.src, ormas1.src, and 
+    cisgrd.src. They look something like this:
 
       IF(MASWRK) WRITE(IW,'(4A,F10.7)') CONA(1:NACT+2),'|',
      *                                  CONB(1:NACT+2),'|  ',CI(IPOS)
@@ -93,6 +93,7 @@ What to do:
 
    7070 FORMAT(7X,'ALPHA',3X,I5,12X,I5,10X,F12.8)
    7072 FORMAT(7X,'BETA ',3X,I5,12X,I5,10X,F12.8)
+   7160 FORMAT(9X,I5,6X,I5,17X,F22.18)
 
     Please note that this modification will change the main GAMESS
     output. If you have any tools or visualization programs parsing
@@ -430,9 +431,9 @@ default value is given after the equals sign.
      cation. The input file is cop-cas-ci_a1.inp. Some key parts of the input:
 
      CITYP=ORMAS     <- We will use ORMAS CI program. You must choose either
-                        ALDET, GENCI, or ORMAS here. It is likely that other
-                        CI programs in GAMESS may also work, our conversion
-                        script does not now how to handle the output.
+                        ALDET, GENCI, ORMAS, or CIS here. It is likely that 
+                        other CI programs in GAMESS may also work, our 
+                        conversion script does not now how to handle the output.
      PURIFY=.FALSE.  <- We need to disable parts of GAMESS which modify input
                         MOs and may trigger a phase adjustment
      TOLE=0.0        <- ... and another possible orbital modification
@@ -506,7 +507,7 @@ default value is given after the equals sign.
 
  The script is able to handle inputs in the c1, d2, cs, c2v, c2h, and d2h point
  groups, provided that the default setting is used. It will recognize ALDET, GENCI,
- and ORMAS wavefunctions.
+ ORMAS, and CIS wavefunctions.
 
 7. Caveats
 
@@ -514,5 +515,5 @@ default value is given after the equals sign.
  assumes that you know what you are doing. If you don't, the results may be
  disastrously wrong!
 
- Only the determinantal CIS wavefunctions are currently supported. Spin-flip CIS
- and CSF CIS are not.
+ Only the conventional CIS wavefunctions are currently supported. Spin-flip CIS
+ is not.
