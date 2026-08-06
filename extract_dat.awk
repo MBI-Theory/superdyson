@@ -196,9 +196,9 @@ function replicate_atom (irep, rep_x,rep_y,rep_z,iuniq) {
   report_single_atom(rep_x,rep_y,rep_z) ;
   }
 function same_atom(x1,y1,z1,x2,y2,z2, r2) {
-  r2  = (x2-x1)**2 ;
-  r2 += (y2-y1)**2 ;
-  r2 += (z2-z1)**2 ;
+  r2  = (x2-x1)^2 ;
+  r2 += (y2-y1)^2 ;
+  r2 += (z2-z1)^2 ;
   return r2<=eps ;
   }
 #
