@@ -21,7 +21,7 @@
    public
    private a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q
    !
-   character(len=clen), save :: rcsid_gamess_internal = "$Id: gamess_internal.f90,v 1.4 2021/09/29 13:43:22 ps Exp $"
+   character(len=clen), save :: rcsid_gamess_internal = "$Id: gamess_internal.f90,v 1.5 2026/08/13 14:15:58 ps Exp $"
    !
     integer(ik), parameter :: gam_max_oversample     = 5     ! Maximum oversampling order (per Cartesian direction)
     integer(ik), parameter :: gam_file               = 57    ! A semi-randomly chosen unit
@@ -32,7 +32,7 @@
     integer(ik), parameter :: gam_max_atoms          = 1000
     integer(ik), parameter :: gam_max_contraction    = 50
     integer(ik), parameter :: gam_max_batch_size     = 60 ! Split up very long batches; otherwise, memory requirements 
-                                                          ! become -very- large
+                                                          ! become -very- large. Can't be less than maxval(gam_orbcnt)
     !
     integer(ik), parameter :: gam_lmax               = 6  ! Highest angular momentum
     integer(ik), parameter :: gam_nxyz               = 84 ! Number of possible XYZ products
@@ -51,16 +51,16 @@
     real(xrk), parameter   :: e = 3.41565025531986612774034622684035066357834_xrk ! sqrt(35.0/3.0)
     real(xrk), parameter   :: f = 5.91607978309961604256732829156161704841550_xrk ! sqrt(35.0)    
     real(xrk), parameter   :: g = 3.00000000000000000000000000000000000000000_xrk !
-    real(xrk), parameter   :: h = 4.58257569495584000658804719372800848898446_xrk !
-    real(xrk), parameter   :: i = 7.93725393319377177150484726091778127713078_xrk !
-    real(xrk), parameter   :: j = 10.2469507659595983832210386805210519907350_xrk !
-    real(xrk), parameter   :: k = 3.31662479035539984911493273667068668392709_xrk !
-    real(xrk), parameter   :: l = 5.74456264653802865985061146821892931822026_xrk !
-    real(xrk), parameter   :: m = 9.94987437106619954734479821001206005178127_xrk !
-    real(xrk), parameter   :: n = 6.79705818718657137846900052738478763345227_xrk !
+    real(xrk), parameter   :: h = 4.58257569495584000658804719372800848898446_xrk ! sqrt(21.0)
+    real(xrk), parameter   :: i = 7.93725393319377177150484726091778127713078_xrk ! sqrt(63.0)
+    real(xrk), parameter   :: j = 10.2469507659595983832210386805210519907350_xrk ! sqrt(105.0)
+    real(xrk), parameter   :: k = 3.31662479035539984911493273667068668392709_xrk ! sqrt(11.0)
+    real(xrk), parameter   :: l = 5.74456264653802865985061146821892931822026_xrk ! sqrt(33.0)
+    real(xrk), parameter   :: m = 9.94987437106619954734479821001206005178127_xrk ! sqrt(99.0)
+    real(xrk), parameter   :: n = 6.79705818718657137846900052738478763345227_xrk ! sqrt(231.0/5.0)
     real(xrk), parameter   :: o = 1.00000000000000000000000000000000000000000_xrk !
-    real(xrk), parameter   :: p = 15.1986841535706636316687442060396450375823_xrk !
-    real(xrk), parameter   :: q = 19.6214168703485834685260037891817743263128_xrk !
+    real(xrk), parameter   :: p = 15.1986841535706636316687442060396450375823_xrk ! sqrt(231.0)
+    real(xrk), parameter   :: q = 19.6214168703485834685260037891817743263128_xrk ! sqrt(385.0)
     !
     ! ang_loc(l) = sum(gam_orbcnt(0:l-1))
     integer(ik), parameter :: ang_loc(0:gam_lmax+1) = (/ 0, 1, 4, 10, 20, 35, 56, 84 /)
@@ -83,6 +83,8 @@
     real(xrk), parameter   :: ang_c (0:gam_nxyz-1) = (/ o,o,o,o,o,o,o,a,a,a,o,o,o,b,b,b,b,b,b,c,o,o,o,d,d,d,d,d,d,e,e,e,f,f,f, &
                                                         o,o,o,g,g,g,g,g,g,h,h,h,h,h,h,i,i,i,j,j,j, &
                                                         o,o,o,k,k,k,k,k,k,l,l,l,l,l,l,m,m,m,n,n,n,p,p,p,p,p,p,q /)
+    ! gfortran may generate a whole bunch of warnings at this point. These warnings are
+    ! completely harmless.
     real(rk), parameter    :: ang_c_rk(0:gam_nxyz-1) = real(ang_c,kind=rk)
     integer(ik), parameter :: ang_nxyz(0:gam_nxyz-1,3) = reshape((/ang_nx,ang_ny,ang_nz/),(/gam_nxyz,3/))
     !
@@ -264,7 +266,7 @@
       !
       if (present(xlabel).and.present(xv)) then
         write (iu,"(1x,a)") trim(xlabel)
-        write (iu,"(5(1x,g15.9))") xv
+        write (iu,"(5(1x,g15.9))") xv   ! Ignore possible compiler warnings here. This is the required format
         write (iu,"(' $END')")
       end if
       !
@@ -317,7 +319,7 @@
         tbas = min(size(vec),ibas+4)
         buf = 0._rk
         buf(1:tbas-ibas+1) = vec(ibas:tbas)
-        write (iu,"(i2,i3,5e15.8)") mod(imo,100), line, buf
+        write (iu,"(i2,i3,5es15.8)") mod(imo,100), line, buf
         line = line + 1
       end do punch_line
     end subroutine punch_vector
@@ -339,7 +341,7 @@
         tbas = min(size(vec),ibas+3)
         buf = 0._rk
         buf(1:tbas-ibas+1) = vec(ibas:tbas)
-        write (iu,"(i2,i3,8e20.13)") mod(imo,100), line, buf
+        write (iu,"(i2,i3,8es20.13)") mod(imo,100), line, buf
         line = line + 1
       end do punch_line
     end subroutine punch_vector_complex
