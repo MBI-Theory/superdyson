@@ -30,6 +30,7 @@ module sd_core
   use accuracy
   use timer
   use import_gamess
+  use gamess_internal , ONLY: punch_vector
   use lapack
   use math
   use block_diag
@@ -44,7 +45,7 @@ module sd_core
                        ! must be public.
   private sd_v2
   !
-  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.32 2026/02/04 15:43:58 ps Exp $"
+  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.33 2026/08/13 15:34:16 ps Exp $"
   !
   integer, parameter      :: lk = kind(.true.)
   integer, parameter      :: lchar = 1024
@@ -1542,25 +1543,6 @@ contains
       end do scan_order
     end do ordering_sweep
   end function det_parity
-  !
-  !  Punch one vector in restart format
-  !
-  subroutine punch_vector(imo,vec)
-    integer(ik), intent(in) :: imo    ! Identifying index
-    real(rk), intent(in)    :: vec(:) ! Vector to punch
-    !
-    integer(ik) :: ibas, tbas, line
-    real(rk)    :: buf(5)
-    !
-    line = 1
-    punch_line: do ibas=1,size(vec),5
-      tbas = min(size(vec),ibas+4)
-      buf = 0._rk
-      buf(1:tbas-ibas+1) = vec(ibas:tbas)
-      write (out,"(i2,i3,5e15.8)") mod(imo,100), line, buf
-      line = line + 1
-    end do punch_line
-  end subroutine punch_vector
   !
   subroutine report_progress(detref)
     !$ use OMP_LIB

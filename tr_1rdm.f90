@@ -22,7 +22,7 @@ module tr_1rdm
   public call_tr_1rdm
   public rcsid_tr_1rdm
   !
-  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.23 2026/02/04 15:43:58 ps Exp $"
+  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.24 2026/08/13 15:34:16 ps Exp $"
   !
   character(len=2), parameter :: spin_labels(4) = (/ 'AA', 'AB', 'BA', 'BB' /)
   !
@@ -526,8 +526,8 @@ contains
     write (out,"(' $VECRDM',a)") rdm_labels(iss)
     !
     punch_terms: do ic=1,nc
-      call punch_vector(1+2*(ic-1),rdm_lv_ao(:,ic,iss))
-      call punch_vector(2+2*(ic-1),rdm_rv_ao(:,ic,iss))
+      call punch_vector(out,1+2*(ic-1),rdm_lv_ao(:,ic,iss))
+      call punch_vector(out,2+2*(ic-1),rdm_rv_ao(:,ic,iss))
     end do punch_terms
     !
     write (out,"(' $END   ')")

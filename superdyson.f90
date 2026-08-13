@@ -41,7 +41,7 @@ module superdyson
   public call_superdyson
   public rcsid_superdyson
   !
-  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.33 2026/02/04 15:43:58 ps Exp $"
+  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.34 2026/08/13 15:34:16 ps Exp $"
   !
   !  Local data for dyson
   !
@@ -567,8 +567,8 @@ contains
     write (out,"(' $VECDYS')")
     !
     punch_terms: do ic=1,1+op_components
-      call punch_vector(1+2*(ic-1),aodyson(:,1,ic))
-      call punch_vector(2+2*(ic-1),aodyson(:,2,ic))
+      call punch_vector(out,1+2*(ic-1),aodyson(:,1,ic))
+      call punch_vector(out,2+2*(ic-1),aodyson(:,2,ic))
     end do punch_terms
     !
     write (out,"(' $END   ')")
