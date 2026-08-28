@@ -95,7 +95,100 @@ BEGIN {
   s_list["d2h",7,1,1] =-1.0 ; s_list["d2h",7,1,2] = 0.0 ; s_list["d2h",7,1,3] = 0.0 ;
   s_list["d2h",7,2,1] = 0.0 ; s_list["d2h",7,2,2] = 1.0 ; s_list["d2h",7,2,3] = 0.0 ;
   s_list["d2h",7,3,1] = 0.0 ; s_list["d2h",7,3,2] = 0.0 ; s_list["d2h",7,3,3] = 1.0 ;
+  # D6h
+  symop_count["d6h"] = 23 ;
+  hsq3=0.86602540378443864676 ;
+  s_list["d6h", 1,1,1] =  0.5; s_list["d6h", 1,1,2] =-hsq3; s_list["d6h", 1,1,3] = 0.0;
+  s_list["d6h", 1,2,1] = hsq3; s_list["d6h", 1,2,2] =  0.5; s_list["d6h", 1,2,3] = 0.0;
+  s_list["d6h", 1,3,1] =  0.0; s_list["d6h", 1,3,2] =  0.0; s_list["d6h", 1,3,3] = 1.0;
   #
+  s_list["d6h", 2,1,1] = -0.5; s_list["d6h", 2,1,2] =-hsq3; s_list["d6h", 2,1,3] = 0.0;
+  s_list["d6h", 2,2,1] = hsq3; s_list["d6h", 2,2,2] = -0.5; s_list["d6h", 2,2,3] = 0.0;
+  s_list["d6h", 2,3,1] =  0.0; s_list["d6h", 2,3,2] =  0.0; s_list["d6h", 2,3,3] = 1.0;
+  #
+  s_list["d6h", 3,1,1] = -1.0; s_list["d6h", 3,1,2] =  0.0; s_list["d6h", 3,1,3] = 0.0;
+  s_list["d6h", 3,2,1] =  0.0; s_list["d6h", 3,2,2] = -1.0; s_list["d6h", 3,2,3] = 0.0;
+  s_list["d6h", 3,3,1] =  0.0; s_list["d6h", 3,3,2] =  0.0; s_list["d6h", 3,3,3] = 1.0;
+  #
+  s_list["d6h", 4,1,1] = -0.5; s_list["d6h", 4,1,2] = hsq3; s_list["d6h", 4,1,3] = 0.0;
+  s_list["d6h", 4,2,1] =-hsq3; s_list["d6h", 4,2,2] = -0.5; s_list["d6h", 4,2,3] = 0.0;
+  s_list["d6h", 4,3,1] =  0.0; s_list["d6h", 4,3,2] =  0.0; s_list["d6h", 4,3,3] = 1.0;
+  #
+  s_list["d6h", 5,1,1] =  0.5; s_list["d6h", 5,1,2] = hsq3; s_list["d6h", 5,1,3] = 0.0;
+  s_list["d6h", 5,2,1] =-hsq3; s_list["d6h", 5,2,2] =  0.5; s_list["d6h", 5,2,3] = 0.0;
+  s_list["d6h", 5,3,1] =  0.0; s_list["d6h", 5,3,2] =  0.0; s_list["d6h", 5,3,3] = 1.0;
+  #
+  s_list["d6h", 6,1,1] =  1.0; s_list["d6h", 6,1,2] =  0.0; s_list["d6h", 6,1,3] = 0.0;
+  s_list["d6h", 6,2,1] =  0.0; s_list["d6h", 6,2,2] =  1.0; s_list["d6h", 6,2,3] = 0.0;
+  s_list["d6h", 6,3,1] =  0.0; s_list["d6h", 6,3,2] =  0.0; s_list["d6h", 6,3,3] =-1.0;
+  #
+  s_list["d6h", 7,1,1] =  0.5; s_list["d6h", 7,1,2] =-hsq3; s_list["d6h", 7,1,3] = 0.0;
+  s_list["d6h", 7,2,1] = hsq3; s_list["d6h", 7,2,2] =  0.5; s_list["d6h", 7,2,3] = 0.0;
+  s_list["d6h", 7,3,1] =  0.0; s_list["d6h", 7,3,2] =  0.0; s_list["d6h", 7,3,3] =-1.0;
+  #
+  s_list["d6h", 8,1,1] = -0.5; s_list["d6h", 8,1,2] =-hsq3; s_list["d6h", 8,1,3] = 0.0;
+  s_list["d6h", 8,2,1] = hsq3; s_list["d6h", 8,2,2] = -0.5; s_list["d6h", 8,2,3] = 0.0;
+  s_list["d6h", 8,3,1] =  0.0; s_list["d6h", 8,3,2] =  0.0; s_list["d6h", 8,3,3] =-1.0;
+  #
+  s_list["d6h", 9,1,1] = -1.0; s_list["d6h", 9,1,2] =  0.0; s_list["d6h", 9,1,3] = 0.0;
+  s_list["d6h", 9,2,1] =  0.0; s_list["d6h", 9,2,2] = -1.0; s_list["d6h", 9,2,3] = 0.0;
+  s_list["d6h", 9,3,1] =  0.0; s_list["d6h", 9,3,2] =  0.0; s_list["d6h", 9,3,3] =-1.0;
+  #
+  s_list["d6h",10,1,1] = -0.5; s_list["d6h",10,1,2] = hsq3; s_list["d6h",10,1,3] = 0.0;
+  s_list["d6h",10,2,1] =-hsq3; s_list["d6h",10,2,2] = -0.5; s_list["d6h",10,2,3] = 0.0;
+  s_list["d6h",10,3,1] =  0.0; s_list["d6h",10,3,2] =  0.0; s_list["d6h",10,3,3] =-1.0;
+  #
+  s_list["d6h",11,1,1] =  0.5; s_list["d6h",11,1,2] = hsq3; s_list["d6h",11,1,3] = 0.0;
+  s_list["d6h",11,2,1] =-hsq3; s_list["d6h",11,2,2] =  0.5; s_list["d6h",11,2,3] = 0.0;
+  s_list["d6h",11,3,1] =  0.0; s_list["d6h",11,3,2] =  0.0; s_list["d6h",11,3,3] =-1.0;
+  #
+  s_list["d6h",12,1,1] =  1.0; s_list["d6h",12,1,2] =  0.0; s_list["d6h",12,1,3] = 0.0;
+  s_list["d6h",12,2,1] =  0.0; s_list["d6h",12,2,2] = -1.0; s_list["d6h",12,2,3] = 0.0;
+  s_list["d6h",12,3,1] =  0.0; s_list["d6h",12,3,2] =  0.0; s_list["d6h",12,3,3] =-1.0;
+  #
+  s_list["d6h",13,1,1] =  0.5; s_list["d6h",13,1,2] = hsq3; s_list["d6h",13,1,3] = 0.0;
+  s_list["d6h",13,2,1] = hsq3; s_list["d6h",13,2,2] = -0.5; s_list["d6h",13,2,3] = 0.0;
+  s_list["d6h",13,3,1] =  0.0; s_list["d6h",13,3,2] =  0.0; s_list["d6h",13,3,3] =-1.0;
+  #
+  s_list["d6h",14,1,1] = -0.5; s_list["d6h",14,1,2] = hsq3; s_list["d6h",14,1,3] = 0.0;
+  s_list["d6h",14,2,1] = hsq3; s_list["d6h",14,2,2] =  0.5; s_list["d6h",14,2,3] = 0.0;
+  s_list["d6h",14,3,1] =  0.0; s_list["d6h",14,3,2] =  0.0; s_list["d6h",14,3,3] =-1.0;
+  #
+  s_list["d6h",15,1,1] = -1.0; s_list["d6h",15,1,2] =  0.0; s_list["d6h",15,1,3] = 0.0;
+  s_list["d6h",15,2,1] =  0.0; s_list["d6h",15,2,2] =  1.0; s_list["d6h",15,2,3] = 0.0;
+  s_list["d6h",15,3,1] =  0.0; s_list["d6h",15,3,2] =  0.0; s_list["d6h",15,3,3] =-1.0;
+  #
+  s_list["d6h",16,1,1] = -0.5; s_list["d6h",16,1,2] =-hsq3; s_list["d6h",16,1,3] = 0.0;
+  s_list["d6h",16,2,1] =-hsq3; s_list["d6h",16,2,2] =  0.5; s_list["d6h",16,2,3] = 0.0;
+  s_list["d6h",16,3,1] =  0.0; s_list["d6h",16,3,2] =  0.0; s_list["d6h",16,3,3] =-1.0;
+  #
+  s_list["d6h",17,1,1] =  0.5; s_list["d6h",17,1,2] =-hsq3; s_list["d6h",17,1,3] = 0.0;
+  s_list["d6h",17,2,1] =-hsq3; s_list["d6h",17,2,2] = -0.5; s_list["d6h",17,2,3] = 0.0;
+  s_list["d6h",17,3,1] =  0.0; s_list["d6h",17,3,2] =  0.0; s_list["d6h",17,3,3] =-1.0;
+  #
+  s_list["d6h",18,1,1] =  1.0; s_list["d6h",18,1,2] =  0.0; s_list["d6h",18,1,3] = 0.0;
+  s_list["d6h",18,2,1] =  0.0; s_list["d6h",18,2,2] = -1.0; s_list["d6h",18,2,3] = 0.0;
+  s_list["d6h",18,3,1] =  0.0; s_list["d6h",18,3,2] =  0.0; s_list["d6h",18,3,3] = 1.0;
+  #
+  s_list["d6h",19,1,1] =  0.5; s_list["d6h",19,1,2] = hsq3; s_list["d6h",19,1,3] = 0.0;
+  s_list["d6h",19,2,1] = hsq3; s_list["d6h",19,2,2] = -0.5; s_list["d6h",19,2,3] = 0.0;
+  s_list["d6h",19,3,1] =  0.0; s_list["d6h",19,3,2] =  0.0; s_list["d6h",19,3,3] = 1.0;
+  #
+  s_list["d6h",20,1,1] = -0.5; s_list["d6h",20,1,2] = hsq3; s_list["d6h",20,1,3] = 0.0;
+  s_list["d6h",20,2,1] = hsq3; s_list["d6h",20,2,2] =  0.5; s_list["d6h",20,2,3] = 0.0;
+  s_list["d6h",20,3,1] =  0.0; s_list["d6h",20,3,2] =  0.0; s_list["d6h",20,3,3] = 1.0;
+  #
+  s_list["d6h",21,1,1] = -1.0; s_list["d6h",21,1,2] =  0.0; s_list["d6h",21,1,3] = 0.0;
+  s_list["d6h",21,2,1] =  0.0; s_list["d6h",21,2,2] =  1.0; s_list["d6h",21,2,3] = 0.0;
+  s_list["d6h",21,3,1] =  0.0; s_list["d6h",21,3,2] =  0.0; s_list["d6h",21,3,3] = 1.0;
+  #
+  s_list["d6h",22,1,1] = -0.5; s_list["d6h",22,1,2] =-hsq3; s_list["d6h",22,1,3] = 0.0;
+  s_list["d6h",22,2,1] =-hsq3; s_list["d6h",22,2,2] =  0.5; s_list["d6h",22,2,3] = 0.0;
+  s_list["d6h",22,3,1] =  0.0; s_list["d6h",22,3,2] =  0.0; s_list["d6h",22,3,3] = 1.0;
+  #
+  s_list["d6h",23,1,1] =  0.5; s_list["d6h",23,1,2] =-hsq3; s_list["d6h",23,1,3] = 0.0;
+  s_list["d6h",23,2,1] =-hsq3; s_list["d6h",23,2,2] = -0.5; s_list["d6h",23,2,3] = 0.0;
+  s_list["d6h",23,3,1] =  0.0; s_list["d6h",23,3,2] =  0.0; s_list["d6h",23,3,3] = 1.0;
   }
 #
 #  Find the start of the $DATA section
@@ -135,6 +228,7 @@ BEGIN {
 (NR==datline+2) && /^CNV  *2 *$/ { symcode = "c2v" ; }
 (NR==datline+2) && /^CNH  *2 *$/ { symcode = "c2h" ; }
 (NR==datline+2) && /^DNH  *2 *$/ { symcode = "d2h" ; }
+(NR==datline+2) && /^DNH  *6 *$/ { symcode = "d6h" ; }
 # General-case handling for non-C1 symmetry
 (NR==datline+2) {
   # Did we recognize the symmetry code?

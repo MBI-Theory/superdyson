@@ -1,14 +1,20 @@
-!   subroutine os_1e_kinetic_real(vb_s,p2_l,p2_r,vb_p,r_l,z_l,r_r,z_r)
-!     integer(ik), intent(in) :: p2_l, p2_r          ! Upper dimensions of the vb_p array
-!     real(rk), intent(in)    :: vb_s(0:p2_l,0:p2_r) ! Buffer containing primitive overlaps
-!     real(rk), intent(out)   :: vb_p(0:p2_l,0:p2_r) ! Buffer used for recurrences, and the final result
-!     real(ark), intent(in)   :: r_l(:)              ! Centre of the left b.f.
-!     real(ark), intent(in)   :: z_l                 ! Orbital exponent of the left b.f.
-!     real(ark), intent(in)   :: r_r(:)              ! ditto, for the right b.f.
-!     real(ark), intent(in)   :: z_r                 ! 
-!     !
-      real(kind(z_l)) :: zeta, xi, p(3), s00, s
-      integer(ik)     :: m_l, m_r, ic, id1, id2, id3
+!
+!  Calculate primitive kinetic energy integrals (-0.5 \Delta)
+!  We follow eq. A12, A13 of Obara & Saika
+!  This routine is a modification of os_1e_dipole (in case this wasn't clear ;-)
+!
+!   subroutine os_1e_kinetic(vb_s,p2_l,p2_r,vb_p,r_l,z_l,r_r,z_r)
+!     integer, parameter      :: ok = rk
+      integer(ik), intent(in) :: p2_l, p2_r          ! Upper dimensions of the vb_p array
+      real(ok), intent(in)    :: vb_s(0:p2_l,0:p2_r) ! Buffer containing primitive overlaps
+      real(ok), intent(out)   :: vb_p(0:p2_l,0:p2_r) ! Buffer used for recurrences, and the final result
+      real(ok), intent(in)    :: r_l(:)              ! Centre of the left b.f.
+      real(ok), intent(in)    :: z_l                 ! Orbital exponent of the left b.f.
+      real(ok), intent(in)    :: r_r(:)              ! ditto, for the right b.f.
+      real(ok), intent(in)    :: z_r                 ! 
+      !
+      real(ok)    :: zeta, xi, p(3), s00, s
+      integer(ik) :: m_l, m_r, ic, id1, id2, id3
       !
       call os_common_primitives(r_l,z_l,r_r,z_r,xi=xi,zeta=zeta,p=p,s00=s00)
       !
@@ -59,4 +65,4 @@
           end do find_left
         end do left_recurrence
       end do right_loop
-!   end subroutine os_1e_kinetic_real
+!   end subroutine os_1e_kinetic

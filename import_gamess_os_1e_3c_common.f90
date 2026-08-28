@@ -1,15 +1,24 @@
-!   subroutine os_1e_3c_real(what,p2_l,p2_r,n_rec,vb_p,r_l,z_l,r_r,z_r)
-!     type(gam_operator_data), intent(in) :: what             ! Operator parameters
-!     integer(ik), intent(in)  :: p2_l, p2_r, n_rec           ! Upper dimensions of the vb_p array
-!     real(rk), intent(out)    :: vb_p(0:p2_l,0:p2_r,0:n_rec) ! Buffer used for recurrences, and the final result
-!     real(ark), intent(in)    :: r_l(:)                      ! Centre of the left b.f.
-!     real(ark), intent(in)    :: z_l                         ! Orbital exponent of the left b.f.
-!     real(ark), intent(in)    :: r_r(:)                      ! ditto, for the right b.f.
-!     real(ark), intent(in)    :: z_r                         ! 
-!     !
-      real(kind(z_l)) :: zeta, p(3), c(3), s00, s, t
-      integer(ik)     :: l_l, l_r                            ! "Angular momentum" on the the left and right
-      integer(ik)     :: m_l, m_r, ic, id1, id2, id3, m_i
+!
+!  Calculate primitive 1e 3c integrals. We essentially follow the treatment
+!  of R. Ahlrichs (PCCP 8, 3072-3077 (2006)), suitably modified for three-
+!  centre integrals. The actual recursion is (of course) identical to OS eq. A19
+!
+!  We are not particularly interested in making the code efficient, so the
+!  order of recursions may be less than optimal.
+!
+!   subroutine os_1e_3c(what,p2_l,p2_r,n_rec,vb_p,r_l,z_l,r_r,z_r)
+!     integer, parameter       :: ok = rk
+      type(gam_operator_data), intent(in) :: what             ! Operator parameters
+      integer(ik), intent(in)  :: p2_l, p2_r, n_rec           ! Upper dimensions of the vb_p array
+      real(ok), intent(out)    :: vb_p(0:p2_l,0:p2_r,0:n_rec) ! Buffer used for recurrences, and the final result
+      real(ok), intent(in)     :: r_l(:)                      ! Centre of the left b.f.
+      real(ok), intent(in)     :: z_l                         ! Orbital exponent of the left b.f.
+      real(ok), intent(in)     :: r_r(:)                      ! ditto, for the right b.f.
+      real(ok), intent(in)     :: z_r                         ! 
+      !
+      real(ok)    :: zeta, p(3), c(3), s00, s, t
+      integer(ik) :: l_l, l_r                            ! "Angular momentum" on the the left and right
+      integer(ik) :: m_l, m_r, ic, id1, id2, id3, m_i
       !
       !  Sanity check: if the recursion order enough to reach the desided angular momentum?
       !
@@ -18,7 +27,7 @@
       if (n_rec/=l_l+l_r) stop 'import_gamess%os_1e_3c - called with an unreasonable order of recursion'
       !
       call os_common_primitives(r_l,z_l,r_r,z_r,zeta=zeta,p=p,s00a=s00)
-      c = real(what%op_xyz,kind=kind(c))
+      c = real(what%op_xyz,kind=ok)
       !
       !  Initialize primitive integrals. This is the only part which depends on the
       !  specific operator; the recursions are identical for all kernels.
@@ -71,4 +80,4 @@
           end do find_left
         end do left_recurrence
       end do right_loop
-!   end subroutine os_1e_3c_real
+!   end subroutine os_1e_3c

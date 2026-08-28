@@ -2,6 +2,16 @@ module block_matrices
 !
 !  Routines for handling block matrices.
 !
+!  I have tried to rewrite this module to use Fortran-2003 parameterized
+!  type for the adjustable matrix size. This however keeps hitting a bug
+!  after bug after bug in gcc/gfortran. Up to and including gfortran 16.2,
+!  implementation of this part of the Fortran standard is broken, with
+!  almost every major release between 9 and 16 having its own exciting
+!  bugs. In the interest of sanity, I am choosing to reimplement the needed
+!  subset of these language features manually. 
+!
+!  This is truly sad.
+!
 !  Matrices are still stored as a standard Fortran rectangular matrix,
 !  with no attempt to use block structure to save storage space.
 !
@@ -30,6 +40,8 @@ module block_matrices
 !
 !  Routines:
 !
+!    bm_initialize     - initialized block-matrix descriptor
+!    bm_clear          - clears block-matrix descriptor for reuse
 !    bm_destroy        - deletes block-matrix descriptor
 !    bm_print          - (debug) reports on the block structure 
 !    bm_verify         - (debug) checks descriptor for consistency with the matrix
@@ -55,39 +67,72 @@ module block_matrices
   implicit none
   private
   public bm_structure
-  public bm_scan_matrix, bm_destroy, bm_print, bm_verify
+  public bm_initialize, bm_clear, bm_destroy
+  public bm_scan_matrix, bm_print, bm_verify
   public bm_find_zero_row, bm_drop_row, bm_drop_column, bm_substitute_row
   public bm_add_block, bm_intersect, bm_intersection
   public rcsid_block_matrices
   !
-  character(len=clen), save :: rcsid_block_matrices = "$Id: block_matrices.f90,v 1.9 2021/09/29 13:43:22 ps Exp $"
-  !
-  integer(ik), parameter :: max_nrows = 1024_ik ! Increase if necessary
+  character(len=clen), save :: rcsid_block_matrices = "$Id: block_matrices.f90,v 1.10 2026/08/27 14:26:06 ps Exp $"
   !
   type bm_structure
-    integer(ik)    :: n_rows    = 0             ! Number of non-zero rows. Note that the first unused position
+    integer(ik)              :: max_nrows =-1   ! Maximum number of rows
+    integer(ik)              :: n_rows    = 0   ! Number of non-zero rows. Note that the first unused position
                                                 ! in rows() is rows(n_rows+1)
-    integer(ik)    :: n_cols    = 0             ! Number of non-zero columns
-    integer(ik)    :: n_blocks  = -1            ! Number of non-empty blocks;
+    integer(ik)              :: n_cols    = 0   ! Number of non-zero columns
+    integer(ik)              :: n_blocks  =-1   ! Number of non-empty blocks;
                                                 ! -1 indicates an un-unitialized structure
-    integer(ik)    :: max_row   = 0             ! Largest row index in the matrix (including zero blocks!)
-    integer(ik)    :: max_col   = 0             ! Largest column index in the matrix
-    integer(ik)    :: block_data(4,max_nrows)   ! 1 = number of rows in each block
+    integer(ik)              :: max_row   = 0   ! Largest row index in the matrix (including zero blocks!)
+    integer(ik)              :: max_col   = 0   ! Largest column index in the matrix
+    integer(ik), allocatable :: block_data(:,:) ! First index:
+                                                ! 1 = number of rows in each block
                                                 ! 2 = number of columns in each block
                                                 ! 3 = starting position in rows() for the row list
                                                 ! 4 = starting position in cols() for the column list
-    integer(ik)    :: rows(max_nrows)           ! List of rows within each block
-    integer(ik)    :: cols(max_nrows)           ! List of columns within each block
+                                                ! Second index: 1 ... max_nrows
+    integer(ik), allocatable :: rows(:)         ! List of rows within each block, 1 ... max_nrows
+    integer(ik), allocatable :: cols(:)         ! List of columns within each block 1 ... max_nrows
   end type bm_structure
   !
   contains
   !
-  subroutine bm_destroy(bms)
-    type(bm_structure), intent(inout) :: bms ! Description to destroy
+  subroutine bm_initialize(bms,max_nrows)
+    type(bm_structure), intent(inout) :: bms       ! Descriptor to initialize
+    integer(ik), intent(in)           :: max_nrows ! Maximum number of rows
     !
+    if (max_nrows<=0) then
+      stop 'block_matrices%bm_initialize - must have positive max_nrows'
+    end if
+    if (allocated(bms%block_data) .or. allocated(bms%rows) .or. allocated(bms%cols)) then
+      stop 'block_matrices%bm_initialize - arrays already allocated at initialization?!'
+    end if
+    !
+    bms%max_nrows = max_nrows
+    allocate (bms%block_data(4,max_nrows),bms%rows(max_nrows),bms%cols(max_nrows))
+    !
+    call bm_clear(bms)
+  end subroutine bm_initialize
+  !
+  subroutine bm_clear(bms)
+    type(bm_structure), intent(inout) :: bms ! Description to reset. We do not need to clear the arrays.
+    !
+    if (bms%max_nrows<=0) stop 'block_matrices%bm_clear - called on an uninitialized descriptor'
+    bms%n_rows   =  0
+    bms%n_cols   =  0
     bms%n_blocks = -1
+    bms%max_row  =  0
+    bms%max_col  =  0
+  end subroutine bm_clear
+  !
+  subroutine bm_destroy(bms)
+    type(bm_structure), intent(inout) :: bms ! Description to reset. We do not need to clear the arrays.
+    !
+    bms%max_nrows = -1
+    if (allocated(bms%block_data)) deallocate(bms%block_data)
+    if (allocated(bms%rows)      ) deallocate(bms%rows)
+    if (allocated(bms%cols)      ) deallocate(bms%cols)
   end subroutine bm_destroy
-
+  !
   subroutine bm_print(bms,text)
     type(bm_structure), intent(in) :: bms  ! Block descriptor
     character(len=*), intent(in)   :: text ! Descriptive text to associate with the report
@@ -95,33 +140,44 @@ module block_matrices
     integer(ik) :: ib, i1, ie
     integer(ik) :: rp, cp, rc, cc
     !
+    write (out,"(a,': max. array sizes: ',i0)") text, bms%max_nrows
     if (bms%n_blocks/=-1) then
       write (out,"(a,': max. number of rows: ',i0)") text, bms%max_row
       write (out,"(a,': max. number of colums: ',i0)") text, bms%max_col
       write (out,"(a,': found ',i0,' blocks')") text, bms%n_blocks
       write (out,"(a,': ',i0,' non-zero rows')") text, bms%n_rows
       write (out,"(a,': ',i0,' non-zero columns')") text, bms%n_cols
-      print_blocks: do ib=1,bms%n_blocks
-        rc = bms%block_data(1,ib)  ! Rows count
-        cc = bms%block_data(2,ib)  ! Columns count
-        rp = bms%block_data(3,ib)  ! Rows position
-        cp = bms%block_data(4,ib)  ! Columns position
-        print_rows: do i1=1,rc,20
-          ie = min(i1+19,rc)
-          write (out,"(a,': block ',i4,' rows    ',20(1x,i6))") text, ib, bms%rows(rp+i1-1:rp+ie-1)
-        end do print_rows
-        !
-        print_cols: do i1=1,cc,20
-          ie = min(i1+19,cc)
-          write (out,"(a,': block ',i4,' columns ',20(1x,i6))") text, ib, bms%cols(cp+i1-1:cp+ie-1)
-        end do print_cols
-      end do print_blocks
+      if (bms%n_blocks<=0 .or. bms%n_blocks>bms%max_nrows) then
+        write (out,"(a,': n_blocks corrupted, stopping output.')") text
+      else
+        print_blocks: do ib=1,bms%n_blocks
+          rc = bms%block_data(1,ib)  ! Rows count
+          cc = bms%block_data(2,ib)  ! Columns count
+          rp = bms%block_data(3,ib)  ! Rows position
+          cp = bms%block_data(4,ib)  ! Columns position
+          if (rc<1 .or. rc>bms%max_nrows .or. rp<1 .or. rp+rc-1>bms%max_nrows .or. &
+              cc<1 .or. cc>bms%max_nrows .or. cp<1 .or. cp+cc-1>bms%max_nrows) then
+            write (out,"(a,': block ',i0,' corrupted:',4(1x,i0),', stopping output.')") ib, rc, cc, rp, cp
+            exit print_blocks
+          else
+            print_rows: do i1=1,rc,20
+              ie = min(i1+19,rc)
+              write (out,"(a,': block ',i4,' rows    ',20(1x,i6))") text, ib, bms%rows(rp+i1-1:rp+ie-1)
+            end do print_rows
+            !
+            print_cols: do i1=1,cc,20
+              ie = min(i1+19,cc)
+              write (out,"(a,': block ',i4,' columns ',20(1x,i6))") text, ib, bms%cols(cp+i1-1:cp+ie-1)
+            end do print_cols
+          end if
+        end do print_blocks
+      end if
     else
       write (out,"(a,': descriptor is not initialized.')") text
     end if
     write (out,"()")
   end subroutine bm_print
-
+  !
   subroutine bm_verify(mat,bms,text,eps)
     real(rk), intent(in)           :: mat(:,:) ! Matrix 
     type(bm_structure), intent(in) :: bms      ! Block structure to be checked for consistency with matrix
@@ -183,7 +239,7 @@ module block_matrices
     call flush(out)
     stop 'block_matrix%bm_verify - verify failure'
   end subroutine bm_verify
-
+  !
   subroutine bm_scan_matrix(mat,bms,eps)
     real(rk), intent(in)              :: mat(:,:) ! Matrix to be analyzed
     type(bm_structure), intent(inout) :: bms      ! Block structure of the matrix
@@ -334,7 +390,7 @@ module block_matrices
     end subroutine add_row
     !
   end subroutine bm_scan_matrix
-
+  !
   function bm_find_zero_row(bms) result(izero)
     type(bm_structure), intent(in) :: bms
     integer(ik)                    :: izero
@@ -361,6 +417,7 @@ module block_matrices
     !
     !  A bit of sanity checking first
     !
+    if (bms%max_nrows/=bmo%max_nrows) stop 'block_matrices%bm_drop_row - incompatible descriptors'
     if (irow<=0 .or. irow>bms%max_row) stop 'block_matrices%bm_drop_row - bad irow'
     if (bmo%n_blocks/=-1) stop 'block_matrices%bm_drop_row - output descriptor already in use?!'
     !
@@ -424,6 +481,7 @@ module block_matrices
     !
     !  A bit of sanity checking first
     !
+    if (bms%max_nrows/=bmo%max_nrows) stop 'block_matrices%bm_drop_column - incompatible descriptors'
     if (icol<=0 .or. icol>bms%max_col) stop 'block_matrices%bm_drop_column - bad icol'
     if (bmo%n_blocks/=-1) stop 'block_matrices%bm_drop_column - output descriptor already in use?!'
     !
@@ -483,6 +541,7 @@ module block_matrices
     !
     !  A bit of sanity checking first
     !
+    if (bms%max_nrows/=bmo%max_nrows) stop 'block_matrices%bm_substitute_row - incompatible descriptors'
     if (irow<=0 .or. irow>bms%max_row) stop 'block_matrices%bm_substitute_row - bad irow'
     if (bmo%n_blocks/=-1) stop 'block_matrices%bm_substiture_row - output descriptor already in use?!'
     if (any(links<=0) .or. any(links>bms%max_col)) stop 'block_matrices%bm_substitute_row - bad number of links'
@@ -590,17 +649,18 @@ module block_matrices
     !
     if (size(row)==0 .or. size(col)==0) return ! Adding an empty block is a valid no-op
     if (bmo%n_blocks==-1) stop 'block_matrices%bm_add_block - output descriptor is not initialized?!'
+    if (bmo%n_blocks<0) stop 'block_matrices%bm_add_block - corrupt output descriptor'
     nb = bmo%n_blocks + 1
     bmo%n_blocks = nb
-    if (bmo%n_blocks>max_nrows) stop 'block_matrices%bm_add_block - block_data() - increase max_inrows'
+    if (bmo%n_blocks>bmo%max_nrows) stop 'block_matrices%bm_add_block - block_data() - increase max_nrows'
     ! Descriptor
     bmo%block_data(1,nb) = size(row)
     bmo%block_data(2,nb) = size(col)
     bmo%block_data(3,nb) = bmo%n_rows + 1
     bmo%block_data(4,nb) = bmo%n_cols + 1
     ! Overflow check
-    if (bmo%n_rows+size(row)>max_nrows) stop 'block_matrices%bm_add_block - rows() - increase max_inrows'
-    if (bmo%n_cols+size(col)>max_nrows) stop 'block_matrices%bm_add_block - cols() - increase max_inrows'
+    if (bmo%n_rows+size(row)>bmo%max_nrows) stop 'block_matrices%bm_add_block - rows() - increase max_nrows'
+    if (bmo%n_cols+size(col)>bmo%max_nrows) stop 'block_matrices%bm_add_block - cols() - increase max_nrows'
     ! Data
     bmo%rows(bmo%n_rows+1:bmo%n_rows+size(row)) = row
     bmo%cols(bmo%n_cols+1:bmo%n_cols+size(col)) = col

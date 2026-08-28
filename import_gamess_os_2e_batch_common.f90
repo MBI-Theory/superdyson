@@ -1,40 +1,48 @@
-!   subroutine os_2e_batch_real(what,v,xyz,sh_l,sh_ns,sh_np,p_zet,p_c,p_c_max,p_master,p_z_same,cutoff_2e)
-!     type(gam_operator_data), intent(in) :: what              ! Operator parameters
-!     real(rk), intent(out)               :: v(:,:,:,:)        ! Buffer for the results
-!     real(ark), intent(in)               :: xyz(:,:)          ! Coordinates of the basis functions within each batch
-!     integer(ik), intent(in)             :: sh_l (:)          ! Angular momentum of each shell within a batch is the same
-!     integer(ik), intent(in)             :: sh_ns(:)          ! Number of shells in each batch
-!     integer(ik), intent(in)             :: sh_np(:,:)        ! Number of primitives in each shell
-!     real(ark), intent(in)               :: p_zet   (:,:,:)   ! Primitive exponents in each shell
-!     real(ark), intent(in)               :: p_c     (:,:,:)   ! Primitive contraction coefficients in each shell
-!     real(ark), intent(in)               :: p_c_max (:,:,:)   ! Absolute maximum of a contraction coefficient for all instances
-!                                                              ! of a primitive. This value is only defined for the "master" entry
-!     logical, intent(in)                 :: p_master(:,:,:)   ! "Master" copy of the exponent
-!     integer(ik), intent(in)             :: p_z_same(:,:,:,:) ! Next contraction with an identical exponent
-!                                                              ! First index: 1 = shell index; 2 = contraction within shell
-!                                                              ! 2nd, 3rd, and 4th indices are as the 1st etc in p_zet/p_c/p_master
-!     real(rk), intent(in)                :: cutoff_2e         ! Absolute accuracy required in the final integrals;
-!                                                              ! Negative means retain full accuracy
-!     !
-      integer(ik)                 :: a, b, c, d      ! shell index within a batch
-      integer(ik)                 :: i, j, k, l      ! primitive index within a shell
-      integer(ik)                 :: p1(4)           ! Starting position of the desired block of primitive integrals
-      integer(ik)                 :: p2(4)           ! Ending position of the desired block of primitive integrals
-      integer(ik)                 :: sz(4)           ! Size of the desired block
-      integer(ik)                 :: nrec            ! Maximum recursion order
-      integer(ik)                 :: alloc           ! Allocation status, what else?
-      real(kind(v)), allocatable  :: vb_r(:,:,:,:,:) ! Buffer for recursion
-      real(kind(v))               :: wgt
-      real(kind(v))               :: zet(4)          ! Primitive exponents
-      real(kind(v))               :: w_cut           ! Absolute cutoff 
-      logical                     :: zero_primitives ! True if all primitive integrals are negligible
-      ! The line below is miscompiled by gfortran, at least versions 10.3.1 and 12.1.1
-      ! real(kind(v))               :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
-      real(kind(v))               :: ang_c_kind(0:gam_nxyz-1)
+!
+!  4-centre 2-electron integrals
+!  We follow the Ahlrichs' PCCP paper. However, instead of using the transfer relations, 
+!  advocated by that paper, we directly use the general recursion formula (31).
+!  This is less computationally efficient than the Ahlrichs' preferred route, but
+!  avoids the need for extending our data tables in gamess_internal.f90.
+!  If efficiency ever becomes a problem, this can be changed easily.
+!
+!   subroutine os_2e_batch(what,v,xyz,sh_l,sh_ns,sh_np,p_zet,p_c,p_c_max,p_master,p_z_same,cutoff_2e)
+!     integer, parameter                  :: ok = rk
+      type(gam_operator_data), intent(in) :: what              ! Operator parameters
+      real(ok), intent(out)               :: v(:,:,:,:)        ! Buffer for the results
+      real(ok), intent(in)                :: xyz(:,:)          ! Coordinates of the basis functions within each batch
+      integer(ik), intent(in)             :: sh_l (:)          ! Angular momentum of each shell within a batch is the same
+      integer(ik), intent(in)             :: sh_ns(:)          ! Number of shells in each batch
+      integer(ik), intent(in)             :: sh_np(:,:)        ! Number of primitives in each shell
+      real(ok), intent(in)                :: p_zet   (:,:,:)   ! Primitive exponents in each shell
+      real(ok), intent(in)                :: p_c     (:,:,:)   ! Primitive contraction coefficients in each shell
+      real(ok), intent(in)                :: p_c_max (:,:,:)   ! Absolute maximum of a contraction coefficient for all instances
+                                                               ! of a primitive. This value is only defined for the "master" entry
+      logical, intent(in)                 :: p_master(:,:,:)   ! "Master" copy of the exponent
+      integer(ik), intent(in)             :: p_z_same(:,:,:,:) ! Next contraction with an identical exponent
+                                                               ! First index: 1 = shell index; 2 = contraction within shell
+                                                               ! 2nd, 3rd, and 4th indices are as the 1st etc in p_zet/p_c/p_master
+      real(ok), intent(in)                :: cutoff_2e         ! Absolute accuracy required in the final integrals;
+                                                               ! Negative means retain full accuracy
+      !
+      integer(ik)            :: a, b, c, d      ! shell index within a batch
+      integer(ik)            :: i, j, k, l      ! primitive index within a shell
+      integer(ik)            :: p1(4)           ! Starting position of the desired block of primitive integrals
+      integer(ik)            :: p2(4)           ! Ending position of the desired block of primitive integrals
+      integer(ik)            :: sz(4)           ! Size of the desired block
+      integer(ik)            :: nrec            ! Maximum recursion order
+      integer(ik)            :: alloc           ! Allocation status, what else?
+      real(ok), allocatable  :: vb_r(:,:,:,:,:) ! Buffer for recursion
+      real(ok)               :: wgt
+      real(ok)               :: zet(4)          ! Primitive exponents
+      real(ok)               :: w_cut           ! Absolute cutoff 
+      logical                :: zero_primitives ! True if all primitive integrals are negligible
+      ! real(ok)               :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      real(ok)               :: ang_c_kind(0:gam_nxyz-1)
       !
       !  Prepare angular factors of the right kind
       !
-      ang_c_kind = real(ang_c,kind=kind(ang_c_kind))
+      ang_c_kind = real(ang_c,kind=ok)
       !
       !  All shells within the batch have the same angular momentum, so that the recursion buffer
       !  does not have to be resized.
@@ -99,11 +107,11 @@
       !  Accumulate contibution of these primitives to all contractions containing them
       !
       subroutine accumulate_all
-        integer(ik)   :: ea, eb, ec, ed ! "Equivalent" shell indices
-        integer(ik)   :: ei, ej, ek, el ! "Equivalent" contraction indices
-        integer(ik)   :: pi, pj, pk, pl ! Position of the contacted shell within the output buffer
-        real(kind(v)) :: ca, cb, cc, cd ! Contraction coefficients
-        real(kind(v)) :: wgt
+        integer(ik) :: ea, eb, ec, ed ! "Equivalent" shell indices
+        integer(ik) :: ei, ej, ek, el ! "Equivalent" contraction indices
+        integer(ik) :: pi, pj, pk, pl ! Position of the contacted shell within the output buffer
+        real(ok)    :: ca, cb, cc, cd ! Contraction coefficients
+        real(ok)    :: wgt
         !
         !  We have to work through all instances of this primitive. We know there is
         !  at least one instance, but there could be more ...
@@ -154,8 +162,8 @@
       !  Accumulate contibution of these primitives to a single contaction
       !
       subroutine accumulate(pi,pj,pk,pl,wgt)
-        integer(ik), intent(in)   :: pi, pj, pk, pl ! Starting positions within output buffer
-        real(kind(v)), intent(in) :: wgt            ! Weight of this primitive
+        integer(ik), intent(in) :: pi, pj, pk, pl ! Starting positions within output buffer
+        real(ok), intent(in)    :: wgt            ! Weight of this primitive
         !
         integer(ik) :: ip, jp, kp, lp  ! Indices within the recursion buffer
         integer(ik) :: iq, jq, kq, lq  ! Indices within the output buffer
@@ -175,4 +183,4 @@
           end do add_2
         end do add_1
       end subroutine accumulate
-!   end subroutine os_2e_batch_real
+!   end subroutine os_2e_batch

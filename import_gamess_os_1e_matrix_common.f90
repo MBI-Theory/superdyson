@@ -1,17 +1,20 @@
-!   subroutine os_1e_matrix_real(what,l,r,v)
-!     type (gam_operator_data), intent(in) :: what   ! Operator to evaluate
-!     type (gam_structure), intent(in)     :: l      ! Basis set on the left
-!     type (gam_structure), intent(in)     :: r      ! Basis set on the right
-!     real(rk), intent(out)                :: v(:,:) ! Buffer for the integrals
+!   subroutine os_1e_matrix(what,l,r,v)
+!     integer, parameter :: ok = rk
+      type (gam_operator_data), intent(in) :: what   ! Operator to evaluate
+      type (gam_structure), intent(in)     :: l      ! Basis set on the left
+      type (gam_structure), intent(in)     :: r      ! Basis set on the right
+!     real(ok), intent(out)                :: v(:,:) ! Buffer for the integrals
       !
-      integer(ik)  :: at_l, sh_l, c1_l, c2_l, l_l, p1_l, p2_l
-      integer(ik)  :: at_r, sh_r, c1_r, c2_r, l_r, p1_r, p2_r
+      integer(ik)   :: at_l, sh_l, c1_l, c2_l, l_l, p1_l, p2_l
+      integer(ik)   :: at_r, sh_r, c1_r, c2_r, l_r, p1_r, p2_r
+      logical, save :: warned = .false.
       !
-      !  Make sure neither bra nor ket include a rotation matrix (just ignore it!)
+      !  Make sure neither bra nor ket include a rotation matrix
       !
-      ! if (.not. MathIsUnitMatrix(l%rotmat) .or. .not. MathIsUnitMatrix(r%rotmat) ) then
-      !   stop 'import_gamess%os_1e_matrix - rotation is not implemented'
-      ! end if
+      if (.not. warned .and. (.not. MathIsUnitMatrix(l%rotmat) .or. .not. MathIsUnitMatrix(r%rotmat)) ) then
+         warned = .true.
+         write (out,"('import_gamess%os_1e_matrix: Called with non-unit rotation matrix, which will be ignored')")
+      end if
       !
       !  Iterate over all shell blocks. Since l and r are not necessarily the same,
       !  matrix elements do not have to be symmetric, and we have to process all
@@ -47,12 +50,12 @@
               ! write (out,"('   c_l: ',12g12.6)") l%atoms(at_l)%p_c(c1_l:c2_l)
               ! write (out,"('   c_r: ',12g12.6)") r%atoms(at_r)%p_c(c1_r:c2_r)
               call os_1e_contraction(what,v(p1_l:p2_l,p1_r:p2_r),        &
-                   real(l%atoms(at_l)%xyz,kind=kind(v))/abohr,l_l,       &
-                     real(l%atoms(at_l)%p_zet(c1_l:c2_l),kind=kind(v)),  &
-                       real(l%atoms(at_l)%p_c(c1_l:c2_l),kind=kind(v)),  &
-                   real(r%atoms(at_r)%xyz,kind=kind(v))/abohr,l_r,       &
-                     real(r%atoms(at_r)%p_zet(c1_r:c2_r),kind=kind(v)),  &
-                       real(r%atoms(at_r)%p_c(c1_r:c2_r),kind=kind(v)))
+                   real(l%atoms(at_l)%xyz,kind=ok)/abohr,l_l,       &
+                     real(l%atoms(at_l)%p_zet(c1_l:c2_l),kind=ok),  &
+                       real(l%atoms(at_l)%p_c(c1_l:c2_l),kind=ok),  &
+                   real(r%atoms(at_r)%xyz,kind=ok)/abohr,l_r,       &
+                     real(r%atoms(at_r)%p_zet(c1_r:c2_r),kind=ok),  &
+                       real(r%atoms(at_r)%p_c(c1_r:c2_r),kind=ok))
               p1_l = p2_l + 1
             end do l_shell_loop
           end do l_atom_loop
@@ -66,4 +69,4 @@
       if (p1_r-1/=r%nbasis) then
         stop 'import_gamess%os_1e_matrix - count error (r)'
       end if
-!   end subroutine os_1e_matrix_real
+!   end subroutine os_1e_matrix

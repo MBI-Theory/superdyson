@@ -1,3 +1,13 @@
+!   subroutine gamess_print_1e_integrals(v,bra,ket,symmetry,heading)
+!     integer, parameter :: ok = rk
+      real(ok), intent(in)                              :: v(:,:)    ! Integrals to print
+      type(gam_structure), intent(in), target, optional :: bra
+      type(gam_structure), intent(in), target, optional :: ket
+      character(len=*), intent(in), optional            :: symmetry  ! Expected symmetry of matrix elements, either
+                                                                     ! 'HERMITIAN' (default), 'ANTI-HERMITIAN', or 'NONE'
+      character(len=*), intent(in), optional            :: heading   ! Headings to include, either 'BOTH', 'LEFT', or 'NONE'
+                                                                     ! (the latter options are useful for MO printing)
+      !
       type(gam_structure), pointer :: l, r
       integer(ik)                  :: ir, ic, ic_p1, ic_pn
       integer(ik), parameter       :: cpp = 10               ! Columns per page
@@ -54,3 +64,4 @@
       end do print_pages
       !
       call TimerStop('GAMESS print 1e')
+!   end subroutine gamess_print_1e_integrals

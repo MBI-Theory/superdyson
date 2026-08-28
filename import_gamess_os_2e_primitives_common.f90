@@ -1,23 +1,28 @@
-!   subroutine os_2e_primitives_real(what,xyz,zet,p2,nrec,vb,w_cut,zero)
-!     type(gam_operator_data), intent(in) :: what        ! Operator parameters
-!     real(ark), intent(in)               :: xyz(:,:)    ! Coordinates of the basis functions within each batch
-!     real(rk), intent(in)                :: zet  (:)    ! Primitive exponents
-!     integer(ik), intent(in)             :: p2   (:)    ! Ending position of the desired block of integrals
-!     integer(ik), intent(in)             :: nrec        ! Maximum recursion order
-!     real(rk), intent(out)               :: vb(0:p2(1),0:p2(2),0:p2(3),0:p2(4),0:nrec)
-!     real(rk), intent(in)                :: w_cut       ! Absolute cutoff for the integrals
-!     logical, intent(out)                :: zero        ! True if all integrals are smaller than w_cut
-!     !
-      real(kind(vb)) :: zeta, eta, rho, p(3), q(3), t, sab, scd        ! See Ahlrichs eqs. 3-6
-      real(kind(vb)) :: s                  ! Integral being evaluated
-      integer(ik)    :: i,   j,   k,   l   ! Integral indices
-      integer(ik)    :: id1, jd1, kd1, ld1 ! "parent" indices - drop one power for the cordinate ic
-      integer(ik)    :: id2, jd2, kd2, ld2 ! "parent" indices - drop two powers for the coordinate ic
-      integer(ik)    :: il,  jl,  kl,  ll  ! Sum of all coordinate powers for given function
-      integer(ik)    :: ic                 ! Coordinate to recurse along
-      integer(ik)    :: m                  ! Recursion order
-      real(kind(vb)) :: grow_factor        ! Estimate of the maximum amplification factor in integral recursion
-      real(kind(vb)) :: gf_tmp
+!
+!  2-electron 4-centre primitive integrals
+!
+!   subroutine os_2e_primitives(what,xyz,zet,p2,nrec,vb,w_cut,zero)
+!     integer, parameter                  :: ok = rk
+      type(gam_operator_data), intent(in) :: what        ! Operator parameters
+      real(ok), intent(in)                :: xyz(:,:)    ! Coordinates of the basis functions within each batch
+      real(ok), intent(in)                :: zet  (:)    ! Primitive exponents
+      integer(ik), intent(in)             :: p2   (:)    ! Ending position of the desired block of integrals
+      integer(ik), intent(in)             :: nrec        ! Maximum recursion order
+      real(ok), intent(out)               :: vb(0:p2(1),0:p2(2),0:p2(3),0:p2(4),0:nrec)
+      real(ok), intent(in)                :: w_cut       ! Absolute cutoff for the integrals
+      logical, intent(out)                :: zero        ! True if all integrals are smaller than w_cut
+      !
+      real(ok)    :: zeta, eta, rho, p(3), q(3), t, sab, scd        ! See Ahlrichs eqs. 3-6
+      real(ok)    :: s                  ! Integral being evaluated
+      integer(ik) :: i,   j,   k,   l   ! Integral indices
+      integer(ik) :: id1, jd1, kd1, ld1 ! "parent" indices - drop one power for the cordinate ic
+      integer(ik) :: id2, jd2, kd2, ld2 ! "parent" indices - drop two powers for the coordinate ic
+      integer(ik) :: il,  jl,  kl,  ll  ! Sum of all coordinate powers for given function
+      integer(ik) :: ic                 ! Coordinate to recurse along
+      integer(ik) :: m                  ! Recursion order
+      real(ok)    :: grow_factor        ! Estimate of the maximum amplification factor in integral recursion
+      real(ok)    :: gf_tmp
+      real(ok), parameter :: pi_ok = real(pi_xrk,kind=ok) ! Expect a (harmless) warning from gfortran here!
       !
       ! There is a lot of overlap between formulae below and os_common_primitives()
       ! 
@@ -43,7 +48,7 @@
       !  integrals.
       !
       call os_basic_integral(what,rho,t,nrec,vb(0,0,0,0,0:nrec))
-      vb(0,0,0,0,0:nrec) = vb(0,0,0,0,0:nrec) * sab * scd * (real(pi_xrk,kind(zeta))/(zeta+eta))**real(1.5_xrk,kind(zeta))
+      vb(0,0,0,0,0:nrec) = vb(0,0,0,0,0:nrec) * sab * scd * (pi_ok/(zeta+eta))**1.5_ok
       !
       !  Ready to apply the cut-offs. We'll try to be extremely conservative.
       !
@@ -55,7 +60,7 @@
         gf_tmp = max(gf_tmp,maxval(abs(xyz(:,1) - p)))
       end do
       grow_factor = max(grow_factor,gf_tmp**m)
-      grow_factor = max(grow_factor,max(rho,real(0.5_xrk,kind(grow_factor))*MathFactorial(m,zeta))/zeta)
+      grow_factor = max(grow_factor,max(rho,0.5_ok*MathFactorial(m,zeta))/zeta)
       !
       ! write (out,*) '       w_cut = ', w_cut
       ! write (out,*) ' grow_factor = ', grow_factor
@@ -196,4 +201,4 @@
         ic = 3 ; id = drop_xyz(func,ic) ; if (id>=0) return
         stop 'import_gamess%os_2e_primitives - get_parent can''t get a parent!'
       end subroutine get_parent
-!   end subroutine os_2e_primitives_real
+!   end subroutine os_2e_primitives

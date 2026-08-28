@@ -14,7 +14,7 @@ IDS := built on $(shell hostname) at $(shell date)
 # gfortran 7.5.0 works
 # OPT
   F90 = gfortran   -I. -O3 -flto -fprotect-parens -fno-fast-math -march=native -mtune=native  -fstack-arrays -fopenmp -fcx-fortran-rules -fno-realloc-lhs -fbacktrace -g -cpp -D__BUILD_ID__='"Optimized gfortran, $(IDS)"'
-# F90 = gfortran   -I. -Og -fprotect-parens -fno-fast-math -march=native -mtune=native  -fstack-arrays -fopenmp -std=gnu -pedantic -Wall -Wno-unused-function -Wno-unused-dummy-argument -fcheck=all -fno-realloc-lhs -ffree-line-length-none -cpp -D__BUILD_ID__='"Debug gfortran, $(IDS)"'
+# F90 = gfortran   -I. -Og -fprotect-parens -fno-fast-math -march=native -mtune=native  -fstack-arrays -fopenmp -std=gnu -pedantic -Wall -Wno-unused-function -Wno-unused-dummy-argument -fcheck=all -fno-realloc-lhs -ffree-line-length-none -fbacktrace -g -cpp -D__BUILD_ID__='"Debug gfortran, $(IDS)"'
   LIBS = -llapack -lblas -lpthread
 
 MAKEFLAGS = -r

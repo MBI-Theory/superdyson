@@ -1,0 +1,18 @@
+ &SD_V2
+   verbose         = 1,
+   task            = 'braket',
+   braket_operator = 'none',
+   comment         = "C6H6 CIS S1. Overlap between canonical and non-orthogonal representations"
+   nmobra          = 192,
+   nmoket          = 51,
+   ndetbra         = 860,
+   ndetket         = 30,
+   eps_cdet        = 1e-10,
+   dont_check_s2   = .true.
+   file_cbra       = 'qc/c6h6-cis_mos.dat',
+   file_cket       = 'qc/c6h6-cis_state2c_mos.dat',
+   file_detbra     = 'qc/c6h6-cis_state2.dets',
+   file_detket     = 'qc/c6h6-cis_state2c.dets',
+   use_symmetry    = .true.
+   detail_timers   = .true.
+  /

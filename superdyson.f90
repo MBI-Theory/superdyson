@@ -41,7 +41,7 @@ module superdyson
   public call_superdyson
   public rcsid_superdyson
   !
-  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.34 2026/08/13 15:34:16 ps Exp $"
+  character(len=clen), save :: rcsid_superdyson = "$Id: superdyson.f90,v 1.36 2026/08/27 17:20:06 ps Exp $"
   !
   !  Local data for dyson
   !
@@ -100,8 +100,7 @@ contains
       call report_mo_correlations(sx)
     end if
     if (same_mos) then
-      write (out,"('Setting MO overlaps to a unit matrix')")
-      call mat_unit(sx)
+      call try_unit_overlap(have_overlaps,sx,same_mos) ! We may reset same_mos if there's no match
     endif
     if (use_symmetry) then
       call bm_scan_matrix(sx,sx_ms,eps=eps_integral)
@@ -164,7 +163,7 @@ contains
     !$omp& shared(tolerance,nelbra,nelket,ndetket,cdetion,cdetref) &
     !$omp& shared(eps_cdet,same_mos,occbra,occket,mode_overlap,have_operator) &
     !$omp& shared(nmobra,ndetbra,wdyson,verbose,op_components,dipall) &
-    !$omp& shared(drop_row,drop_col,rep_row,rep_col,use_symmetry) &
+    !$omp& shared(drop_row,drop_col,rep_row,rep_col,use_symmetry,block_max_rows) &
     !$omp& reduction(+:det_cutoff,det_included,det_distant,det_earlyzero,overall)
     !
     !  Allocate thread-private storage now
@@ -174,9 +173,9 @@ contains
               wdysondet(nelbra,1+op_components), &
               wdyson_thread(nmobra,2,1+op_components), &
               dipterm(op_components),dipall_thread(op_components))
+    call bm_initialize(sdet_ms,block_max_rows)
     wdyson_thread = 0._rk
     dipall_thread = 0._rk
-    sdet_ms%n_blocks = -1  ! This should not be necessary, but gfortran OpenMP is weird ...
     !$omp do schedule(dynamic) collapse(2)
     dyson_ref: do detref=1,ndetbra
       dyson_ion: do detion=1,ndetket
@@ -265,9 +264,7 @@ contains
         !
         !  Clean up auxiliary data
         !
-        if (use_symmetry) then 
-          call bm_destroy(sdet_ms)
-        end if
+        if (use_symmetry) call bm_clear(sdet_ms)
       end do dyson_ion
     end do dyson_ref
     !$omp end do
@@ -284,6 +281,7 @@ contains
     end if
     !$omp end critical
     !
+    call bm_destroy(sdet_ms)
     deallocate (sdet,dipdet,wdysondet,wdyson_thread,dipall_thread,dipterm)
     !$omp end parallel
     call TimerStop('Calculation')
@@ -355,7 +353,7 @@ contains
         !
         !  All our manipulations below will not lead to a non-zero determinant; bail out now.
         !
-        call bm_destroy(sdet_ms)
+        call bm_clear(sdet_ms)
         success = .false.
         return
       end if
@@ -423,8 +421,9 @@ contains
     subroutine drop_row_determinant(imo)
       integer(ik), intent(in) :: imo  ! Row to drop from the sdet() matrix
       !
-      type(bm_structure) :: scr_ms    ! Structure of the matrix with deleted row
+      type(bm_structure) :: scr_ms ! Structure of the matrix with deleted row
       !
+      call bm_initialize(scr_ms,sdet_ms%max_nrows)
       call bm_drop_row(sdet_ms,imo,scr_ms)
       if (hopeless_blocks(0_ik,0_ik,0_ik,0_ik,scr_ms)) then
         call bm_destroy(scr_ms)
@@ -451,12 +450,13 @@ contains
     type(bm_structure) :: bms
     !
     call TimerStart('determinant_exchange_orbitals')
+    call bm_initialize(bms,block_max_rows)
     mo_weights: do imo=1,nelbra
       if (use_symmetry) then
         wdysondet(imo,2:) = 0
         call bm_drop_row(sdet_ms,imo,bms)
         if (hopeless_blocks(1_ik,1_ik,0_ik,0_ik,bms)) then
-          call bm_destroy(bms)
+          call bm_clear(bms)
           cycle mo_weights
         end if
       end if ! use_symmetry
@@ -465,8 +465,9 @@ contains
         call drop_row(imo,dipdet(:,:,ic),scr(:,:,2))
         wdysondet(imo,1+ic) = ((-1)**(nelbra+imo))*determinant_transition(scr(:,:,1),scr(:,:,2),bms)
       end do process_components
-      if (use_symmetry) call bm_destroy(bms)
+      if (use_symmetry) call bm_clear(bms)
     end do mo_weights
+    call bm_destroy(bms)
     call TimerStop('determinant_exchange_orbitals')
     !
   end subroutine determinant_exchange_orbitals

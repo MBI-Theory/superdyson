@@ -1,24 +1,24 @@
-!   subroutine os_1e_contraction_real(what,vb,r_l,l_l,z_l,c_l,r_r,l_r,z_r,c_r)
-!     type (gam_operator_data), intent(in) :: what    ! Integral to evaluate
-!     real(rk), intent(out)                :: vb(:,:) ! Place for the integrals
-!     real(ark), intent(in)                :: r_l(:)  ! Coordinate on the left, in Bohr
-!     integer(ik), intent(in)              :: l_l     ! "Angular momentum" on the left
-!     real(ark), intent(in)                :: z_l(:)  ! Primitive exponents on the left
-!     real(ark), intent(in)                :: c_l(:)  ! Contractions on the left
-!     real(ark), intent(in)                :: r_r(:)  ! Ditto on the right
-!     integer(ik), intent(in)              :: l_r     ! 
-!     real(ark), intent(in)                :: z_r(:)  ! 
-!     real(ark), intent(in)                :: c_r(:)  ! 
+!   subroutine os_1e_contraction(what,vb,r_l,l_l,z_l,c_l,r_r,l_r,z_r,c_r)
+!     integer, parameter :: ok = rk
+      type (gam_operator_data), intent(in) :: what    ! Integral to evaluate
+      real(ok), intent(out)                :: vb(:,:) ! Place for the integrals
+      real(ok), intent(in)                 :: r_l(:)  ! Coordinate on the left, in Bohr
+      integer(ik), intent(in)              :: l_l     ! "Angular momentum" on the left
+      real(ok), intent(in)                 :: z_l(:)  ! Primitive exponents on the left
+      real(ok), intent(in)                 :: c_l(:)  ! Contractions on the left
+      real(ok), intent(in)                 :: r_r(:)  ! Ditto on the right
+      integer(ik), intent(in)              :: l_r     ! 
+      real(ok), intent(in)                 :: z_r(:)  ! 
+      real(ok), intent(in)                 :: c_r(:)  ! 
       !
-      integer(ik)                 :: ic_l, p1_l, p2_l, p_l, int_l
-      integer(ik)                 :: ic_r, p1_r, p2_r, p_r, int_r
-      real(kind(vb)), allocatable :: vb_r(:,:,:)  ! Buffer for recursions
-      real(kind(vb))              :: wgt
-      integer(ik)                 :: n_rec        ! Number of additional recursion intermediated
-      integer(ik)                 :: alloc
-      ! The construct below is miscompiled by gfortran 10.3.1 through (?) 12.1.1
-      ! real(kind(vb))              :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
-      real(kind(vb))              :: ang_c_kind(0:gam_nxyz-1)
+      integer(ik)           :: ic_l, p1_l, p2_l, p_l, int_l
+      integer(ik)           :: ic_r, p1_r, p2_r, p_r, int_r
+      real(ok), allocatable :: vb_r(:,:,:)  ! Buffer for recursions
+      real(ok)              :: wgt
+      integer(ik)           :: n_rec        ! Number of additional recursion intermediated
+      integer(ik)           :: alloc
+      ! real(ok)              :: ang_c_kind(lbound(ang_c,dim=1):ubound(ang_c,dim=1))
+      real(ok)              :: ang_c_kind(0:gam_nxyz-1)
       !
       p1_l = ang_loc(l_l)
       p2_l = ang_loc(l_l+1)-1
@@ -114,4 +114,4 @@
       if (alloc/=0) then
         stop 'import_gamess%os_1e_contraction: Buffer deallocation failed'
       end if
-!   end subroutine os_1e_contraction_real
+!   end subroutine os_1e_contraction

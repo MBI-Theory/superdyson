@@ -1,29 +1,30 @@
-!   subroutine gamess_2e_integrals_real(what,v,batch,a,b,c,d,op_param,accuracy)
-!     character(len=*), intent(in)                      :: what        ! What to evaluate
-!     real(rk), intent(out)                             :: v(:,:,:,:)  ! Buffer for the results
-!                                                                      ! Integrals are in the charge-cloud order: that is,
-!                                                                      ! first two indices correspond to the first variable;
-!                                                                      ! the last two indices correspond to the second variable
-!     integer(ik), intent(in)                           :: batch(:)    ! Batch indices
-!     type(gam_structure), intent(in), target, optional :: a, b, c, d  ! Contexts to work on. In principle, we can handle
-!                                                                      ! the situation with every index being on a separate
-!                                                                      ! molecule - not that this is hard for an AO integral
-!     real(rk), intent(in), optional                    :: op_param(:) ! Additional parameters for the operator
-!     real(rk), intent(in), optional                    :: accuracy    ! Desired accuracy of the integrals; contributions
-!                                                                      ! smaller than this can be neglected. 
-!                                                                      ! The default is to be as accurate as possible.
-!                                                                      ! Negative accuracy will restore the default behaviour
-!     !
+!   subroutine gamess_2e_integrals(what,v,batch,a,b,c,d,op_param,accuracy)
+!     integer, parameter :: ok = rk
+      character(len=*), intent(in)                      :: what        ! What to evaluate
+      real(ok), intent(out)                             :: v(:,:,:,:)  ! Buffer for the results
+                                                                       ! Integrals are in the charge-cloud order: that is,
+                                                                       ! first two indices correspond to the first variable;
+                                                                       ! the last two indices correspond to the second variable
+      integer(ik), intent(in)                           :: batch(:)    ! Batch indices
+      type(gam_structure), intent(in), target, optional :: a, b, c, d  ! Contexts to work on. In principle, we can handle
+                                                                       ! the situation with every index being on a separate
+                                                                       ! molecule - not that this is hard for an AO integral
+      real(ok), intent(in), optional                    :: op_param(:) ! Additional parameters for the operator
+      real(ok), intent(in), optional                    :: accuracy    ! Desired accuracy of the integrals; contributions
+                                                                       ! smaller than this can be neglected. 
+                                                                       ! The default is to be as accurate as possible.
+                                                                       ! Negative accuracy will restore the default behaviour
+      !
       type(gam_structure), pointer :: g_a, g_b, g_c, g_d            ! All missing contexts will be replaced by gam_def
       type(gam_operator_data)      :: op_data                       ! Operator data
-      real(kind(v))                :: xyz(3,4)                      ! Coordinates of the basis functions within each batch
+      real(ok)                     :: xyz(3,4)                      ! Coordinates of the basis functions within each batch
       integer(ik)                  :: sh_l (4)                      ! Angular momentum of each batch; all shells within the batch
                                                                     ! are supposed to have the same angular momentum.
       integer(ik)                  :: sh_ns(4)                      ! Number of shells in each batch
       integer(ik), allocatable     :: sh_np(:,:)                    ! Number of primitives in each shell [2nd index]
-      real(kind(v)), allocatable   :: p_zet(:,:,:)                  ! Primitive exponents in each shell [2nd index] and centre [3rd index]
-      real(kind(v)), allocatable   :: p_c  (:,:,:)                  ! Primitive contraction coefficients in each shell
-      real(kind(v)), allocatable   :: p_c_max(:,:,:)                ! Largest absolute contraction coefficient over all instanced of a primitive
+      real(ok), allocatable        :: p_zet(:,:,:)                  ! Primitive exponents in each shell [2nd index] and centre [3rd index]
+      real(ok), allocatable        :: p_c  (:,:,:)                  ! Primitive contraction coefficients in each shell
+      real(ok), allocatable        :: p_c_max(:,:,:)                ! Largest absolute contraction coefficient over all instanced of a primitive
       logical, allocatable         :: p_master(:,:,:)               ! "Master" copy of the exponent; other contractions using the
                                                                     ! same exponent will be listed in p_z_same
       integer(ik), allocatable     :: p_z_same(:,:,:,:)             ! Next contraction with an identical exponent
@@ -33,7 +34,7 @@
       integer(ik)                  :: max_contractions              ! Longest possible contraction across all inputs
       integer(ik)                  :: alloc
       character(len=40)            :: lwhat                         ! Local copy of "what"
-      real(kind(v))                :: cutoff_2e                     ! Cutoff
+      real(ok)                     :: cutoff_2e                     ! Cutoff
       !
       call TimerStart('GAMESS 2e '//trim(what))
       !
@@ -133,7 +134,7 @@
         integer(ik)   :: ip, ip2, ipo ! Sequential number of a primitive within a shell
         integer(ik)   :: sh_p1, sh_pn ! First and last contractions within the shell
         integer(ik)   :: nc           ! Number of contractions
-        real(kind(v)) :: zref         ! Exponent
+        real(ok)      :: zref         ! Exponent
         !
         ib = batch(ind)
         if (ib<1 .or. ib>gam%nbatches) then
@@ -200,7 +201,7 @@
         !
         !  A bit of printing
         !
-        if (verbose>=2) then
+        if (gamess_verbose>=2) then
           write (out,"(/'Shell analysis, index = ',i1)") ind
           write (out,"(1x,a8,1x,a8,1x,a12,1x,a12,1x,a8,1x,a8,1x,a8,1x,a12)") &
                  ' Shell ', ' Primitive ', ' Exponent ', ' Contraction ', ' Master ', 'Same shl', 'Same prm', 'Max. contr.'
@@ -213,4 +214,4 @@
           end do print_shells
         end if
       end subroutine fetch_batch
-!   end subroutine gamess_2e_integrals_real
+!   end subroutine gamess_2e_integrals

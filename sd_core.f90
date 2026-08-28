@@ -45,7 +45,7 @@ module sd_core
                        ! must be public.
   private sd_v2
   !
-  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.33 2026/08/13 15:34:16 ps Exp $"
+  character(len=clen), save :: rcsid_sd_core = "$Id: sd_core.f90,v 1.35 2026/08/27 17:20:06 ps Exp $"
   !
   integer, parameter      :: lk = kind(.true.)
   integer, parameter      :: lchar = 1024
@@ -56,6 +56,8 @@ module sd_core
   integer(ik), parameter  :: ioscr = 10         ! Local use in subroutines
   real(rk), parameter     :: eps_s = 1e-4_rk    ! Tolerance for self-overlap matrix elements
   real(rk)                :: eps_cdet = 1e-5_rk ! Cut-off for determinant weights product
+  real(rk)                :: eps_overlap = 1e-5_rk
+                                                ! Tolerance for declaring MO overlap matrix to be orthonormal
   real(rk)                :: eps_integral = 1e-10_rk
                                                 ! Tolerance for blocking overlap and property matrices
   !
@@ -172,6 +174,7 @@ module sd_core
   real(rk), allocatable    :: dipx  (:,:,:)     ! Dipole matrix elements between the MOs. Last index is X/Y/Z
                                                 ! Could be some other operator, too (see braket_operator),
                                                 ! but since the logic does not change, who cares?
+  integer(ik)              :: block_max_rows    ! Needed for creating bm_structure instances
   type(bm_structure)       :: sx_ms             ! Block structure of the overlap matrix
   type(bm_structure)       :: dipx_ms           ! Block structure of the property matrices
   !
@@ -188,7 +191,7 @@ module sd_core
                    nmobra, nmoket, ndetbra, ndetket, eps_cdet, &
                    dont_check_s2, &
                    file_cbra, file_cket, file_detbra, file_detket, &
-                   eps_integral, use_symmetry, detail_timers, &
+                   eps_overlap, eps_integral, use_symmetry, detail_timers, &
                    sign_bra, sign_ket
   
 contains
@@ -299,6 +302,7 @@ contains
   subroutine initialize_core_data
     integer(ik) :: detref, detion, status
     integer(ik) :: ic, jc
+    integer(ik) :: det_lchar
     !
     call TimerStart('initialize_core_data')
     !
@@ -330,8 +334,8 @@ contains
     !  files before doing anything else.
     !
     if (own_integrals) then
-      call gamess_load_orbitals(file=trim(file_cbra),structure=g_bra)
-      call gamess_load_orbitals(file=trim(file_cket),structure=g_ket)
+      call gamess_load_orbitals(file=trim(file_cbra),structure=g_bra,max_mos=-nmobra)
+      call gamess_load_orbitals(file=trim(file_cket),structure=g_ket,max_mos=-nmoket)
       naos_bra = g_bra%nbasis
       naos_ket = g_ket%nbasis
       write (out,"('Number of AOs in the reference: ',i6)") naos_bra
@@ -361,6 +365,10 @@ contains
     allocate (sx(nmobra,nmoket),dipx(nmobra,nmoket,op_components))
     allocate (aolabels(naos_bra))
     !
+    block_max_rows = 2 * max(nmobra,nmoket) ! We have two spins!
+    call bm_initialize(  sx_ms,block_max_rows)
+    call bm_initialize(dipx_ms,block_max_rows)
+    ! 
     !  1e integrals in the AO basis
     !
     if (own_integrals) then
@@ -452,7 +460,8 @@ contains
     !
     !  Ready to read in the reterminants
     !
-    open(ioscr,file=file_detbra,action='read',status='old',recl=lchar,iostat=status)
+    det_lchar = max(lchar,30+3*nmobra)
+    open(ioscr,file=file_detbra,action='read',status='old',recl=det_lchar,iostat=status)
     if (status/=0) then
       write (out,"('Cannot open reference (bra) wavefunction ',a)") trim(file_detbra)
       stop 'file_detbra'
@@ -461,7 +470,8 @@ contains
       read(ioscr,*) cdetref(detref), occbra(:,detref)
     end do read_ref_dets
     close (ioscr)
-    open(ioscr,file=file_detket,action='read',status='old',recl=lchar,iostat=status)
+    det_lchar = max(lchar,30+3*nmoket)
+    open(ioscr,file=file_detket,action='read',status='old',recl=det_lchar,iostat=status)
     if (status/=0) then
       write (out,"('Cannot open ion (ket) wavefunction ',a)") trim(file_detket)
       stop 'file_detket'
@@ -831,10 +841,12 @@ contains
     real(rk), intent(in)         :: mos(:,:) ! MO coefficients
     real(rk), intent(in)         :: sao(:,:) ! Overlap matrix (possibly ion or ref-specific)
     !
-    real(rk), allocatable :: ov_tab(:,:) ! Precomputed overlap matrix
-    integer(ik)           :: lmo, rmo    ! MO indices
-    real(rk)              :: ov          ! Calculated MO overlap
-    real(rk)              :: refval      ! Expected MO overlap
+    real(rk), allocatable  :: ov_tab(:,:)        ! Precomputed overlap matrix
+    integer(ik)            :: lmo, rmo           ! MO indices
+    real(rk)               :: ov                 ! Calculated MO overlap
+    real(rk)               :: refval             ! Expected MO overlap
+    integer(ik), parameter :: max_warn_count = 5 ! Maximum desired number of warnings here
+    integer(ik)            :: warn_count         ! Number of warnings
     !
     if (.not.have_overlaps) then
       write (out,"('Atomic overlap integrals not present; unable to check '" // &
@@ -844,6 +856,7 @@ contains
     !
     allocate (ov_tab(nmos,nmos))
     ov_tab(:,:) = matmul(transpose(mos),matmul(sao,mos))
+    warn_count = 0
     left_scan: do lmo=1,nmos
       right_scan: do rmo=1,nmos
         ! ov = dot_product(mos(:,lmo),matmul(sao,mos(:,rmo)))
@@ -853,12 +866,20 @@ contains
         if (lmo==rmo) refval = 1._rk
         !
         if (abs(ov-refval)>eps_s) then
-          write (out,"(5x,'warning: ',a,' <',i5,'|',i5,'> = ',g16.9,' (expected ',g16.9,')')") &
-                 trim(title), lmo, rmo, ov, refval
+          warn_count = warn_count + 1_ik
+          if (verbose>=2 .or. warn_count<=max_warn_count) then
+            write (out,"(5x,'warning: ',a,' <',i5,'|',i5,'> = ',g16.9,' (expected ',g16.9,')')") &
+                   trim(title), lmo, rmo, ov, refval
+          end if
         end if
       end do right_scan
     end do left_scan
     deallocate (ov_tab)
+    !
+    if (verbose<2 .and. warn_count>max_warn_count) then
+      write (out,"('Further ',i0,' orthonormality warnings supressed.')") warn_count - max_warn_count
+      write (out,"('Set verbose to at least 2 to see then all.')")
+    end if
     !
   end subroutine check_orthonormality
   !
@@ -951,14 +972,56 @@ contains
   !
   !  Initialize unit matrix
   !
-  subroutine mat_unit(m)
-    real(rk), intent(out) :: m(:,:) 
-    integer(ik)           :: i
-    m = 0._rk
-    do i=1,min(size(m,dim=1),size(m,dim=2))
-      m(i,i) = 1._rk
-    end do
-  end subroutine mat_unit
+  subroutine try_unit_overlap(have_overlaps,m,unit)
+    logical, intent(in)     :: have_overlaps  ! If .true., matrix m is populated on input
+    real(rk), intent(inout) :: m(:,:) 
+    logical, intent(inout)  :: unit           ! Reset to .false. if the resulting overlap matrix is not unit
+                                              ! Do not change otherwise
+    !
+    integer(ik)  :: i, j, nomatch, reset
+    real(rk)     :: refval, error, maxerror
+    !
+    if (have_overlaps) then
+      nomatch  = 0
+      reset    = 0
+      maxerror = 0._rk
+      clean_columns: do j=1,size(m,dim=2)
+        clean_rows: do i=1,size(m,dim=1)
+          refval = 0._rk
+          if (i==j) refval = 1._rk
+          error    = abs(m(i,j)-refval)
+          maxerror = max(maxerror,error)
+          if (error<=eps_overlap) then
+            m(i,j) = refval
+            reset  = reset + 1
+          else
+            nomatch = nomatch + 1
+          end if
+        end do clean_rows
+      end do clean_columns
+      !
+      write (out,"()")
+      write (out,"('   Cleaning up overlap matrix. Tolerance: ',es14.7)") eps_overlap
+      write (out,"('  Largest deviation from unit matrix was: ',es14.7)") maxerror
+      write (out,"('           Number of cleaned-up overlaps: ',i14)") reset
+      write (out,"('Number of deviations above the tolerance: ',i14)") nomatch
+      write (out,"()")
+      !
+      if (nomatch==0) then
+        write (out,"(/'MO overlap matrix cleaned up to a unit matrix'/)")
+      else
+        write (out,"(/'MO overlap matrix too far from a unit matrix. Switching to the Lowdin rules.'/)")
+        unit = .false.
+      end if
+    else
+      write (out,"(/'Overlap integrals are not available. Assuming that the MOs are orthonormalized.'/)")
+      !
+      m = 0._rk
+      do i=1,min(size(m,dim=1),size(m,dim=2))
+        m(i,i) = 1._rk
+      end do
+    end if
+  end subroutine try_unit_overlap
   !
   !  Calculate the distance between two determinants
   !
@@ -1195,7 +1258,7 @@ contains
       call bm_intersection(spinket(:nb_ket,2,detket),ord_ket(:nb_ket,2,detket),bms%cols(c_pos:c_end),n_col_b,col_b)
       !
       !  See whether we actually have any non-empty blocks here
-      !  stuff_block will alson take care of adjusting n_rows/n_cols counters
+      !  bm_add_block will also take care of adjusting n_rows/n_cols counters
       !
       call bm_add_block(bmo,row_a(:n_row_a),col_a(:n_col_a))
       call bm_add_block(bmo,row_b(:n_row_b),col_b(:n_col_b))
@@ -1331,7 +1394,7 @@ contains
       integer(ik)        :: cols(nelket)  ! Connected columns
       integer(ik)        :: ncols         ! Number of connected columns
       type(bm_structure) :: scr_ms        ! Matrix structure for smat with one row substitution
-      ! real(rk)           :: det_chk
+      ! real(rk)         :: det_chk
       !
       ncols = 0
       count_columns: do ic=1,nelket
@@ -1345,6 +1408,7 @@ contains
         return
       end if
       !
+      call bm_initialize(scr_ms,smo_ms%max_nrows)
       call bm_substitute_row(smo_ms,irow,cols(:ncols),scr_ms)
       scr(iscan,:) = vmo(iscan,:)
       det = block_det(scr,scr_ms)

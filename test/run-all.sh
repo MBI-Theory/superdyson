@@ -47,12 +47,19 @@ cheap="h2a-slater_dysonx_sym.inp h2b-slater_dysonx_sym.inp h2p-slater_srdm.inp \
        c6h5f-lowdin_rdm_nosym.inp c6h5f-lowdin_rdm_sym.inp co2-slater_dyson_nosym.inp co2-slater_dyson_sym.inp \
        co-rhf_dipole_sym.inp co-rhf_en_C_sym.inp co-rhf_en_O_sym.inp co2-slater_dysonx_sym.inp \
        sf6c-slater_rdm_sym.inp so2-slater_dipole_nosym.inp so2-slater_dipole_sym.inp \
-       so2-slater_overlap_nosym.inp so2-slater_overlap_sym.inp ar2p-slater_srdm_nosym.inp"
+       so2-slater_overlap_nosym.inp so2-slater_overlap_sym.inp ar2p-slater_srdm_nosym.inp \
+       c6h6-nonorthogonal_overlap.inp"
 medium="co2-lowdin_dysonx_nosym.inp co2-lowdin_dysonx_sym.inp co2-slater_dysonx_nosym.inp n2-lowdin_prop_sym.inp \
        n2-lowdin_rdm_sym.inp sf6c-slater_rdm_nosym.inp so2-lowdin_dipole_sym.inp"
 long="n2-lowdin_prop_nosym.inp n2-lowdin_rdm_nosym.inp so2-lowdin_dipole_nosym.inp"
 #
 status=0
+if [ "$1" == "single" ] ; then
+  echo "Running single test $2"
+  test $2
+  exit $status
+fi
+#
 echo "Running cheap tests"
 test $cheap
 [ "$1" == "cheap" ] && exit $status

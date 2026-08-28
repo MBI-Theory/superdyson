@@ -1,6 +1,6 @@
 exit 1
 
-Last updated: Feb. 06, 2026
+Last updated: Aug. 27, 2026
 ============
 
 IMPORTANT:
@@ -505,9 +505,9 @@ default value is given after the equals sign.
 
    All files may be compressed with bzip2.
 
- The script is able to handle inputs in the c1, d2, cs, c2v, c2h, and d2h point
- groups, provided that the default setting is used. It will recognize ALDET, GENCI,
- ORMAS, and CIS wavefunctions.
+ The script is able to handle inputs in the c1, d2, cs, c2v, c2h, d2h, and d6h 
+ point groups, provided that the default setting is used. It will recognize 
+ ALDET, GENCI, ORMAS, and CIS wavefunctions.
 
 7. Caveats
 

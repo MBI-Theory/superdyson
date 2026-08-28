@@ -1,17 +1,25 @@
-!   recursive subroutine os_basic_integral_real(what,rho,t,n_max,gn)
-!     type(gam_operator_data), intent(in) :: what        ! Operator parameters
-!     real(ark), intent(in)               :: rho         ! Effective basis exponent
-!     real(ark), intent(in)               :: t           ! Argument of the basic integral
-!     integer(ik), intent(in)             :: n_max       ! Maximum order of basic integral needed
-!     real(rk), intent(out)               :: gn(0:n_max) ! Basic integrals
-!     !
+!
+!  Calculate basic integrals Gn(rho,T) for OS/Ahlrichs recursions.
+!  Unless qualified, references below at to the equation numbers in the Ahlrichs' 2006 PCCP.
+!  Since some of the more complicated Gn(rho,T) versions are defined in terms of simpler Gns,
+!  we may enter this subroutine more than once.
+!
+!   recursive subroutine os_basic_integral(what,rho,t,n_max,gn)
+!     integer, parameter                  :: ok = rk
+      type(gam_operator_data), intent(in) :: what        ! Operator parameters
+      real(ok), intent(in)                :: rho         ! Effective basis exponent
+      real(ok), intent(in)                :: t           ! Argument of the basic integral
+      integer(ik), intent(in)             :: n_max       ! Maximum order of basic integral needed
+      real(ok), intent(out)               :: gn(0:n_max) ! Basic integrals
+      !
       integer(ik)             :: n, i
-      real(kind(t))           :: gx(0:n_max+2)     ! Extra room, in case recursion needs a higher-order term
+      real(ok)                :: gx(0:n_max+2)     ! Extra room, in case recursion needs a higher-order term
       type(gam_operator_data) :: wx                ! Operator parameters for recursion
-      real(kind(t))           :: rx                ! rho for recursion
-      real(kind(t))           :: tx                ! t for recursion
+      real(ok)                :: rx                ! rho for recursion
+      real(ok)                :: tx                ! t for recursion
       real(rk), pointer       :: gp(:,:)           ! Gaussian expansion of an operator, only available in
                                                    ! standard precision
+      real(ok), parameter     :: pi_ok = real(pi_xrk,kind=ok) ! Expect a (harmless) warning from gfortran here!
       !
       ! write (out,"('os_basic: ',a,' rho = ',g14.7,' t = ',g14.7,' n = ',i4)") trim(what%op_name), rho, t, n_max
       ! write (out,"('os_basic: omega = ',g14.7,' a = ',g14.7)") what%omega, what%imag_rc
@@ -26,11 +34,11 @@
         case ('DELTA') ! Delta function - A37
           gn(:) = exp(-t)
         case ('ONE')   ! Unity: an elaborate way to compute 2c overlaps - A38
-          gn(0)  = (real(pi_xrk,kind=kind(rho))/rho)**real(1.5_xrk,kind=kind(rho))
+          gn(0)  = (pi_ok/rho)**1.5_ok
           gn(1:) = 0
         case ('1/R')   ! Nuclear attraction - A39
           call os_boys_table(n_max,t,gn)
-          gn = (2*real(pi_xrk,kind=kind(rho))/rho) * gn
+          gn = (2*pi_ok/rho) * gn
         case ('R')     ! Linear attraction - A44
           !
           !  Linear attraction operator requires Boys' function table up to order n_max+1
@@ -40,19 +48,18 @@
           gn_r_sum: do n=1,n_max
             gn(n) = -n*gx(n-1) + (t+n+1)*gx(n) - t*gx(n+1)
           end do gn_r_sum
-          gn = (2*real(pi_xrk,kind=kind(rho))/rho**2) * gn
+          gn = (2*pi_ok/rho**2) * gn
         case ('R**2')  ! Harmonic attraction - A45
-          gn(0) = (t + real(1.5_xrk,kind=kind(t)))
+          gn(0) = (t + 1.5_ok)
           if (n_max>=1) gn(1)  = -1
           if (n_max>=2) gn(2:) =  0
-          gn = sqrt(real(pi_xrk,kind=kind(rho))**3/rho**5) * gn
+          gn = sqrt(pi_ok**3/rho**5) * gn
         case ('GAUSS') ! Gaussian - same as 'GAUSS ONE', but likely slightly faster
-          rx = real(what%omega,kind=kind(rho))/(rho+real(what%omega,kind=kind(rho)))
+          rx = real(what%omega,kind=ok)/(rho+real(what%omega,kind=ok))
           gn_gauss: do n=0,n_max
             gn(n) = rx**n
           end do gn_gauss
-          gn = gn * exp(-rx*t) * real(pi_xrk,kind=kind(rho))/ &
-               (rho+real(what%omega,kind=kind(rho)))**real(1.5_xrk,kind=kind(rho))
+          gn = gn * exp(-rx*t) * pi_ok/(rho+real(what%omega,kind=ok))**1.5_ok
         !
         !  Recursive cases - reduction to simpler Gn(t)
         !
@@ -65,7 +72,7 @@
           !
           wx = what
           wx%op_name(4:) = what%op_name(4+6:)
-          rx = rho + real(what%omega,kind=kind(rho))
+          rx = rho + real(what%omega,kind=ok)
           tx = t * rho / rx
           call os_basic_integral(wx,rx,tx,n_max,gx(0:n_max))
           !
@@ -75,10 +82,10 @@
           gn_gaussian_recursion: do n=0,n_max
             gn(n) = 0
             gn_gaussian_sum: do i=0,n
-              gn(n) = gn(n) + MathBinomial(n,i,rx) * (real(what%omega,kind=kind(rx))/rx)**(n-i) * (rho/rx)**i * gx(i)
+              gn(n) = gn(n) + MathBinomial(n,i,rx) * (real(what%omega,kind=ok)/rx)**(n-i) * (rho/rx)**i * gx(i)
             end do gn_gaussian_sum
           end do gn_gaussian_recursion
-          gn = gn * exp(-real(what%omega,kind=kind(t))*t/rx)
+          gn = gn * exp(-real(what%omega,kind=ok)*t/rx)
         !
         !  The next two interactions - 'A/(R**2+A**2)' and 'R/(R**2+A**2)' are
         !  needed to calculate Coulomb potential at a complex position. I can't
@@ -91,7 +98,7 @@
         !  our intended use.
         !
         case ('A/(R**2+A**2)')
-          if (kind(t)/=rk) stop 'import_gamess%os_basic_integral - requested integral is not implemented in quad precision'
+          if (ok/=rk) stop 'import_gamess%os_basic_integral - requested integral is not implemented in quad precision'
           call warn_integral_accuracy
           wx = what
           wx%op_name = '3C GAUSS'
@@ -100,10 +107,10 @@
           gn_complex_integrate_a: do i=1,size(gp,dim=2)
             wx%omega = gp(1,i)/what%imag_rc**2
             call os_basic_integral(wx,rho,t,n_max,gx(0:n_max))
-            gn = gn + gx(0:n_max) * gp(2,i)/real(what%imag_rc,kind=kind(gp))
+            gn = gn + gx(0:n_max) * gp(2,i)/real(what%imag_rc,kind=ok)
           end do gn_complex_integrate_a
         case ('R/(R**2+A**2)')
-          if (kind(t)/=rk) stop 'import_gamess%os_basic_integral - requested integral is not implemented in quad precision'
+          if (ok/=rk) stop 'import_gamess%os_basic_integral - requested integral is not implemented in quad precision'
           call warn_integral_accuracy
           wx = what
           wx%op_name = '3C GAUSS R'
@@ -112,7 +119,7 @@
           gn_complex_integrate_r: do i=1,size(gp,dim=2)
             wx%omega = gp(1,i)/what%imag_rc**2
             call os_basic_integral(wx,rho,t,n_max,gx(0:n_max))
-            gn = gn + gx(0:n_max) * gp(2,i)/real(what%imag_rc,kind=kind(gp))**2
+            gn = gn + gx(0:n_max) * gp(2,i)/real(what%imag_rc,kind=ok)**2
           end do gn_complex_integrate_r
       end select
       ! write (out,"('os_basic: gn =',10(1x,g14.7))") gn
@@ -130,4 +137,4 @@
         write (out,"( 'WARNING: Please make sure you understand code in import_gamess%os_basic_integral')")
         write (out,"( 'WARNING: before using these integrals for production calculations.'/)")
       end subroutine warn_integral_accuracy
-!   end subroutine os_basic_integral_real
+!   end subroutine os_basic_integral

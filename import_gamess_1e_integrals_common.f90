@@ -1,13 +1,14 @@
 !   subroutine gamess_1e_integrals_real(what,v,bra,ket,op_xyz,op_param,op_index)
-!     character(len=*), intent(in)      :: what        ! What to evaluate
-!     real(rk), intent(out)             :: v(:,:)      ! Buffer for the results
-!     type(gam_structure), intent(in), target, optional :: bra
-!     type(gam_structure), intent(in), target, optional :: ket
-!     real(rk), intent(in), optional    :: op_xyz(:)   ! Position of the operator (3c integrals)
-!     real(rk), intent(in), optional    :: op_param(:) ! Additional parameters for the operator
-!                                                      ! Required size and allowed values depend on
-!                                                      ! the operator; see below.
-!     integer(ik), intent(in), optional :: op_index(:) ! Additional (integer) parameters for the operator.
+!     integer, parameter :: ok = rk
+      character(len=*), intent(in)      :: what        ! What to evaluate
+      real(ok), intent(out)             :: v(:,:)      ! Buffer for the results
+      type(gam_structure), intent(in), target, optional :: bra
+      type(gam_structure), intent(in), target, optional :: ket
+      real(ok), intent(in), optional    :: op_xyz(:)   ! Position of the operator (3c integrals)
+      real(ok), intent(in), optional    :: op_param(:) ! Additional parameters for the operator
+                                                       ! Required size and allowed values depend on
+                                                       ! the operator; see below.
+      integer(ik), intent(in), optional :: op_index(:) ! Additional (integer) parameters for the operator.
       !
       character(len=40)            :: lwhat          ! Local copy of "what"
       type(gam_structure), pointer :: l, r

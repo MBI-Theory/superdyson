@@ -1,15 +1,21 @@
-!   subroutine os_1e_grad_real(ic,vb_s,p2_l,p2_r,vb_p,r_l,z_l,r_r,z_r)
-!     integer(ik), intent(in) :: ic                  ! Gradient component to evaluate
-!     integer(ik), intent(in) :: p2_l, p2_r          ! Upper dimensions of the vb_p array
-!     real(rk), intent(in)    :: vb_s(0:p2_l,0:p2_r) ! Buffer containing primitive overlaps
-!     real(rk), intent(out)   :: vb_p(0:p2_l,0:p2_r) ! Buffer used for recurrences, and the final result
-!     real(ark), intent(in)   :: r_l(:)              ! Centre of the left b.f.
-!     real(ark), intent(in)   :: z_l                 ! Orbital exponent of the left b.f.
-!     real(ark), intent(in)   :: r_r(:)              ! ditto, for the right b.f.
-!     real(ark), intent(in)   :: z_r                 ! 
+!
+!  Calculate primitive matrix elements of (d/dx) operator.
+!  These reduce to linear combinations of overlap integrals, so it's extra easy.
+!  See 'Electron current implementation notes.PDF' for the derivation of the expression.
+!
+!   subroutine os_1e_grad(ic,vb_s,p2_l,p2_r,vb_p,r_l,z_l,r_r,z_r)
+!     integer, parameter      :: ok = rk
+      integer(ik), intent(in) :: ic                  ! Gradient component to evaluate
+      integer(ik), intent(in) :: p2_l, p2_r          ! Upper dimensions of the vb_p array
+      real(ok), intent(in)    :: vb_s(0:p2_l,0:p2_r) ! Buffer containing primitive overlaps
+      real(ok), intent(out)   :: vb_p(0:p2_l,0:p2_r) ! Buffer used for recurrences, and the final result
+      real(ok), intent(in)    :: r_l(:)              ! Centre of the left b.f.
+      real(ok), intent(in)    :: z_l                 ! Orbital exponent of the left b.f.
+      real(ok), intent(in)    :: r_r(:)              ! ditto, for the right b.f.
+      real(ok), intent(in)    :: z_r                 ! 
       !
-      real(kind(z_l)) :: zeta, p(3), s
-      integer(ik)     :: m_l, m_r, id1, id2
+      real(ok)    :: zeta, p(3), s
+      integer(ik) :: m_l, m_r, id1, id2
       !
       call os_common_primitives(r_l,z_l,r_r,z_r,zeta=zeta,p=p)
       !
@@ -23,4 +29,4 @@
           vb_p(m_l,m_r) = s
         end do left
       end do right
-!   end subroutine os_1e_grad_real
+!   end subroutine os_1e_grad

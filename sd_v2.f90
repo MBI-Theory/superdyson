@@ -11,10 +11,13 @@ program sd_v2
   use sd_core
   use superdyson
   use tr_1rdm
+  use ISO_FORTRAN_ENV
   !
   external versions
   !
-  write (out,"('Version: ',a/)") __BUILD_ID__
+  write (out,"('Version: ',a)") __BUILD_ID__
+  write (out,"('Compiler: ',a)") compiler_version()              
+  write (out,"('Build flags: ',a/)") compiler_options()
   call versions
   !
   call TimerStart('start')

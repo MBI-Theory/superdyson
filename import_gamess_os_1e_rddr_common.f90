@@ -1,17 +1,22 @@
+!
+!  Matrix elements of r_i (d/d r_j) operator
+!  See "integral-notes-rddr.pdf" for the derivation
+!
 !   subroutine os_1e_rddr_real(ic,jc,vb_s,vb_d,p2_l,p2_r,vb_p,r_l,z_l,r_r,z_r)
-!     integer(ik), intent(in) :: ic                  ! Component of the dipole operator
-!     integer(ik), intent(in) :: jc                  ! Component of the derivative operator
-!     integer(ik), intent(in) :: p2_l, p2_r          ! Upper dimensions of the vb_p array
-!     real(rk), intent(in)    :: vb_s(0:p2_l,0:p2_r) ! Buffer containing primitive overlaps
-!     real(rk), intent(in)    :: vb_d(0:p2_l,0:p2_r) ! Buffer containing primitive dipole matrix elements
-!     real(rk), intent(out)   :: vb_p(0:p2_l,0:p2_r) ! Buffer used for recurrences, and the final result
-!     real(ark), intent(in)   :: r_l(:)              ! Centre of the left b.f.
-!     real(ark), intent(in)   :: z_l                 ! Orbital exponent of the left b.f.
-!     real(ark), intent(in)   :: r_r(:)              ! ditto, for the right b.f.
-!     real(ark), intent(in)   :: z_r                 ! 
-!     !
-      real(kind(z_l)) :: zeta, p(3), s
-      integer(ik)     :: m_l, m_r, idl, idr
+!     integer, parameter      :: ok = rk
+      integer(ik), intent(in) :: ic                  ! Component of the dipole operator
+      integer(ik), intent(in) :: jc                  ! Component of the derivative operator
+      integer(ik), intent(in) :: p2_l, p2_r          ! Upper dimensions of the vb_p array
+      real(ok), intent(in)    :: vb_s(0:p2_l,0:p2_r) ! Buffer containing primitive overlaps
+      real(ok), intent(in)    :: vb_d(0:p2_l,0:p2_r) ! Buffer containing primitive dipole matrix elements
+      real(ok), intent(out)   :: vb_p(0:p2_l,0:p2_r) ! Buffer used for recurrences, and the final result
+      real(ok), intent(in)    :: r_l(:)              ! Centre of the left b.f.
+      real(ok), intent(in)    :: z_l                 ! Orbital exponent of the left b.f.
+      real(ok), intent(in)    :: r_r(:)              ! ditto, for the right b.f.
+      real(ok), intent(in)    :: z_r                 ! 
+      !
+      real(ok)    :: zeta, p(3), s
+      integer(ik) :: m_l, m_r, idl, idr
       !
       call os_common_primitives(r_l,z_l,r_r,z_r,zeta=zeta,p=p)
       !

@@ -22,7 +22,7 @@ module tr_1rdm
   public call_tr_1rdm
   public rcsid_tr_1rdm
   !
-  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.24 2026/08/13 15:34:16 ps Exp $"
+  character(len=clen), save :: rcsid_tr_1rdm = "$Id: tr_1rdm.f90,v 1.26 2026/08/27 17:20:06 ps Exp $"
   !
   character(len=2), parameter :: spin_labels(4) = (/ 'AA', 'AB', 'BA', 'BB' /)
   !
@@ -100,10 +100,10 @@ contains
       call report_mo_correlations(sx)
     end if
     if (same_mos) then
-      write (out,"('Setting MO overlaps to a unit matrix')")
-      call mat_unit(sx)
+      call try_unit_overlap(have_overlaps,sx,same_mos) ! We may reset same_mos if there's no match
     endif 
     if (use_symmetry) then
+      ! call bm_print(sx_ms,'About to initialize sx_ms')
       call bm_scan_matrix(sx,sx_ms,eps=eps_integral)
       call bm_print(sx_ms,'MO overlap')
       ! Be paranoid - check whether scan produced sensible result!
@@ -127,15 +127,15 @@ contains
     !$omp& private(sdet_ms) &
     !$omp& shared(nelbra,nelket,ndetket,cdetref,cdetion,eps_cdet) &
     !$omp& shared(occbra,occket,sx,sx_ms,same_mos,nmobra,nmoket,rdm_mo) &
-    !$omp& shared(ndetbra,verbose,use_symmetry,rdm_ns,spin_resolved) &
+    !$omp& shared(ndetbra,verbose,use_symmetry,rdm_ns,spin_resolved,block_max_rows) &
     !$omp& reduction(+:det_cutoff,det_included,det_distant,det_earlyzero)
     !
     !  Allocate thread-private storage now
     !
     allocate (sdet(nelbra,nelket),indref(nelbra),indion(nelket))
     allocate (detrdm(nelbra,nelket),rdm_mo_thread(nmobra,nmoket,rdm_ns))
-    rdm_mo_thread    =  0  ! This is our explicit per-thread accumulator
-    sdet_ms%n_blocks = -1  ! This should not be necessary, but gfortran OpenMP is weird ...
+    call bm_initialize(sdet_ms,block_max_rows)
+    rdm_mo_thread    =  0    ! This is our explicit per-thread accumulator
     !$omp do schedule(dynamic) collapse(2)
     det_ref: do detref=1,ndetbra
       det_ion: do detion=1,ndetket
@@ -166,7 +166,7 @@ contains
             !
             !  All our manipulations below will not lead to a non-zero determinant; skip to next determinant
             !
-            call bm_destroy(sdet_ms)
+            call bm_clear(sdet_ms)
             det_earlyzero = det_earlyzero + 1
             cycle det_ion
           end if
@@ -179,7 +179,7 @@ contains
         call fill_spinorbit_indices(occket(:,detion),indion)
         !
         call determinant_rdm(sdet,sdet_ms,detrdm)
-        if (use_symmetry) call bm_destroy(sdet_ms)
+        if (use_symmetry) call bm_clear(sdet_ms)
         if (verbose>=3) then
           write (out,"(' ref det. = ',i5,' ion det. = ',i5,' weight = ',g16.9)") &
                  detref, detion, cdetion(detion)*cdetref(detref)
@@ -198,6 +198,7 @@ contains
     !$omp critical
     rdm_mo = rdm_mo + rdm_mo_thread
     !$omp end critical
+    call bm_destroy(sdet_ms)
     deallocate (sdet,indref,indion,detrdm,rdm_mo_thread)
     !$omp end parallel
     rdm_mo = sign_bra * sign_ket * rdm_mo
@@ -251,10 +252,10 @@ contains
     type(bm_structure), intent(in) :: sdet_ms     ! Block structure of sdet
     real(rk), intent(out)          :: detrdm(:,:) ! spin 1-RDM
     !
-    integer(ik)        :: mo_ref, mo_ion         ! Spin-orbital index
-    real(rk)           :: scr(nelbra-1,nelket-1) ! Buffer for the minors
-    type(bm_structure) :: dr_ms                  ! "drop row" matrix structure
-    type(bm_structure) :: dc_ms                  ! "drop column" matrix structure
+    integer(ik)         :: mo_ref, mo_ion         ! Spin-orbital index
+    real(rk)            :: scr(nelbra-1,nelket-1) ! Buffer for the minors
+    type(bm_structure)  :: dr_ms                  ! "drop row" matrix structure
+    type(bm_structure)  :: dc_ms                  ! "drop column" matrix structure
     !
     call TimerStart('determinant_rdm')
     !
@@ -272,6 +273,8 @@ contains
         !  integrals - these can be done once we decide a minor is actually
         !  viable.
         !
+        call bm_initialize(dr_ms,sdet_ms%max_nrows)
+        call bm_initialize(dc_ms,sdet_ms%max_nrows)
         detrdm = 0
         sym_mo_ref_: do mo_ref=1,nelbra
           call bm_drop_row(sdet_ms,mo_ref,dr_ms)
@@ -282,11 +285,13 @@ contains
                 call get_minor(mo_ref,mo_ion,sdet,scr)
                 detrdm(mo_ref,mo_ion) = ((-1)**(mo_ref+mo_ion))*block_det(scr,dc_ms)
               end if
-              call bm_destroy(dc_ms)
+              call bm_clear(dc_ms)
             end do sym_mo_ion_
           end if
-          call bm_destroy(dr_ms)
+          call bm_clear(dr_ms)
         end do sym_mo_ref_
+        call bm_destroy(dr_ms)
+        call bm_destroy(dc_ms)
       else
         mo_ion_: do mo_ion=1,nelket
           mo_ref_: do mo_ref=1,nelbra
