@@ -1,6 +1,6 @@
 exit 1
 
-Last updated: Aug. 27, 2026
+Last updated: Nov. 17, 2026
 ============
 
 IMPORTANT:
@@ -31,7 +31,8 @@ Contents:
  4. Input description
  5. Using GAMESS-US for preparing superdyson inputs.
  6. Simplified input
- 7. Caveats
+ 7. Experimental SO-MCQDPT2 CSF import
+ 8. Caveats
 
 1. GAMESS-US source code modifications
 
@@ -101,7 +102,27 @@ What to do:
     you are not the only user of GAMESS-US on your system, you may
     want to keep the modified version separate.
 
-1e. Change GAMESS-US build scripts to include the additional file.
+1e. (optional) It you wish to use the experimental SO-MCQDPT2 input filter,
+    you will need to tighten the hard-coded CSF printing threshold in the
+    subroutine MQPRWF in mcqdpt.src. Change the line:
+
+      PRTTOL=5.0D-02 
+
+    to read:
+
+      PRTTOL = 1.D-9
+
+    You will probably also want to increase the number of significant digits
+    in the printed CSF amplitude. To do this, modify the 102 FORMAT in the
+    same subroutine to read:
+
+     102 FORMAT(1X,I8,F20.14,2X,50A1,(/23X,50A1)) 
+
+   instead of the original:
+
+     102 FORMAT(1X,I8,F12.6,2X,50A1,(/23X,50A1)) 
+
+1f. Change GAMESS-US build scripts to include the additional file.
     In compall, you will need to add something like this:
 
   538 ./comp zmatrx
@@ -118,7 +139,7 @@ What to do:
   1361 if ($GMS_MSUAUTO == true) then
   1362    set STANDARD_GAMESS_OBJ4=(ccsd3aacgreorder.o ccsd3aacgsum.o ccsd3aacgt1A00.o \
 
-1f. Compile and link GAMESS-US as described in GAMESS documentation.
+1g. Compile and link GAMESS-US as described in GAMESS documentation.
 
 2. Installation of superdyson
 
@@ -509,7 +530,32 @@ default value is given after the equals sign.
  point groups, provided that the default setting is used. It will recognize 
  ALDET, GENCI, ORMAS, and CIS wavefunctions.
 
-7. Caveats
+7. Experimental SO-MCQDPT2 CSF import.
+
+ We have a rather fragile experimental import script for parsing the 
+ wavefunctions reported in a RUNTYP=TRANSITN calculation with SCFTYP=NONE
+ and MPLEVL=2. For a successful run, it is nedessary to use IFORB=3 in 
+ all $MCQDx input blocks, see GAMESS manual. This workflow is not integrated 
+ in the simplified script; one needs to extract the determinantal wavefunctions
+ by running the script "parse_guga.awk" on the GAMESS output. The script takes
+ four arguments, which are all mandatory and have no defaults:
+
+     mc=i            Is the sequential number of the MCQDPT2 calculation, 
+                     corresponding to the $MCQDm group in the input
+     ty="cas"/"mp2"  Extract CASSCF or MCQDPT2-corrected wavefunction (which is 
+                     not quite the hypothetical MCQDPT2 wavefunction!)
+     is=n            State index within the calculation
+     ms=ms           Twice the desired M_S value (twice to keep it an integer!)
+
+ There is very little error checking, and the code assumes that you know what
+ you are doing and can spot non-sensical results.
+
+ The script will only extract the spin-pure wavefunctions, before application
+ of the spin-orbit coupling. All further calculations are performed in the 
+ basis of these pure-spin states; the .dat file contains sufficient information
+ to produce the spin-orbit-coupled quantities by hand, if so desired.
+
+8. Caveats
 
  There is very little error and consistency checking in superdyson. It basically
  assumes that you know what you are doing. If you don't, the results may be
